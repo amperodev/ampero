@@ -55,6 +55,9 @@ const MCP_TOOLS: McpToolDescription[] = [
   }
 ];
 
+// Registre d'outils dynamique en mémoire (enrichi des soumissions communautaires)
+const dynamicRegistry: McpToolDescription[] = [...MCP_TOOLS];
+
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     const url = new URL(request.url);
@@ -88,7 +91,7 @@ export default {
       const accept = request.headers.get('Accept') || '';
       if (accept.includes('text/html') || !accept.includes('application/json')) {
         const playgroundHtml = renderPlaygroundHtml(
-          MCP_TOOLS.map(t => ({
+          dynamicRegistry.map(t => ({
             name: t.name,
             description: t.description,
             priceSats: t.price_sats,
@@ -126,10 +129,72 @@ export default {
           mcp_version: '0.1.0',
           provider: 'Ampero M2M Infrastructure',
           lightning_recipient: lightningAddress,
-          tools: MCP_TOOLS
+          tools: dynamicRegistry
         },
         { headers: corsHeaders }
       );
+    }
+
+    // 2. bis. Endpoint d'inscription au Registre (POST /api/registry/submit)
+    if (url.pathname === '/api/registry/submit' && request.method === 'POST') {
+      try {
+        const body = (await request.json()) as {
+          name?: string;
+          description?: string;
+          endpoint?: string;
+          price_sats?: number;
+          lightning_address?: string;
+        };
+
+        if (!body.name || !body.description || !body.endpoint || !body.price_sats || !body.lightning_address) {
+          return Response.json(
+            { error: 'Tous les champs sont obligatoires (name, description, endpoint, price_sats, lightning_address)' },
+            { status: 400, headers: corsHeaders }
+          );
+        }
+
+        if (!/^https?:\/\//i.test(body.endpoint)) {
+          return Response.json(
+            { error: 'Le endpoint doit être une URL HTTP(S) valide' },
+            { status: 400, headers: corsHeaders }
+          );
+        }
+
+        if (!body.lightning_address.includes('@')) {
+          return Response.json(
+            { error: 'Format de Lightning Address invalide (attendu: pseudo@domaine)' },
+            { status: 400, headers: corsHeaders }
+          );
+        }
+
+        const newTool: McpToolDescription = {
+          name: body.name.trim().toLowerCase().replace(/[^a-z0-9_-]/g, '_'),
+          description: body.description.trim(),
+          price_sats: Math.max(1, Math.round(Number(body.price_sats))),
+          pricing_model: 'per_call',
+          endpoint: body.endpoint.trim()
+        };
+
+        // Inscription dans le registre actif
+        const existingIdx = dynamicRegistry.findIndex(t => t.name === newTool.name);
+        if (existingIdx !== -1) {
+          dynamicRegistry[existingIdx] = newTool;
+        } else {
+          dynamicRegistry.unshift(newTool);
+        }
+
+        return Response.json(
+          {
+            success: true,
+            message: 'Outil MCP inscrit avec succès dans le registre Ampero !',
+            tool: newTool
+          },
+          { status: 201, headers: corsHeaders }
+        );
+      } catch (err: unknown) {
+        const errorMsg = err instanceof Error ? err.message : 'JSON invalide';
+        return Response.json({ error: errorMsg }, { status: 400, headers: corsHeaders });
+      }
     }
 
     // 3. Endpoint MCP natif JSON-RPC 2.0 (POST /mcp)

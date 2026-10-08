@@ -206,7 +206,58 @@ export function renderPlaygroundHtml(tools: PlaygroundToolInfo[], envInfo: { lig
       </div>
     </section>
 
-    <!-- Section 3 : Intégration en 1 Clic (Claude Desktop, Cursor, Code) -->
+    <!-- Section 3 : Proposer / Enregistrer un Outil MCP au Registre -->
+    <section class="bg-gradient-to-b from-surface-900 to-surface-950 border border-amber-500/20 rounded-2xl p-8 space-y-6 shadow-2xl relative overflow-hidden">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-surface-800 pb-6">
+        <div>
+          <span class="text-xs font-mono font-bold px-2.5 py-1 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/30 uppercase tracking-wider">
+            🚀 Enregistrement Immédiat
+          </span>
+          <h3 class="text-2xl font-bold text-white mt-2 flex items-center gap-2">
+            Proposer votre outil MCP dans l'annuaire Ampero
+          </h3>
+          <p class="text-sm text-slate-400">Ajoutez votre serveur ou outil MCP pour qu'il soit immédiatement découvrable et rémunéré par les agents IA.</p>
+        </div>
+      </div>
+
+      <form id="form-register-tool" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="space-y-2">
+          <label class="block text-xs font-bold uppercase text-slate-300">Nom de l'outil (slug)</label>
+          <input type="text" id="reg-name" required placeholder="mon_super_outil" class="w-full px-4 py-2.5 rounded-xl bg-surface-900 border border-surface-800 text-slate-100 text-sm focus:outline-none focus:border-amber-500 font-mono" />
+        </div>
+
+        <div class="space-y-2">
+          <label class="block text-xs font-bold uppercase text-slate-300">Prix unitaire par appel (en satoshis)</label>
+          <input type="number" id="reg-price" required min="1" value="5" class="w-full px-4 py-2.5 rounded-xl bg-surface-900 border border-surface-800 text-slate-100 text-sm focus:outline-none focus:border-amber-500 font-mono" />
+        </div>
+
+        <div class="space-y-2">
+          <label class="block text-xs font-bold uppercase text-slate-300">URL / Endpoint de l'outil</label>
+          <input type="url" id="reg-endpoint" required placeholder="https://mon-serveur.workers.dev/mcp" class="w-full px-4 py-2.5 rounded-xl bg-surface-900 border border-surface-800 text-slate-100 text-sm focus:outline-none focus:border-amber-500 font-mono" />
+        </div>
+
+        <div class="space-y-2">
+          <label class="block text-xs font-bold uppercase text-slate-300">Votre adresse Lightning (Où recevoir vos paiements)</label>
+          <input type="text" id="reg-address" required placeholder="pseudo@getalby.com" class="w-full px-4 py-2.5 rounded-xl bg-surface-900 border border-surface-800 text-slate-100 text-sm focus:outline-none focus:border-amber-500 font-mono" />
+        </div>
+
+        <div class="md:col-span-2 space-y-2">
+          <label class="block text-xs font-bold uppercase text-slate-300">Description claire pour les Agents IA</label>
+          <textarea id="reg-description" required rows="2" placeholder="Expliquez ce que fait cet outil pour qu'un LLM sache quand l'appeler..." class="w-full px-4 py-2.5 rounded-xl bg-surface-900 border border-surface-800 text-slate-100 text-sm focus:outline-none focus:border-amber-500"></textarea>
+        </div>
+
+        <div class="md:col-span-2 flex flex-col sm:flex-row items-center justify-between gap-4 pt-2">
+          <p class="text-xs text-slate-400">100% Non-custodial : les paiements iront directement sur cette adresse Lightning.</p>
+          <button type="submit" id="btn-submit-tool" class="w-full sm:w-auto px-6 py-3 rounded-xl bg-lightning hover:bg-amber-400 text-black font-bold text-sm transition-all shadow-lg shadow-amber-500/10 flex items-center justify-center gap-2">
+            <span>⚡</span> Inscrire cet outil au Registre Ampero
+          </button>
+        </div>
+      </form>
+
+      <div id="register-alert" class="hidden p-4 rounded-xl text-xs font-mono"></div>
+    </section>
+
+    <!-- Section 4 : Intégration en 1 Clic (Claude Desktop, Cursor, Code) -->
     <section class="bg-surface-900 border border-surface-800 rounded-2xl p-8 space-y-8">
       <div>
         <h3 class="text-2xl font-bold text-white flex items-center gap-2">
@@ -480,6 +531,75 @@ registerMonetizedTool(server, 'mon_outil', 'Description', schema, {
           // On génère une pré-image valide pour la démo si l'environnement le permet
           const mockPreimage = 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855';
           await settleAndUnlock(mockPreimage);
+        });
+      }
+
+      // Gestion de la soumission de nouveaux outils MCP
+      const formRegisterTool = document.getElementById('form-register-tool');
+      const registerAlert = document.getElementById('register-alert');
+      const btnSubmitTool = document.getElementById('btn-submit-tool');
+
+      if (formRegisterTool) {
+        formRegisterTool.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          const name = document.getElementById('reg-name').value.trim();
+          const price_sats = parseInt(document.getElementById('reg-price').value, 10);
+          const endpoint = document.getElementById('reg-endpoint').value.trim();
+          const lightning_address = document.getElementById('reg-address').value.trim();
+          const description = document.getElementById('reg-description').value.trim();
+
+          if (btnSubmitTool) {
+            btnSubmitTool.disabled = true;
+            btnSubmitTool.innerHTML = '<span>⏳</span> Enregistrement en cours...';
+          }
+
+          try {
+            const res = await fetch('/api/registry/submit', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ name, price_sats, endpoint, lightning_address, description })
+            });
+
+            const data = await res.json();
+            if (res.ok && data.success) {
+              if (registerAlert) {
+                registerAlert.className = 'p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 block';
+                registerAlert.innerHTML = '<strong>✓ Outil Enregistré !</strong> Votre outil <code>' + name + '</code> est désormais inscrit au registre Ampero et découvrable par les agents IA.';
+              }
+              // Ajout dynamique de la carte dans le catalogue
+              if (toolsCardsGrid) {
+                const newCard = document.createElement('div');
+                newCard.className = 'p-6 rounded-2xl bg-surface-900 border border-emerald-500/50 shadow-xl space-y-4';
+                newCard.innerHTML =
+                  '<div class="flex items-center justify-between">' +
+                    '<h4 class="text-base font-bold text-white font-mono">' + name + '</h4>' +
+                    '<span class="px-2.5 py-1 rounded-full text-xs font-mono font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">' + price_sats + ' sats</span>' +
+                  '</div>' +
+                  '<p class="text-sm text-slate-300 leading-relaxed">' + description + '</p>' +
+                  '<div class="pt-3 border-t border-surface-800 flex items-center justify-between text-xs text-slate-400 font-mono">' +
+                    '<span>Endpoint: ' + endpoint + '</span>' +
+                    '<span class="text-emerald-400 font-semibold">Inscrit en direct</span>' +
+                  '</div>';
+                toolsCardsGrid.prepend(newCard);
+              }
+              formRegisterTool.reset();
+            } else {
+              if (registerAlert) {
+                registerAlert.className = 'p-4 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-400 block';
+                registerAlert.innerHTML = '<strong>Erreur :</strong> ' + (data.error || 'Impossible d\'enregistrer l\'outil');
+              }
+            }
+          } catch (err) {
+            if (registerAlert) {
+              registerAlert.className = 'p-4 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-400 block';
+              registerAlert.innerHTML = '<strong>Erreur réseau :</strong> ' + err.message;
+            }
+          } finally {
+            if (btnSubmitTool) {
+              btnSubmitTool.disabled = false;
+              btnSubmitTool.innerHTML = '<span>⚡</span> Inscrire cet outil au Registre Ampero';
+            }
+          }
         });
       }
 
