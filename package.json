@@ -1,0 +1,36 @@
+{
+  "name": "ampero",
+  "version": "0.1.0",
+  "description": "Ampero: Edge-native L402 machine-to-machine micropayments and MCP gateway for AI agents on Cloudflare Workers",
+  "main": "src/index.ts",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "build": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "keywords": [
+    "l402",
+    "lsat",
+    "lightning-network",
+    "bitcoin",
+    "mcp",
+    "model-context-protocol",
+    "cloudflare-workers",
+    "micropayments"
+  ],
+  "author": "Antigravity M2M Architect",
+  "license": "MIT",
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20250224.0",
+    "typescript": "^5.7.3",
+    "vitest": "^3.0.7",
+    "wrangler": "^3.109.2"
+  },
+  "dependencies": {
+    "@getalby/sdk": "^8.0.3",
+    "@modelcontextprotocol/sdk": "^1.32.1",
+    "zod": "^4.6.5"
+  }
+}

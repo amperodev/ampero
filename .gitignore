@@ -1,0 +1,22 @@
+# Dépendances Node
+node_modules/
+package-lock.json
+
+# Cache et builds Cloudflare Wrangler
+.wrangler/
+dist/
+
+# Variables d'environnement secrètes
+.dev.vars
+.env
+.env.*
+
+# Logs
+*.log
+npm-debug.log*
+
+# Système et IDE
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

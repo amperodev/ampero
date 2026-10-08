@@ -1,0 +1,18 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "ampero",
+  "main": "src/index.ts",
+  "compatibility_date": "2025-02-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "vars": {
+    "L402_ROOT_SECRET": "test-dev-secret-change-in-production-0123456789abcdef",
+    "CREATOR_LIGHTNING_ADDRESS": "satoshi@getalby.com",
+    "DEFAULT_TOOL_PRICE_SATS": 5
+  },
+  "kv_namespaces": [
+    {
+      "binding": "REPLAY_KV",
+      "id": "dev-replay-kv-mock"
+    }
+  ]
+}

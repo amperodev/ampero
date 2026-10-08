@@ -1,0 +1,48 @@
+/**
+ * Outil MCP haute utilité pour agents Bitcoin : Estimation des frais de transaction Mempool en temps réel.
+ * Coût : 2 satoshis.
+ */
+
+export interface MempoolFeesResult {
+  fastestFee: number;
+  halfHourFee: number;
+  hourFee: number;
+  minimumFee: number;
+  timestamp: number;
+  advice: string;
+}
+
+export async function fetchMempoolFeeEstimates(fetchFn: typeof fetch = fetch): Promise<MempoolFeesResult> {
+  const res = await fetchFn('https://mempool.space/api/v1/fees/recommended', {
+    headers: {
+      'Accept': 'application/json',
+      'User-Agent': 'L402-Edge-Agent/1.0'
+    }
+  });
+
+  if (!res.ok) {
+    throw new Error(`Impossible de contacter l'API Mempool (HTTP ${res.status}): ${res.statusText}`);
+  }
+
+  const data = (await res.json()) as {
+    fastestFee: number;
+    halfHourFee: number;
+    hourFee: number;
+    minimumFee: number;
+  };
+
+  const advice = data.fastestFee < 15
+    ? 'Le réseau Bitcoin est fluide : frais très bas, transactions rapides recommandées.'
+    : data.fastestFee < 50
+    ? 'Trafic modéré sur le mempool : priorité standard conseillée.'
+    : 'Forte congestion sur le mempool : privilégier le Lightning Network pour les règlements urgents.';
+
+  return {
+    fastestFee: data.fastestFee,
+    halfHourFee: data.halfHourFee,
+    hourFee: data.hourFee,
+    minimumFee: data.minimumFee,
+    timestamp: Date.now(),
+    advice
+  };
+}
