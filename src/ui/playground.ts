@@ -134,9 +134,37 @@ export function renderPlaygroundHtml(tools: PlaygroundToolInfo[], envInfo: { lig
           </div>
 
           <div class="space-y-4" id="tool-params-container">
-            <label for="input-url" class="block text-sm font-semibold text-slate-200">2. Request parameters</label>
-            <input type="url" id="input-url" value="https://bitcoin.org" class="w-full px-4 py-2.5 rounded-xl bg-surface-950 border border-surface-800 text-slate-100 text-sm focus:outline-none focus:border-amber-500 font-mono" placeholder="https://example.com" />
-            <p class="text-xs text-slate-400">The tool will extract sanitized content converted to Markdown for LLMs.</p>
+            <label class="block text-sm font-semibold text-slate-200">2. Request parameters</label>
+            
+            <!-- Parameter Group: URL (extract_clean_markdown) -->
+            <div id="param-group-url" class="space-y-2">
+              <label for="input-url" class="block text-xs font-mono text-slate-400">Webpage URL to extract:</label>
+              <input type="url" id="input-url" value="https://bitcoin.org" class="w-full px-4 py-2.5 rounded-xl bg-surface-950 border border-surface-800 text-slate-100 text-sm focus:outline-none focus:border-amber-500 font-mono" placeholder="https://example.com" />
+              <p class="text-xs text-slate-400">The tool will extract sanitized content converted to Markdown for LLMs.</p>
+            </div>
+
+            <!-- Parameter Group: Code (slm_code_audit) -->
+            <div id="param-group-code" class="space-y-2 hidden">
+              <label for="input-code" class="block text-xs font-mono text-slate-400">Source code snippet to audit:</label>
+              <textarea id="input-code" rows="4" class="w-full px-4 py-2 rounded-xl bg-surface-950 border border-surface-800 text-slate-100 text-xs focus:outline-none focus:border-amber-500 font-mono">// Sample agent code to analyze
+const API_KEY = "ghp_123456789012345678901234567890123456";
+function execute(userInput) {
+  return eval(userInput);
+}</textarea>
+              <p class="text-xs text-slate-400">Specialized 7B model will inspect tokens, eval injections, and cryptographic strength.</p>
+            </div>
+
+            <!-- Parameter Group: Domain (domain_security_scanner) -->
+            <div id="param-group-domain" class="space-y-2 hidden">
+              <label for="input-domain" class="block text-xs font-mono text-slate-400">Target domain or host:</label>
+              <input type="text" id="input-domain" value="bitcoin.org" class="w-full px-4 py-2.5 rounded-xl bg-surface-950 border border-surface-800 text-slate-100 text-sm focus:outline-none focus:border-amber-500 font-mono" placeholder="example.com" />
+              <p class="text-xs text-slate-400">Inspects HSTS, Content-Security-Policy, X-Frame-Options, and TLS headers.</p>
+            </div>
+
+            <!-- Parameter Group: None (bitcoin_mempool_fees & crypto_market_depth) -->
+            <div id="param-group-none" class="p-3 rounded-xl bg-surface-950 border border-surface-800 text-xs text-slate-400 hidden">
+              ⚡ Zero input parameters required. Live data signed and returned directly at the Edge.
+            </div>
           </div>
 
           <button id="btn-trigger" class="w-full py-3.5 px-6 rounded-xl bg-gradient-to-r from-lightning to-amber-500 hover:from-amber-400 hover:to-amber-500 text-black font-bold text-sm transition-all shadow-lg shadow-amber-500/20 flex items-center justify-center gap-2">
@@ -381,17 +409,36 @@ registerMonetizedTool(server, 'my_tool', 'Description', schema, {
           
           label.querySelector('input').addEventListener('change', () => {
             selectedTool = t;
-            if (toolParamsContainer) {
-              toolParamsContainer.style.display = t.name.includes('extract') ? 'block' : 'none';
-            }
+            updateParamsDisplay();
           });
           toolSelectorContainer.appendChild(label);
         });
       }
 
-      if (toolParamsContainer && selectedTool) {
-        toolParamsContainer.style.display = selectedTool.name.includes('extract') ? 'block' : 'none';
+      function updateParamsDisplay() {
+        const groupUrl = document.getElementById('param-group-url');
+        const groupCode = document.getElementById('param-group-code');
+        const groupDomain = document.getElementById('param-group-domain');
+        const groupNone = document.getElementById('param-group-none');
+
+        if (groupUrl) groupUrl.classList.add('hidden');
+        if (groupCode) groupCode.classList.add('hidden');
+        if (groupDomain) groupDomain.classList.add('hidden');
+        if (groupNone) groupNone.classList.add('hidden');
+
+        if (!selectedTool) return;
+        if (selectedTool.name.includes('extract')) {
+          if (groupUrl) groupUrl.classList.remove('hidden');
+        } else if (selectedTool.name.includes('audit')) {
+          if (groupCode) groupCode.classList.remove('hidden');
+        } else if (selectedTool.name.includes('security') || selectedTool.name.includes('domain')) {
+          if (groupDomain) groupDomain.classList.remove('hidden');
+        } else {
+          if (groupNone) groupNone.classList.remove('hidden');
+        }
       }
+
+      updateParamsDisplay();
 
       // Render marketplace cards
       if (toolsCardsGrid && Array.isArray(tools)) {
@@ -427,11 +474,22 @@ registerMonetizedTool(server, 'my_tool', 'Description', schema, {
 
           logMessage('AGENT -> EDGE', 'POST ' + selectedTool.endpoint + ' (without Authorization header)');
 
-          const urlInput = document.getElementById('input-url');
-          const rawUrl = urlInput ? urlInput.value.trim() : '';
-          const payload = selectedTool.name.includes('extract') 
-            ? { url: rawUrl || 'https://bitcoin.org' }
-            : {};
+          let payload = {};
+          if (selectedTool.name.includes('extract')) {
+            const urlInput = document.getElementById('input-url');
+            const rawUrl = urlInput ? urlInput.value.trim() : '';
+            payload = { url: rawUrl || 'https://bitcoin.org' };
+          } else if (selectedTool.name.includes('audit')) {
+            const codeInput = document.getElementById('input-code');
+            const rawCode = codeInput ? codeInput.value : '';
+            payload = { code: rawCode || 'console.log("hello world");' };
+          } else if (selectedTool.name.includes('security') || selectedTool.name.includes('domain')) {
+            const domainInput = document.getElementById('input-domain');
+            const rawDomain = domainInput ? domainInput.value.trim() : '';
+            payload = { domain: rawDomain || 'bitcoin.org' };
+          } else if (selectedTool.name.includes('crypto')) {
+            payload = { currency: 'USD' };
+          }
 
           try {
             // Check if WebLN is available on the client

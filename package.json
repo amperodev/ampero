@@ -1,6 +1,6 @@
 {
   "name": "ampero",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Ampero: Edge-native L402 machine-to-machine micropayments and MCP gateway for AI agents on Cloudflare Workers",
   "type": "module",
   "main": "./dist/index.js",
