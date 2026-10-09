@@ -90,7 +90,7 @@ describe('Mécanismes de Découverte Agentique & IA (Ampero)', () => {
     const tools = listData.result.tools;
     const discoverTool = tools.find((t: any) => t.name === 'discover_tools');
     expect(discoverTool).toBeDefined();
-    expect(discoverTool.description).toContain('Recherche gratuite');
+    expect(discoverTool.description).toContain('Free discovery');
 
     // B. Appel gratuit de discover_tools sans aucun paiement L402
     const callReq = new Request('https://ampero.dev/mcp', {

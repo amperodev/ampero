@@ -1,9 +1,9 @@
 /**
- * Point d'entrée Cloudflare Worker : Passerelle L402, Showcase & Démonstrateurs MCP.
- * Supporte :
- * 1. Interface Web Showcase & Playground Interactif (GET /)
- * 2. Protocole MCP officiel JSON-RPC 2.0 (POST /mcp)
- * 3. Endpoints REST monétisés (/mcp/tools/extract, /mcp/tools/fees)
+ * Cloudflare Worker Entry Point: L402 Gateway, Showcase & MCP Demonstrators.
+ * Supports:
+ * 1. Web Showcase UI & Developer Playground (GET /)
+ * 2. Official MCP JSON-RPC 2.0 Protocol (POST /mcp)
+ * 3. Monetized REST Endpoints (/mcp/tools/extract, /mcp/tools/fees)
  */
 
 import { L402Middleware } from './l402/middleware';
@@ -24,42 +24,42 @@ export interface Env {
   REPLAY_KV?: KVNamespace;
 }
 
-// Magasin mémoire de secours en local
+// In-memory fallback replay store for local dev
 const memoryStore = new MemoryReplayStore();
 
-// Liste des outils MCP pour la découverte REST et le Playground
+// List of MCP tools for REST discovery and the Playground
 const MCP_TOOLS: McpToolDescription[] = [
   {
     name: 'discover_tools',
-    description: 'Recherche gratuite d\'outils MCP monétisés dans le registre Ampero (filtrage par mot-clé et budget max en satoshis)',
+    description: 'Free discovery of monetized MCP tools in the Ampero registry (filter by keyword and max budget in satoshis)',
     price_sats: 0,
     pricing_model: 'free',
     endpoint: '/mcp',
     input_schema: {
       type: 'object',
       properties: {
-        query: { type: 'string', description: 'Mot-clé ou terme de recherche pour filtrer les outils' },
-        max_price_sats: { type: 'number', description: 'Budget maximum en satoshis par appel souhaité' }
+        query: { type: 'string', description: 'Search keyword or query to filter tools' },
+        max_price_sats: { type: 'number', description: 'Maximum desired budget in satoshis per call' }
       }
     }
   },
   {
     name: 'extract_clean_markdown',
-    description: 'Extrait et nettoie le contenu essentiel d\'une URL au format Markdown structuré pour LLM (sans publicités ni traqueurs)',
+    description: 'Extract and clean web content into structured Markdown optimized for LLMs (strips ads, popups, and trackers)',
     price_sats: 5,
     pricing_model: 'per_call',
     endpoint: '/mcp/tools/extract',
     input_schema: {
       type: 'object',
       properties: {
-        url: { type: 'string', description: 'URL absolue de la page web à extraire' }
+        url: { type: 'string', description: 'Absolute URL of the webpage to extract' }
       },
       required: ['url']
     }
   },
   {
     name: 'bitcoin_mempool_fees',
-    description: 'Estime les taux de frais de minage Bitcoin (sat/vB) et l\'état de congestion du réseau en temps réel pour agents IA',
+    description: 'Real-time Bitcoin mempool mining fee estimates (sat/vB) and network congestion status for AI agents',
     price_sats: 2,
     pricing_model: 'per_call',
     endpoint: '/mcp/tools/fees',
@@ -70,7 +70,7 @@ const MCP_TOOLS: McpToolDescription[] = [
   }
 ];
 
-// Registre d'outils dynamique en mémoire (enrichi des soumissions communautaires)
+// In-memory dynamic tool registry (enriched with community submissions)
 const dynamicRegistry: McpToolDescription[] = [...MCP_TOOLS];
 
 export default {
@@ -92,7 +92,7 @@ export default {
     const lightningAddress = env.CREATOR_LIGHTNING_ADDRESS || 'bumi@getalby.com';
     const replayStore = env.REPLAY_KV ? new KVReplayStore(env.REPLAY_KV) : memoryStore;
 
-    // Configuration de commission de plateforme si configurée
+    // Platform fee split configuration if configured
     const splitConfig = env.PLATFORM_LIGHTNING_ADDRESS
       ? {
           platformAddress: env.PLATFORM_LIGHTNING_ADDRESS,
@@ -101,7 +101,7 @@ export default {
         }
       : undefined;
 
-    // 1. Interface Web Showcase & Developer Playground (GET /)
+    // 1. Web Showcase & Developer Playground (GET /)
     if (url.pathname === '/' && request.method === 'GET') {
       const accept = request.headers.get('Accept') || '';
       if (accept.includes('text/html') || !accept.includes('application/json')) {
@@ -123,7 +123,7 @@ export default {
         });
       }
 
-      // Réponse JSON pour machines / APIs
+      // JSON response for machines and programmatic agents
       return Response.json(
         {
           name: 'Ampero Edge M2M Gateway',
@@ -138,7 +138,7 @@ export default {
       );
     }
 
-    // 1. bis. Fichier standardisé /llms.txt pour indexation et recommandation par les IA
+    // 1b. Standardized /llms.txt file for AI agent ingestion and indexing
     if (url.pathname === '/llms.txt' && request.method === 'GET') {
       const llmsTxt = renderLlmsTxt(dynamicRegistry, url.origin);
       return new Response(llmsTxt, {
@@ -149,7 +149,7 @@ export default {
       });
     }
 
-    // 2. Découverte REST des outils (GET /mcp/tools)
+    // 2. REST tool discovery (GET /mcp/tools)
     if (url.pathname === '/mcp/tools' && request.method === 'GET') {
       return Response.json(
         {
@@ -162,7 +162,7 @@ export default {
       );
     }
 
-    // 2. bis. Endpoint d'inscription au Registre (POST /api/registry/submit)
+    // 2b. Registry submission endpoint (POST /api/registry/submit)
     if (url.pathname === '/api/registry/submit' && request.method === 'POST') {
       try {
         const body = (await request.json()) as {
@@ -175,21 +175,21 @@ export default {
 
         if (!body.name || !body.description || !body.endpoint || !body.price_sats || !body.lightning_address) {
           return Response.json(
-            { error: 'Tous les champs sont obligatoires (name, description, endpoint, price_sats, lightning_address)' },
+            { error: 'All fields are required (name, description, endpoint, price_sats, lightning_address)' },
             { status: 400, headers: corsHeaders }
           );
         }
 
         if (!/^https?:\/\//i.test(body.endpoint)) {
           return Response.json(
-            { error: 'Le endpoint doit être une URL HTTP(S) valide' },
+            { error: 'The endpoint must be a valid HTTP(S) URL' },
             { status: 400, headers: corsHeaders }
           );
         }
 
         if (!body.lightning_address.includes('@')) {
           return Response.json(
-            { error: 'Format de Lightning Address invalide (attendu: pseudo@domaine)' },
+            { error: 'Invalid Lightning Address format (expected: user@domain)' },
             { status: 400, headers: corsHeaders }
           );
         }
@@ -202,7 +202,7 @@ export default {
           endpoint: body.endpoint.trim()
         };
 
-        // Inscription dans le registre actif
+        // Register into active in-memory registry
         const existingIdx = dynamicRegistry.findIndex(t => t.name === newTool.name);
         if (existingIdx !== -1) {
           dynamicRegistry[existingIdx] = newTool;
@@ -213,33 +213,33 @@ export default {
         return Response.json(
           {
             success: true,
-            message: 'Outil MCP inscrit avec succès dans le registre Ampero !',
+            message: 'MCP tool registered successfully in the Ampero registry!',
             tool: newTool
           },
           { status: 201, headers: corsHeaders }
         );
       } catch (err: unknown) {
-        const errorMsg = err instanceof Error ? err.message : 'JSON invalide';
+        const errorMsg = err instanceof Error ? err.message : 'Invalid JSON';
         return Response.json({ error: errorMsg }, { status: 400, headers: corsHeaders });
       }
     }
 
-    // 3. Endpoint MCP natif JSON-RPC 2.0 (POST /mcp)
+    // 3. Native MCP JSON-RPC 2.0 endpoint (POST /mcp)
     if (url.pathname === '/mcp') {
       const mcpRouter = new EdgeMcpRouter({
         name: 'Ampero-MCP-Server',
         version: '0.1.0'
       });
 
-      // Méta-outil gratuit (0 sat) : Découverte autonome du registre par agents IA
+      // Free meta-tool (0 sat): Autonomous registry discovery for AI agents
       mcpRouter.registerTool({
         name: 'discover_tools',
-        description: 'Recherche gratuite d\'outils MCP monétisés dans le registre Ampero (filtrage par mot-clé et budget max en satoshis)',
+        description: 'Free discovery of monetized MCP tools in the Ampero registry (filter by keyword and max budget in satoshis)',
         inputSchema: {
           type: 'object',
           properties: {
-            query: { type: 'string', description: 'Mot-clé ou terme de recherche facultatif' },
-            max_price_sats: { type: 'number', description: 'Budget maximum en satoshis par appel' }
+            query: { type: 'string', description: 'Optional search keyword or query filter' },
+            max_price_sats: { type: 'number', description: 'Maximum desired budget in satoshis per call' }
           }
         },
         handler: async (args: { query?: string; max_price_sats?: number }) => {
@@ -278,13 +278,13 @@ export default {
         }
       });
 
-      // Outil 1 : Extracteur de page web Markdown (5 sats)
+      // Tool 1: Clean Markdown web extractor (5 sats)
       mcpRouter.registerTool({
         name: 'extract_clean_markdown',
-        description: 'Extrait et assainit le contenu d\'une URL en Markdown optimisé pour LLM',
+        description: 'Extract and clean webpage content into structured Markdown optimized for LLMs',
         inputSchema: {
           type: 'object',
-          properties: { url: { type: 'string', description: 'URL absolue de la page' } },
+          properties: { url: { type: 'string', description: 'Absolute URL of the webpage' } },
           required: ['url']
         },
         l402: {
@@ -295,7 +295,7 @@ export default {
         },
         handler: async (args: { url: string }) => {
           if (!args.url || !/^https?:\/\//i.test(args.url)) {
-            return { isError: true, content: [{ type: 'text', text: 'Paramètre "url" obligatoire' }] };
+            return { isError: true, content: [{ type: 'text', text: '"url" parameter is required and must be HTTP(S)' }] };
           }
           const page = await fetchAndExtractUrl(args.url);
           return {
@@ -305,10 +305,10 @@ export default {
         }
       });
 
-      // Outil 2 : Frais de mempool Bitcoin en temps réel (2 sats)
+      // Tool 2: Live Bitcoin mempool mining fees (2 sats)
       mcpRouter.registerTool({
         name: 'bitcoin_mempool_fees',
-        description: 'Taux de frais de minage Bitcoin (sat/vB) et congestion du réseau en direct',
+        description: 'Live Bitcoin mining fee rates (sat/vB) and network congestion status',
         inputSchema: { type: 'object', properties: {} },
         l402: {
           priceSats: 2,
@@ -328,7 +328,7 @@ export default {
       return mcpRouter.handle(request);
     }
 
-    // 4. Outil REST protégé : Extraction Markdown (/mcp/tools/extract)
+    // 4. Protected REST tool: Clean Markdown extraction (/mcp/tools/extract)
     if (url.pathname === '/mcp/tools/extract' && request.method === 'POST') {
       const l402 = new L402Middleware({
         rootSecret,
@@ -349,14 +349,14 @@ export default {
         reqData = (await request.json()) as { url?: string };
       } catch {
         return Response.json(
-          { error: 'Corps JSON invalide. Attendu: { "url": "https://..." }' },
+          { error: 'Invalid JSON body. Expected: { "url": "https://..." }' },
           { status: 400, headers: corsHeaders }
         );
       }
 
       if (!reqData.url || !/^https?:\/\//i.test(reqData.url)) {
         return Response.json(
-          { error: 'Paramètre "url" obligatoire et doit être une URL HTTP(S) valide' },
+          { error: '"url" parameter is required and must be a valid HTTP(S) URL' },
           { status: 400, headers: corsHeaders }
         );
       }
@@ -378,15 +378,15 @@ export default {
           { headers: corsHeaders }
         );
       } catch (err: unknown) {
-        const errorMsg = err instanceof Error ? err.message : 'Erreur inconnue';
+        const errorMsg = err instanceof Error ? err.message : 'Unknown error';
         return Response.json(
-          { error: `Échec de l'extraction de la page: ${errorMsg}` },
+          { error: `Page extraction failed: ${errorMsg}` },
           { status: 502, headers: corsHeaders }
         );
       }
     }
 
-    // 5. Outil REST protégé : Estimation frais Mempool (/mcp/tools/fees)
+    // 5. Protected REST tool: Live Mempool fee estimates (/mcp/tools/fees)
     if (url.pathname === '/mcp/tools/fees' && request.method === 'POST') {
       const l402 = new L402Middleware({
         rootSecret,
@@ -419,19 +419,19 @@ export default {
           { headers: corsHeaders }
         );
       } catch (err: unknown) {
-        const errorMsg = err instanceof Error ? err.message : 'Erreur inconnue';
+        const errorMsg = err instanceof Error ? err.message : 'Unknown error';
         return Response.json(
-          { error: `Échec de récupération des frais: ${errorMsg}` },
+          { error: `Fee estimation failed: ${errorMsg}` },
           { status: 502, headers: corsHeaders }
         );
       }
     }
 
-    return new Response('Route non trouvée', { status: 404, headers: corsHeaders });
+    return new Response('Route not found', { status: 404, headers: corsHeaders });
   }
 };
 
-// Exports réutilisables pour le package NPM (@scope/l402-edge)
+// Reusable exports for NPM package (ampero)
 export * from './l402/types';
 export * from './l402/macaroon';
 export * from './l402/middleware';
