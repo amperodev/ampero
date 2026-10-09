@@ -20,7 +20,15 @@
     "cloudflare-workers",
     "micropayments"
   ],
-  "author": "Antigravity M2M Architect",
+  "author": "Ampero <ampero.dev@gmail.com>",
+  "homepage": "https://ampero.dev",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/amperodev/ampero.git"
+  },
+  "bugs": {
+    "url": "https://github.com/amperodev/ampero/issues"
+  },
   "license": "MIT",
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20250224.0",
