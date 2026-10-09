@@ -3,6 +3,7 @@
 > **The Visa Network for Autonomous AI Agents & Specialized Models**  
 > *Powered by Bitcoin Lightning (L402 / HTTP 402). Monetize compute, tools, and fine-tuned SLMs in 1 line of code.*
 
+[![npm version](https://img.shields.io/npm/v/ampero.svg?color=cb3837)](https://www.npmjs.com/package/ampero)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.7-blue.svg)](https://www.typescriptlang.org/)
 [![Cloudflare Workers](https://img.shields.io/badge/Cloudflare-Workers_Edge-F38020.svg)](https://workers.cloudflare.com/)
 [![Protocol](https://img.shields.io/badge/Protocol-L402_%2F_LSAT-F7931A.svg)](https://github.com/lightning/blips/blob/master/blip-0004.md)
@@ -113,6 +114,10 @@ To grant an autonomous agent permission to pay micro-invoices in the background 
 ---
 
 ## 🚀 Quickstart
+
+```bash
+npm install ampero
+```
 
 ### 1. Monetize an MCP Tool in 1 Line of Code
 
