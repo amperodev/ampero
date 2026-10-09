@@ -16,7 +16,7 @@
 
 > **"Visa connected human consumers to merchants with credit cards. Ampero connects autonomous AI agents to hyper-specialized expert models with Bitcoin satoshis."**  
 >
-> The era of a single monolithic model doing everything is over. The future of AI belongs to general orchestrators (Claude, GPT) querying thousands of **hyper-specialized expert models** (fine-tuned 8B SLMs, domain tools, custom compute). Ampero enables agents to pay 5 satoshis per inference on demand, instantly, with zero human friction.
+> The era of a single monolithic model doing everything is over. The future of AI belongs to general orchestrators (Claude, GPT) querying thousands of **hyper-specialized expert models** (fine-tuned 8B SLMs on Hugging Face, domain tools, custom compute). Ampero enables agents to pay 5 satoshis per inference on demand, turning GPU cost centers into self-funding, profitable assets with zero human friction.
 
 Traditional payment rails (credit cards, bank accounts, \$20/month SaaS subscriptions) fail for autonomous AI agents:
 * **Prohibitive fixed fees:** \$0.30 + 2.9% per charge. When an agent calls a specialized model costing \$0.003 (5 sats), credit card fees cost **100x more** than the actual compute!
@@ -87,6 +87,7 @@ sequenceDiagram
   * Standardized `/llms.txt` route for LLM indexing and crawler ingestion.
   * Auto-explaining HTTP 402 challenge guidance (`llm_instruction`).
   * Free built-in meta-tool `discover_tools` (0 sats) for runtime catalogue search.
+* **Self-Funding Open-Source AI (Hugging Face / SLMs):** Turn Hugging Face Spaces and fine-tuned models from GPU cost centers into profitable, self-funding autonomous assets. Micro-payments cover hosting costs on demand.
 * **Built-in Financial Guardrails:** Per-request spending limits (`maxSatsPerRequest`) and session budgets (`sessionBudgetSats`) with structured audit logs.
 
 ---

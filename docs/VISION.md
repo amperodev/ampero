@@ -13,6 +13,15 @@ While frontier models excel as general orchestrators, reasoning engines, and pla
 * **Inference Economics & Latency:** Generalist models are too slow and excessively expensive to process repetitive, high-volume production workloads.
 * **The Mixture-of-Agents Reality:** Modern agentic workflows (Claude Desktop, Cursor, Devin, autonomous swarms) operate as general contractors. When a task requires specialized expertise, the orchestrator queries an expert tool or fine-tuned model.
 
+### The Open-Source Paradox: The Hugging Face GPU Subsidy Crisis
+
+The epicenter of artificial intelligence innovation is open-source. Over 1,000,000 open-weight models and 200,000 Spaces live on platforms like **Hugging Face**. Independent researchers, academic institutions, and open-source collectives train remarkable specialized models daily.
+
+Yet, open-source AI creators face a devastating economic impasse:
+* **Out-of-Pocket GPU Bleed:** Hosting live inference endpoints or Hugging Face Spaces on dedicated GPUs (NVIDIA A10G, T4, H100) costs creators \$1.00 to \$5.00+ per hour out of their own pockets.
+* **The Micro-Monetization Vacuum:** A creator cannot charge \$0.003 (5 sats) per query with Stripe or traditional credit cards due to fixed fees (\$0.30/txn). They are forced into an all-or-nothing dilemma: absorb cloud GPU bills indefinitely, put up a restrictive \$20/month SaaS paywall that nobody buys for occasional use, or shut down their model entirely.
+* **The Ampero Solution:** Ampero transforms open-source models from **cost centers into self-funding, profitable autonomous assets**. Wrapping a Hugging Face Space or custom inference container with Ampero L402 reimburses GPU costs in satoshis with sub-second finality on every single query.
+
 ---
 
 ## 2. The Economic Impasse: Why Fiat & Subscriptions Fail AI Agents
@@ -22,6 +31,7 @@ Despite the exponential rise of autonomous agents, their commercial infrastructu
 1. **The \$20/Month Subscription Fatigue:** A developer or agent cannot realistically maintain 50 separate SaaS subscriptions for 50 specialized micro-models called only a few times a week.
 2. **Prohibitive Minimum Transaction Floors:** The legacy credit card system imposes a fixed fee of ~\$0.30 + 2.9% on every transaction. When an agent calls a specialized inference model costing \$0.002, payment processing fees cost **150 times more** than the actual computation.
 3. **The Identity Barrier (No KYC for Machines):** Autonomous software agents cannot open corporate bank accounts, upload government photo IDs, or receive SMS one-time passwords (OTP).
+4. **The Agent Consumption Multiplier:** Humans generate 10 to 20 queries a day on conversational interfaces. Autonomous agents operating in multi-agent swarms generate **30 to 150 tool and inference queries in minutes** to solve a single engineering or analysis task. Machine-to-machine traffic will soon surpass human web traffic by orders of magnitude, making frictionless, sub-cent settlement an existential prerequisite.
 
 To unlock the full potential of specialized AI models, **the Internet required a native, sub-cent monetary protocol designed specifically for machines**.
 
@@ -57,8 +67,29 @@ The Model Context Protocol (MCP) gateway is Ampero's immediate wedge, but the un
   (Fine-Tuned SLMs)       Swarms          (Ethical Data)    (Proof-of-Value)   (Energy/Bandwidth)
 ```
 
-### Horizon 1: Specialized Compute & Model-as-a-Tool (The Primary Wedge)
-Any developer, researcher, or GPU owner hosting a fine-tuned model (e.g., Llama 3 8B, DeepSeek-Coder, Ollama, HuggingFace endpoint) can wrap it in an Ampero MCP tool in 1 line of code. Every time an agent queries the model, 5 satoshis settle instantly into the creator's Lightning wallet.
+### Horizon 1: Specialized Compute & Self-Funding Hugging Face Models (The Primary Wedge)
+Any developer, researcher, or GPU owner hosting a fine-tuned model (e.g., Llama 3 8B, DeepSeek-Coder, Ollama, Hugging Face Spaces or Inference Endpoints) can wrap it in an Ampero MCP tool in 1 line of code:
+
+```typescript
+import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
+import { registerMonetizedTool } from 'ampero';
+import { z } from 'zod';
+
+const server = new McpServer({ name: 'HuggingFace-SLM-Gateway', version: '1.0.0' });
+
+// Monetize specialized model inference with direct satoshi settlement:
+registerMonetizedTool(
+  server,
+  'audit_smart_contract_slm',
+  'Interrogate a specialized 8B security model hosted on Hugging Face',
+  { code_snippet: z.string() },
+  { priceSats: 15, lightningAddress: 'researcher@getalby.com' },
+  async ({ code_snippet }) => callHuggingFaceEndpoint(code_snippet)
+);
+```
+
+* **Neutralizing GPU Costs:** At 5,000 queries per day (~75,000 sats or ~$45/day), an NVIDIA A10G GPU on Hugging Face or RunPod ($24/day) is **100% covered and immediately profitable**.
+* **Automated Split Royalties:** Using Ampero's cryptographic dual-invoice caveats, earnings can be split autonomously without escrow: **80% to the fine-tuner**, **15% to the GPU compute host**, and **5% platform fee**.
 
 ### Horizon 2: Multi-Agent Swarms & Autonomous Subcontracting
 An executive agent given a 5,000-sat budget can autonomously hire and remunerate specialized sub-agents:
