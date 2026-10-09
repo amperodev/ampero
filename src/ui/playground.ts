@@ -1,6 +1,6 @@
 /**
- * Générateur de l'interface HTML/Tailwind pour le Playground et Showcase MCP L402.
- * Servie directement à l'Edge par le Cloudflare Worker sur GET /.
+ * HTML/Tailwind generator for the Ampero L402 MCP Playground & Showcase.
+ * Served directly at the Edge by Cloudflare Workers on GET /.
  */
 
 export interface PlaygroundToolInfo {
@@ -14,11 +14,11 @@ export function renderPlaygroundHtml(tools: PlaygroundToolInfo[], envInfo: { lig
   const toolsJson = JSON.stringify(tools);
 
   return `<!DOCTYPE html>
-<html lang="fr" class="dark">
+<html lang="en" class="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ampero • Passerelle M2M & Showcase MCP</title>
+  <title>Ampero • M2M Micro-Payment Gateway & MCP Showcase</title>
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -54,7 +54,7 @@ export function renderPlaygroundHtml(tools: PlaygroundToolInfo[], envInfo: { lig
 </head>
 <body class="bg-surface-950 text-slate-100 min-h-screen font-sans antialiased selection:bg-lightning selection:text-black">
 
-  <!-- Entête de navigation -->
+  <!-- Navigation Header -->
   <header class="border-b border-surface-800 bg-surface-900/80 backdrop-blur-md sticky top-0 z-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
       <div class="flex items-center space-x-3">
@@ -65,16 +65,16 @@ export function renderPlaygroundHtml(tools: PlaygroundToolInfo[], envInfo: { lig
           <h1 class="text-lg font-bold tracking-tight text-white flex items-center gap-2">
             Ampero <span class="text-xs bg-amber-500/20 text-amber-400 px-2 py-0.5 rounded-full font-mono font-medium border border-amber-500/30">M2M Gateway</span>
           </h1>
-          <p class="text-xs text-slate-400">Micro-paiements autonomes pour Model Context Protocol (MCP)</p>
+          <p class="text-xs text-slate-400">Autonomous micro-payments for Model Context Protocol (MCP)</p>
         </div>
       </div>
       <div class="flex items-center space-x-4">
         <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
           <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-          Edge Cloudflare Actif
+          Cloudflare Edge Active
         </span>
         <a href="#playground" class="hidden sm:inline-flex items-center px-4 py-2 text-sm font-semibold rounded-xl bg-lightning hover:bg-amber-400 text-black transition-all shadow-md shadow-amber-500/10">
-          Tester le Simulateur
+          Try Simulator
         </a>
       </div>
     </div>
@@ -82,92 +82,92 @@ export function renderPlaygroundHtml(tools: PlaygroundToolInfo[], envInfo: { lig
 
   <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-16">
 
-    <!-- Section Hero -->
+    <!-- Hero Section -->
     <section class="text-center space-y-6 pt-6 pb-2">
       <div class="inline-flex items-center gap-2 px-3 py-1 rounded-xl bg-surface-800/80 border border-surface-800 text-xs font-mono text-amber-400 mb-2">
         <span>⚡ HTTP 402 + Macaroons + Bitcoin Lightning</span>
       </div>
       <h2 class="text-4xl sm:text-5xl font-extrabold tracking-tight text-white max-w-4xl mx-auto leading-tight">
-        L'infrastructure de micro-paiement native pour <span class="bg-gradient-to-r from-lightning via-amber-400 to-amber-200 bg-clip-text text-transparent">agents d'IA autonomes</span>
+        The native micro-payment infrastructure for <span class="bg-gradient-to-r from-lightning via-amber-400 to-amber-200 bg-clip-text text-transparent">autonomous AI agents</span>
       </h2>
       <p class="text-xl font-semibold text-amber-300 max-w-2xl mx-auto">
-        ⚡ Soyez payé pendant que vos outils MCP travaillent pour vous.
+        ⚡ Get paid while your MCP tools work for you.
       </p>
       <p class="text-base text-slate-400 max-w-2xl mx-auto">
-        Rémunérez vos outils de machine à machine au centième de centime, sans compte bancaire, sans carte de crédit, sans KYC et sans abonnement fixe.
+        Remunerate tools machine-to-machine at sub-cent precision. No bank account, no credit card, no KYC, and no fixed monthly subscriptions.
       </p>
       <div class="flex flex-wrap items-center justify-center gap-4 pt-2">
         <div class="flex items-center gap-2 text-xs text-slate-400 bg-surface-900 px-4 py-2 rounded-xl border border-surface-800">
           <span class="text-emerald-400 font-bold">✓</span> 100% Non-Custodial
         </div>
         <div class="flex items-center gap-2 text-xs text-slate-400 bg-surface-900 px-4 py-2 rounded-xl border border-surface-800">
-          <span class="text-emerald-400 font-bold">✓</span> Commission Split Atomique
+          <span class="text-emerald-400 font-bold">✓</span> Atomic Split Commission
         </div>
         <div class="flex items-center gap-2 text-xs text-slate-400 bg-surface-900 px-4 py-2 rounded-xl border border-surface-800">
-          <span class="text-emerald-400 font-bold">✓</span> Zéro friction Lightning Address
+          <span class="text-emerald-400 font-bold">✓</span> Zero-Friction Lightning Address
         </div>
       </div>
     </section>
 
-    <!-- Section 1 : Simulateur Interactif L402 (Playground) -->
+    <!-- Section 1 : Interactive L402 Simulator (Playground) -->
     <section id="playground" class="scroll-mt-24 space-y-6">
       <div class="flex items-center justify-between">
         <div>
           <h3 class="text-2xl font-bold text-white flex items-center gap-2">
-            <span>🧪</span> Simulateur M2M Interactif
+            <span>🧪</span> Interactive M2M Simulator
           </h3>
-          <p class="text-sm text-slate-400">Observez le cycle complet du péage HTTP 402 en temps réel.</p>
+          <p class="text-sm text-slate-400">Observe the complete HTTP 402 micro-payment handshake in real time.</p>
         </div>
         <span id="webln-status" class="text-xs px-3 py-1.5 rounded-xl bg-surface-800 border border-surface-800 text-slate-400">
-          Recherche WebLN (Alby)...
+          Detecting WebLN (Alby)...
         </span>
       </div>
 
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        <!-- Panneau de contrôle -->
+        <!-- Control Panel -->
         <div class="lg:col-span-5 bg-surface-900 border border-surface-800 rounded-2xl p-6 space-y-6 shadow-xl">
           <div class="space-y-4">
-            <label class="block text-sm font-semibold text-slate-200">1. Choisir un outil MCP à exécuter</label>
+            <label class="block text-sm font-semibold text-slate-200">1. Select an MCP tool to execute</label>
             <div class="space-y-2" id="tool-selector-container">
-              <!-- Rempli dynamiquement -->
+              <!-- Dynamically populated -->
             </div>
           </div>
 
           <div class="space-y-4" id="tool-params-container">
-            <label for="input-url" class="block text-sm font-semibold text-slate-200">2. Paramètres de la requête</label>
+            <label for="input-url" class="block text-sm font-semibold text-slate-200">2. Request parameters</label>
             <input type="url" id="input-url" value="https://bitcoin.org" class="w-full px-4 py-2.5 rounded-xl bg-surface-950 border border-surface-800 text-slate-100 text-sm focus:outline-none focus:border-amber-500 font-mono" placeholder="https://example.com" />
-            <p class="text-xs text-slate-400">L'outil extraira le contenu assaini et converti en Markdown pour LLM.</p>
+            <p class="text-xs text-slate-400">The tool will extract sanitized content converted to Markdown for LLMs.</p>
           </div>
 
           <button id="btn-trigger" class="w-full py-3.5 px-6 rounded-xl bg-gradient-to-r from-lightning to-amber-500 hover:from-amber-400 hover:to-amber-500 text-black font-bold text-sm transition-all shadow-lg shadow-amber-500/20 flex items-center justify-center gap-2">
-            <span>🚀</span> Déclencher l'appel Machine-to-Machine
+            <span>🚀</span> Trigger Machine-to-Machine Request
           </button>
 
-          <!-- Zone de paiement dynamique -->
+          <!-- Dynamic Payment Box -->
           <div id="payment-box" class="hidden p-5 rounded-2xl bg-amber-500/10 border border-amber-500/30 space-y-4">
             <div class="flex items-center justify-between">
               <span class="text-xs font-bold uppercase tracking-wider text-amber-400 flex items-center gap-1.5">
-                <span class="text-base">⚡</span> Défi 402 Reçu
+                <span class="text-base">⚡</span> 402 Challenge Received
               </span>
               <span id="challenge-cost" class="text-xs font-mono font-bold px-2 py-0.5 rounded bg-amber-400/20 text-amber-300">
                 5 sats
               </span>
             </div>
             <p class="text-xs text-slate-300 leading-relaxed">
-              Le serveur a retourné <code class="text-amber-400 font-mono font-bold">HTTP 402 Payment Required</code> avec un Macaroon et une facture Lightning.
+              The server returned <code class="text-amber-400 font-mono font-bold">HTTP 402 Payment Required</code> with a cryptographic Macaroon and BOLT-11 invoice.
             </p>
             <div class="space-y-2">
               <button id="btn-pay-webln" class="w-full py-2.5 px-4 rounded-xl bg-lightning hover:bg-amber-400 text-black font-bold text-xs flex items-center justify-center gap-2 transition-all">
-                <span>⚡</span> Payer instantanément avec Alby (WebLN)
+                <span>⚡</span> Pay Instantly with Alby (WebLN)
               </button>
               <button id="btn-mock-pay" class="w-full py-2 px-4 rounded-xl bg-surface-800 hover:bg-surface-700 text-slate-300 font-medium text-xs border border-surface-800 flex items-center justify-center gap-1.5">
-                <span>🤖</span> Simuler le règlement autonome par NWC (Démo)
+                <span>🤖</span> Simulate Autonomous NWC Settlement (Demo)
               </button>
             </div>
           </div>
         </div>
 
-        <!-- Terminal en direct -->
+        <!-- Live Terminal -->
         <div class="lg:col-span-7 bg-surface-950 border border-surface-800 rounded-2xl p-6 font-mono text-xs flex flex-col justify-between shadow-2xl relative overflow-hidden">
           <div class="space-y-4">
             <div class="flex items-center justify-between border-b border-surface-800 pb-3">
@@ -175,19 +175,19 @@ export function renderPlaygroundHtml(tools: PlaygroundToolInfo[], envInfo: { lig
                 <span class="w-3 h-3 rounded-full bg-rose-500/80"></span>
                 <span class="w-3 h-3 rounded-full bg-amber-500/80"></span>
                 <span class="w-3 h-3 rounded-full bg-emerald-500/80"></span>
-                <span class="text-slate-400 ml-2 font-sans font-semibold">Console M2M en direct</span>
+                <span class="text-slate-400 ml-2 font-sans font-semibold">Live M2M Console</span>
               </div>
-              <span id="status-badge" class="px-2 py-0.5 rounded bg-surface-800 text-slate-400">En attente</span>
+              <span id="status-badge" class="px-2 py-0.5 rounded bg-surface-800 text-slate-400">Idle</span>
             </div>
 
             <div id="console-logs" class="space-y-2 max-h-96 overflow-y-auto pr-2 text-slate-300">
-              <div class="text-slate-400">// Cliquez sur "Déclencher l'appel Machine-to-Machine" pour démarrer l'échange L402.</div>
+              <div class="text-slate-400">// Click "Trigger Machine-to-Machine Request" to initiate the L402 handshake.</div>
             </div>
           </div>
 
           <div id="result-preview" class="hidden mt-4 pt-4 border-t border-surface-800">
             <span class="text-xs font-sans font-bold text-emerald-400 flex items-center gap-1.5 mb-2">
-              <span>✓</span> Données débloquées avec succès (HTTP 200)
+              <span>✓</span> Data Successfully Unlocked (HTTP 200)
             </span>
             <pre id="result-content" class="p-4 rounded-xl bg-surface-900 border border-surface-800 max-h-52 overflow-y-auto text-slate-200 text-xs whitespace-pre-wrap"></pre>
           </div>
@@ -195,64 +195,64 @@ export function renderPlaygroundHtml(tools: PlaygroundToolInfo[], envInfo: { lig
       </div>
     </section>
 
-    <!-- Section 2 : Catalogue des Outils MCP Disponibles -->
+    <!-- Section 2 : Available MCP Tools Catalogue -->
     <section class="space-y-6">
       <div>
         <h3 class="text-2xl font-bold text-white flex items-center gap-2">
-          <span>📦</span> Catalogue des Outils Disponibles (M2M Registry)
+          <span>📦</span> Available Tools Catalogue (M2M Registry)
         </h3>
-        <p class="text-sm text-slate-400">Outils indexés, prêts à être appelés par des agents IA autonomes.</p>
+        <p class="text-sm text-slate-400">Indexed tools ready to be queried autonomously by AI agents.</p>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="tools-cards-grid">
-        <!-- Rempli dynamiquement -->
+        <!-- Dynamically populated -->
       </div>
     </section>
 
-    <!-- Section 3 : Proposer / Enregistrer un Outil MCP au Registre -->
+    <!-- Section 3 : Submit / Register an MCP Tool -->
     <section class="bg-gradient-to-b from-surface-900 to-surface-950 border border-amber-500/20 rounded-2xl p-8 space-y-6 shadow-2xl relative overflow-hidden">
       <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-surface-800 pb-6">
         <div>
           <span class="text-xs font-mono font-bold px-2.5 py-1 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/30 uppercase tracking-wider">
-            🚀 Enregistrement Immédiat
+            🚀 Instant Registration
           </span>
           <h3 class="text-2xl font-bold text-white mt-2 flex items-center gap-2">
-            Proposer votre outil MCP dans l'annuaire Ampero
+            Submit your MCP tool to the Ampero Registry
           </h3>
-          <p class="text-sm text-slate-400">Ajoutez votre serveur ou outil MCP pour qu'il soit immédiatement découvrable et rémunéré par les agents IA.</p>
+          <p class="text-sm text-slate-400">Add your MCP server or tool to make it immediately discoverable and monetized by autonomous AI agents.</p>
         </div>
       </div>
 
       <form id="form-register-tool" class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div class="space-y-2">
-          <label class="block text-xs font-bold uppercase text-slate-300">Nom de l'outil (slug)</label>
-          <input type="text" id="reg-name" required placeholder="mon_super_outil" class="w-full px-4 py-2.5 rounded-xl bg-surface-900 border border-surface-800 text-slate-100 text-sm focus:outline-none focus:border-amber-500 font-mono" />
+          <label class="block text-xs font-bold uppercase text-slate-300">Tool Slug (Unique Identifier)</label>
+          <input type="text" id="reg-name" required placeholder="my_awesome_tool" class="w-full px-4 py-2.5 rounded-xl bg-surface-900 border border-surface-800 text-slate-100 text-sm focus:outline-none focus:border-amber-500 font-mono" />
         </div>
 
         <div class="space-y-2">
-          <label class="block text-xs font-bold uppercase text-slate-300">Prix unitaire par appel (en satoshis)</label>
+          <label class="block text-xs font-bold uppercase text-slate-300">Price per call (in satoshis)</label>
           <input type="number" id="reg-price" required min="1" value="5" class="w-full px-4 py-2.5 rounded-xl bg-surface-900 border border-surface-800 text-slate-100 text-sm focus:outline-none focus:border-amber-500 font-mono" />
         </div>
 
         <div class="space-y-2">
-          <label class="block text-xs font-bold uppercase text-slate-300">URL / Endpoint de l'outil</label>
-          <input type="url" id="reg-endpoint" required placeholder="https://mon-serveur.workers.dev/mcp" class="w-full px-4 py-2.5 rounded-xl bg-surface-900 border border-surface-800 text-slate-100 text-sm focus:outline-none focus:border-amber-500 font-mono" />
+          <label class="block text-xs font-bold uppercase text-slate-300">Tool URL / Endpoint</label>
+          <input type="url" id="reg-endpoint" required placeholder="https://my-server.workers.dev/mcp" class="w-full px-4 py-2.5 rounded-xl bg-surface-900 border border-surface-800 text-slate-100 text-sm focus:outline-none focus:border-amber-500 font-mono" />
         </div>
 
         <div class="space-y-2">
-          <label class="block text-xs font-bold uppercase text-slate-300">Votre adresse Lightning (Où recevoir vos paiements)</label>
-          <input type="text" id="reg-address" required placeholder="pseudo@getalby.com" class="w-full px-4 py-2.5 rounded-xl bg-surface-900 border border-surface-800 text-slate-100 text-sm focus:outline-none focus:border-amber-500 font-mono" />
+          <label class="block text-xs font-bold uppercase text-slate-300">Your Lightning Address (Where you receive satoshis)</label>
+          <input type="text" id="reg-address" required placeholder="yourname@getalby.com" class="w-full px-4 py-2.5 rounded-xl bg-surface-900 border border-surface-800 text-slate-100 text-sm focus:outline-none focus:border-amber-500 font-mono" />
         </div>
 
         <div class="md:col-span-2 space-y-2">
-          <label class="block text-xs font-bold uppercase text-slate-300">Description claire pour les Agents IA</label>
-          <textarea id="reg-description" required rows="2" placeholder="Expliquez ce que fait cet outil pour qu'un LLM sache quand l'appeler..." class="w-full px-4 py-2.5 rounded-xl bg-surface-900 border border-surface-800 text-slate-100 text-sm focus:outline-none focus:border-amber-500"></textarea>
+          <label class="block text-xs font-bold uppercase text-slate-300">Clear Description for AI Agents</label>
+          <textarea id="reg-description" required rows="2" placeholder="Explain what this tool does so an LLM agent knows when to invoke it..." class="w-full px-4 py-2.5 rounded-xl bg-surface-900 border border-surface-800 text-slate-100 text-sm focus:outline-none focus:border-amber-500"></textarea>
         </div>
 
         <div class="md:col-span-2 flex flex-col sm:flex-row items-center justify-between gap-4 pt-2">
-          <p class="text-xs text-slate-400">100% Non-custodial : les paiements iront directement sur cette adresse Lightning.</p>
+          <p class="text-xs text-slate-400">100% Non-Custodial: payments settle directly into your Lightning Address.</p>
           <button type="submit" id="btn-submit-tool" class="w-full sm:w-auto px-6 py-3 rounded-xl bg-lightning hover:bg-amber-400 text-black font-bold text-sm transition-all shadow-lg shadow-amber-500/10 flex items-center justify-center gap-2">
-            <span>⚡</span> Inscrire cet outil au Registre Ampero
+            <span>⚡</span> Register this Tool in Ampero Registry
           </button>
         </div>
       </form>
@@ -260,19 +260,19 @@ export function renderPlaygroundHtml(tools: PlaygroundToolInfo[], envInfo: { lig
       <div id="register-alert" class="hidden p-4 rounded-xl text-xs font-mono"></div>
     </section>
 
-    <!-- Section 4 : Intégration en 1 Clic (Claude Desktop, Cursor, Code) -->
+    <!-- Section 4 : Quick Integration (Claude Desktop, Cursor, SDK) -->
     <section class="bg-surface-900 border border-surface-800 rounded-2xl p-8 space-y-8">
       <div>
         <h3 class="text-2xl font-bold text-white flex items-center gap-2">
-          <span>🔌</span> Intégration Immédiate pour Agents et Développeurs
+          <span>🔌</span> Instant Integration for Agents & Developers
         </h3>
-        <p class="text-sm text-slate-400">Connectez vos agents Claude Desktop, Cursor ou développez vos propres outils monétisés.</p>
+        <p class="text-sm text-slate-400">Connect Claude Desktop, Cursor, or build your own monetized MCP servers.</p>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <!-- Snippet Claude Desktop / Cursor -->
+        <!-- Claude Desktop / Cursor Snippet -->
         <div class="space-y-3">
-          <span class="text-xs font-bold uppercase tracking-wider text-slate-400 font-mono">Configuration Claude Desktop (claude_desktop_config.json)</span>
+          <span class="text-xs font-bold uppercase tracking-wider text-slate-400 font-mono">Claude Desktop Configuration (claude_desktop_config.json)</span>
           <pre class="p-4 rounded-xl bg-surface-950 border border-surface-800 text-xs text-amber-300 font-mono overflow-x-auto">{
   "mcpServers": {
     "ampero-tools": {
@@ -289,17 +289,17 @@ export function renderPlaygroundHtml(tools: PlaygroundToolInfo[], envInfo: { lig
 }</pre>
         </div>
 
-        <!-- Snippet Développeur -->
+        <!-- Developer Monetization Snippet -->
         <div class="space-y-3">
-          <span class="text-xs font-bold uppercase tracking-wider text-slate-400 font-mono">Monétiser un outil en 1 ligne de code</span>
+          <span class="text-xs font-bold uppercase tracking-wider text-slate-400 font-mono">Monetize any tool in 1 line of code</span>
           <pre class="p-4 rounded-xl bg-surface-950 border border-surface-800 text-xs text-emerald-300 font-mono overflow-x-auto">import { registerMonetizedTool } from 'ampero';
 
-// Monétisé automatiquement via Lightning Address
-registerMonetizedTool(server, 'mon_outil', 'Description', schema, {
+// Automatically monetized via Lightning Address
+registerMonetizedTool(server, 'my_tool', 'Description', schema, {
   priceSats: 5,
   lightningAddress: '${envInfo.lightningAddress}'
 }, async (args) => {
-  return { content: [{ type: 'text', text: 'Résultat' }] };
+  return { content: [{ type: 'text', text: 'Result' }] };
 });</pre>
         </div>
       </div>
@@ -308,11 +308,11 @@ registerMonetizedTool(server, 'mon_outil', 'Description', schema, {
   </main>
 
   <footer class="border-t border-surface-800 py-8 text-center text-xs text-slate-400 space-y-2">
-    <p>L402 Edge • Protocole bLIP-0004 / LSAT sur Cloudflare Workers & Bitcoin Lightning Network.</p>
-    <p>100% Non-Custodial • Respect strict de la vie privée dès la conception (Privacy by Design).</p>
+    <p>L402 Edge • Protocol bLIP-0004 / LSAT on Cloudflare Workers & Bitcoin Lightning Network.</p>
+    <p>100% Non-Custodial • Privacy by Design.</p>
   </footer>
 
-  <!-- Script interactif Vanilla JS défensif -->
+  <!-- Vanilla JS Interactive Client -->
   <script is:inline>
     (function() {
       const tools = ${toolsJson};
@@ -349,19 +349,19 @@ registerMonetizedTool(server, 'mon_outil', 'Description', schema, {
         consoleLogs.scrollTop = consoleLogs.scrollHeight;
       }
 
-      // Initialisation WebLN
+      // WebLN Initialization
       if (typeof window.webln !== 'undefined') {
         if (weblnStatus) {
-          weblnStatus.textContent = '⚡ WebLN Alby Détecté';
+          weblnStatus.textContent = '⚡ WebLN Alby Detected';
           weblnStatus.className = 'text-xs px-3 py-1.5 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-400 font-medium';
         }
       } else {
         if (weblnStatus) {
-          weblnStatus.textContent = 'Extension WebLN non détectée (Mode NWC/Démo actif)';
+          weblnStatus.textContent = 'WebLN extension not detected (NWC / Demo mode active)';
         }
       }
 
-      // Rendu des boutons radio d'outils
+      // Render tool radio buttons
       if (toolSelectorContainer && Array.isArray(tools)) {
         toolSelectorContainer.innerHTML = '';
         tools.forEach((t, idx) => {
@@ -371,7 +371,7 @@ registerMonetizedTool(server, 'mon_outil', 'Description', schema, {
             '<div class="flex items-center space-x-3">' +
               '<input type="radio" name="tool-select" value="' + t.name + '" ' + (idx === 0 ? 'checked' : '') + ' class="text-amber-500 focus:ring-amber-500" />' +
               '<div>' +
-                '<span class="text-sm font-bold text-white block">' + t.name + '</span>' +
+                '<span class="text-sm font-bold text-white block font-mono">' + t.name + '</span>' +
                 '<span class="text-xs text-slate-400">' + t.description + '</span>' +
               '</div>' +
             '</div>' +
@@ -387,7 +387,7 @@ registerMonetizedTool(server, 'mon_outil', 'Description', schema, {
         });
       }
 
-      // Rendu des cartes de la marketplace
+      // Render marketplace cards
       if (toolsCardsGrid && Array.isArray(tools)) {
         toolsCardsGrid.innerHTML = '';
         tools.forEach(t => {
@@ -401,13 +401,13 @@ registerMonetizedTool(server, 'mon_outil', 'Description', schema, {
             '<p class="text-sm text-slate-400 leading-relaxed">' + t.description + '</p>' +
             '<div class="pt-3 border-t border-surface-800 flex items-center justify-between text-xs text-slate-400 font-mono">' +
               '<span>Endpoint: ' + t.endpoint + '</span>' +
-              '<span class="text-emerald-400 font-semibold">Prêt M2M</span>' +
+              '<span class="text-emerald-400 font-semibold">M2M Ready</span>' +
             '</div>';
           toolsCardsGrid.appendChild(card);
         });
       }
 
-      // Étape 1 : Déclencher l'appel sans authentification (doit renvoyer 402)
+      // Step 1 : Trigger unauthenticated call (must return 402)
       if (btnTrigger) {
         btnTrigger.addEventListener('click', async () => {
           if (!selectedTool) return;
@@ -415,11 +415,11 @@ registerMonetizedTool(server, 'mon_outil', 'Description', schema, {
           if (resultPreview) resultPreview.classList.add('hidden');
           if (paymentBox) paymentBox.classList.add('hidden');
           if (statusBadge) {
-            statusBadge.textContent = 'Envoi requête...';
+            statusBadge.textContent = 'Sending request...';
             statusBadge.className = 'px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-mono';
           }
 
-          logMessage('AGENT -> EDGE', 'POST ' + selectedTool.endpoint + ' (sans en-tête Authorization)');
+          logMessage('AGENT -> EDGE', 'POST ' + selectedTool.endpoint + ' (without Authorization header)');
 
           const payload = selectedTool.name.includes('extract') 
             ? { url: document.getElementById('input-url').value }
@@ -444,8 +444,8 @@ registerMonetizedTool(server, 'mon_outil', 'Description', schema, {
               };
 
               logMessage('EDGE -> AGENT', 'HTTP 402 Payment Required !', 'warn');
-              logMessage('DÉFI L402', 'Macaroon: ' + currentChallenge.macaroon.substring(0, 30) + '...', 'crypto');
-              logMessage('FACTURE BOLT11', currentChallenge.invoice.substring(0, 35) + '... (' + currentChallenge.costSats + ' sats)', 'warn');
+              logMessage('L402 CHALLENGE', 'Macaroon: ' + currentChallenge.macaroon.substring(0, 30) + '...', 'crypto');
+              logMessage('BOLT11 INVOICE', currentChallenge.invoice.substring(0, 35) + '... (' + currentChallenge.costSats + ' sats)', 'warn');
 
               if (statusBadge) {
                 statusBadge.textContent = '402 Payment Required';
@@ -458,19 +458,19 @@ registerMonetizedTool(server, 'mon_outil', 'Description', schema, {
               }
             } else {
               const text = await res.text();
-              logMessage('RÉPONSE INATTENDUE', 'HTTP ' + res.status + ': ' + text, 'error');
+              logMessage('UNEXPECTED RESPONSE', 'HTTP ' + res.status + ': ' + text, 'error');
             }
           } catch (err) {
-            logMessage('ERREUR', err.message, 'error');
+            logMessage('ERROR', err.message, 'error');
           }
         });
       }
 
-      // Règlement de la facture et exécution finale
+      // Settle invoice and execute final request
       async function settleAndUnlock(preimage) {
         if (!currentChallenge) return;
-        logMessage('AGENT WALLET', 'Quittance obtenue ! Preimage: ' + preimage.substring(0, 24) + '...', 'crypto');
-        logMessage('AGENT -> EDGE', 'POST ' + currentChallenge.endpoint + ' avec Authorization: L402 <macaroon>:<preimage>');
+        logMessage('AGENT WALLET', 'Settlement receipt obtained! Preimage: ' + preimage.substring(0, 24) + '...', 'crypto');
+        logMessage('AGENT -> EDGE', 'POST ' + currentChallenge.endpoint + ' with Authorization: L402 <macaroon>:<preimage>');
 
         try {
           const res = await fetch(currentChallenge.endpoint, {
@@ -484,10 +484,10 @@ registerMonetizedTool(server, 'mon_outil', 'Description', schema, {
 
           if (res.ok) {
             const data = await res.json();
-            logMessage('EDGE -> AGENT', 'HTTP 200 OK • Signature Macaroon & Preimage validées à l\\'Edge !', 'success');
+            logMessage('EDGE -> AGENT', 'HTTP 200 OK • Macaroon signature & preimage verified at the Edge!', 'success');
             
             if (statusBadge) {
-              statusBadge.textContent = '200 Débloqué';
+              statusBadge.textContent = '200 Unlocked';
               statusBadge.className = 'px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 font-mono';
             }
 
@@ -498,46 +498,45 @@ registerMonetizedTool(server, 'mon_outil', 'Description', schema, {
             }
           } else {
             const errData = await res.json();
-            logMessage('ERREUR VALIDATION', 'HTTP ' + res.status + ': ' + (errData.error || 'Erreur'), 'error');
+            logMessage('VALIDATION ERROR', 'HTTP ' + res.status + ': ' + (errData.error || 'Error'), 'error');
           }
         } catch (err) {
-          logMessage('ERREUR RÉPÉTITION', err.message, 'error');
+          logMessage('RETRY ERROR', err.message, 'error');
         }
       }
 
-      // Clic WebLN réel
+      // Live WebLN Payment
       if (btnPayWebln) {
         btnPayWebln.addEventListener('click', async () => {
           if (!currentChallenge) return;
           if (typeof window.webln === 'undefined') {
-            alert('Extension WebLN (comme Alby) non détectée. Utilisez le bouton de simulation NWC ci-dessous.');
+            alert('WebLN extension (such as Alby) not detected. Use the NWC simulation button below.');
             return;
           }
           try {
             await window.webln.enable();
-            logMessage('WEBLN', 'Paiement en cours via extension WebLN...');
+            logMessage('WEBLN', 'Payment in progress via WebLN extension...');
             const payment = await window.webln.sendPayment(currentChallenge.invoice);
             if (payment && payment.preimage) {
               await settleAndUnlock(payment.preimage);
             }
           } catch (err) {
-            logMessage('WEBLN ÉCHEC', err.message, 'error');
+            logMessage('WEBLN FAILED', err.message, 'error');
           }
         });
       }
 
-      // Clic simulation NWC démo
+      // Autonomous NWC Demo Simulation
       if (btnMockPay) {
         btnMockPay.addEventListener('click', async () => {
           if (!currentChallenge) return;
-          logMessage('NWC SIMULATEUR', 'Connexion au relais Nostr et paiement de ' + currentChallenge.costSats + ' sats...');
-          // On génère une pré-image valide pour la démo si l'environnement le permet
+          logMessage('NWC SIMULATOR', 'Connecting to Nostr relay and settling ' + currentChallenge.costSats + ' sats...');
           const mockPreimage = 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855';
           await settleAndUnlock(mockPreimage);
         });
       }
 
-      // Gestion de la soumission de nouveaux outils MCP
+      // Handle MCP Tool Registration Form
       const formRegisterTool = document.getElementById('form-register-tool');
       const registerAlert = document.getElementById('register-alert');
       const btnSubmitTool = document.getElementById('btn-submit-tool');
@@ -553,7 +552,7 @@ registerMonetizedTool(server, 'mon_outil', 'Description', schema, {
 
           if (btnSubmitTool) {
             btnSubmitTool.disabled = true;
-            btnSubmitTool.innerHTML = '<span>⏳</span> Enregistrement en cours...';
+            btnSubmitTool.innerHTML = '<span>⏳</span> Registering tool...';
           }
 
           try {
@@ -567,9 +566,9 @@ registerMonetizedTool(server, 'mon_outil', 'Description', schema, {
             if (res.ok && data.success) {
               if (registerAlert) {
                 registerAlert.className = 'p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 block';
-                registerAlert.innerHTML = '<strong>✓ Outil Enregistré !</strong> Votre outil <code>' + name + '</code> est désormais inscrit au registre Ampero et découvrable par les agents IA.';
+                registerAlert.innerHTML = '<strong>✓ Tool Registered!</strong> Your tool <code>' + name + '</code> is now listed in the Ampero registry and discoverable by AI agents.';
               }
-              // Ajout dynamique de la carte dans le catalogue
+              // Dynamically prepend card to catalogue
               if (toolsCardsGrid) {
                 const newCard = document.createElement('div');
                 newCard.className = 'p-6 rounded-2xl bg-surface-900 border border-emerald-500/50 shadow-xl space-y-4';
@@ -581,7 +580,7 @@ registerMonetizedTool(server, 'mon_outil', 'Description', schema, {
                   '<p class="text-sm text-slate-300 leading-relaxed">' + description + '</p>' +
                   '<div class="pt-3 border-t border-surface-800 flex items-center justify-between text-xs text-slate-400 font-mono">' +
                     '<span>Endpoint: ' + endpoint + '</span>' +
-                    '<span class="text-emerald-400 font-semibold">Inscrit en direct</span>' +
+                    '<span class="text-emerald-400 font-semibold">Live Registered</span>' +
                   '</div>';
                 toolsCardsGrid.prepend(newCard);
               }
@@ -589,18 +588,18 @@ registerMonetizedTool(server, 'mon_outil', 'Description', schema, {
             } else {
               if (registerAlert) {
                 registerAlert.className = 'p-4 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-400 block';
-                registerAlert.innerHTML = '<strong>Erreur :</strong> ' + (data.error || 'Impossible d\'enregistrer l\'outil');
+                registerAlert.innerHTML = '<strong>Error:</strong> ' + (data.error || 'Failed to register tool');
               }
             }
           } catch (err) {
             if (registerAlert) {
               registerAlert.className = 'p-4 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-400 block';
-              registerAlert.innerHTML = '<strong>Erreur réseau :</strong> ' + err.message;
+              registerAlert.innerHTML = '<strong>Network error:</strong> ' + err.message;
             }
           } finally {
             if (btnSubmitTool) {
               btnSubmitTool.disabled = false;
-              btnSubmitTool.innerHTML = '<span>⚡</span> Inscrire cet outil au Registre Ampero';
+              btnSubmitTool.innerHTML = '<span>⚡</span> Register this Tool in Ampero Registry';
             }
           }
         });

@@ -72,8 +72,8 @@ describe('Outil Haute Valeur : Deep Extractor & Assainisseur Markdown', () => {
     );
 
     expect(html).toContain('<!DOCTYPE html>');
-    expect(html).toContain('Ampero • Passerelle M2M');
-    expect(html).toContain('Simulateur M2M Interactif');
+    expect(html).toContain('Ampero • M2M Micro-Payment Gateway');
+    expect(html).toContain('Interactive M2M Simulator');
     expect(html).toContain('extract_clean_markdown');
     expect(html).toContain('5 sats');
     expect(html).toContain('window.webln');
