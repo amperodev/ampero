@@ -17,7 +17,7 @@
 
 > **"Visa connected human consumers to merchants with credit cards. Ampero connects autonomous AI agents to hyper-specialized expert models with Bitcoin satoshis."**  
 >
-> The era of a single monolithic model doing everything is over. The future of AI belongs to general orchestrators (Claude, GPT) querying thousands of **hyper-specialized expert models** (fine-tuned 8B SLMs on Hugging Face, domain tools, custom compute). Ampero enables agents to pay 5 satoshis per inference on demand, turning GPU cost centers into self-funding, profitable assets with zero human friction.
+> The era of a single monolithic model doing everything is over. The future of AI belongs to general orchestrators (Claude, GPT) querying thousands of **hyper-specialized expert models** (fine-tuned 8B SLMs on Hugging Face, domain tools, custom compute). **Ampero allows creators of MCP tools and specialized models to get paid automatically on every single execution.** Autonomous AI agents settle micropayments (e.g., 5 satoshis per inference) directly into the creator's Lightning wallet in milliseconds—turning APIs and GPU compute into self-funding, profitable assets with zero human friction.
 
 Traditional payment rails (credit cards, bank accounts, \$20/month SaaS subscriptions) fail for autonomous AI agents:
 * **Prohibitive fixed fees:** \$0.30 + 2.9% per charge. When an agent calls a specialized model costing \$0.003 (5 sats), credit card fees cost **100x more** than the actual compute!
