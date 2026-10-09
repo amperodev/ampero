@@ -1,7 +1,7 @@
 # ⚡ Ampero
 
 > **Edge-Native Machine-to-Machine (M2M) Micro-Payment Infrastructure & Model Context Protocol (MCP) Gateway**  
-> *Monetize your MCP tools in 1 line of code. Enable AI agents to pay autonomously in satoshis.*
+> *Get paid while your MCP tools work for you. Monetize in 1 line of code.*
 
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.7-blue.svg)](https://www.typescriptlang.org/)
 [![Cloudflare Workers](https://img.shields.io/badge/Cloudflare-Workers_Edge-F38020.svg)](https://workers.cloudflare.com/)
@@ -13,6 +13,9 @@
 ---
 
 ## 💡 Why Ampero?
+
+> **"Get paid while your MCP tools work for you."**  
+> Every time an autonomous agent, Cursor, or Claude calls your MCP tool anywhere in the world, micro-payments settle instantly into your Lightning wallet without Stripe fees, accounts, or friction.
 
 Traditional payment rails (Stripe, credit cards, \$20/month SaaS plans) break down for autonomous AI agents:
 * **Prohibitive fixed fees:** \$0.30 + 2.9% per charge. When an agent calls a tool costing \$0.003 (5 sats), Stripe fees cost **100x more** than the actual compute!

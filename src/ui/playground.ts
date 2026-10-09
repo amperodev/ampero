@@ -90,8 +90,11 @@ export function renderPlaygroundHtml(tools: PlaygroundToolInfo[], envInfo: { lig
       <h2 class="text-4xl sm:text-5xl font-extrabold tracking-tight text-white max-w-4xl mx-auto leading-tight">
         L'infrastructure de micro-paiement native pour <span class="bg-gradient-to-r from-lightning via-amber-400 to-amber-200 bg-clip-text text-transparent">agents d'IA autonomes</span>
       </h2>
-      <p class="text-lg text-slate-400 max-w-2xl mx-auto">
-        Rémunérez vos outils MCP de machine à machine, sans compte bancaire, sans carte de crédit, sans KYC et sans abonnement fixe.
+      <p class="text-xl font-semibold text-amber-300 max-w-2xl mx-auto">
+        ⚡ Soyez payé pendant que vos outils MCP travaillent pour vous.
+      </p>
+      <p class="text-base text-slate-400 max-w-2xl mx-auto">
+        Rémunérez vos outils de machine à machine au centième de centime, sans compte bancaire, sans carte de crédit, sans KYC et sans abonnement fixe.
       </p>
       <div class="flex flex-wrap items-center justify-center gap-4 pt-2">
         <div class="flex items-center gap-2 text-xs text-slate-400 bg-surface-900 px-4 py-2 rounded-xl border border-surface-800">
