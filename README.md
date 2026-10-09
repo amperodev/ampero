@@ -1,7 +1,7 @@
 # ⚡ Ampero
 
-> **Edge-Native Machine-to-Machine (M2M) Micro-Payment Infrastructure & Model Context Protocol (MCP) Gateway**  
-> *Get paid while your MCP tools work for you. Monetize in 1 line of code.*
+> **The Visa Network for Autonomous AI Agents & Specialized Models**  
+> *Powered by Bitcoin Lightning (L402 / HTTP 402). Monetize compute, tools, and fine-tuned SLMs in 1 line of code.*
 
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.7-blue.svg)](https://www.typescriptlang.org/)
 [![Cloudflare Workers](https://img.shields.io/badge/Cloudflare-Workers_Edge-F38020.svg)](https://workers.cloudflare.com/)
@@ -14,15 +14,19 @@
 
 ## 💡 Why Ampero?
 
-> **"Get paid while your MCP tools work for you."**  
-> Every time an autonomous agent, Cursor, or Claude calls your MCP tool anywhere in the world, micro-payments settle instantly into your Lightning wallet without Stripe fees, accounts, or friction.
+> **"Visa connected human consumers to merchants with credit cards. Ampero connects autonomous AI agents to hyper-specialized expert models with Bitcoin satoshis."**  
+>
+> The era of a single monolithic model doing everything is over. The future of AI belongs to general orchestrators (Claude, GPT) querying thousands of **hyper-specialized expert models** (fine-tuned 8B SLMs, domain tools, custom compute). Ampero enables agents to pay 5 satoshis per inference on demand, instantly, with zero human friction.
 
-Traditional payment rails (Stripe, credit cards, \$20/month SaaS plans) break down for autonomous AI agents:
-* **Prohibitive fixed fees:** \$0.30 + 2.9% per charge. When an agent calls a tool costing \$0.003 (5 sats), Stripe fees cost **100x more** than the actual compute!
-* **Banking friction & KYC:** Autonomous software agents do not hold national IDs, corporate bank accounts, or smartphones to pass 3D-Secure / OTP SMS verification.
+Traditional payment rails (credit cards, bank accounts, \$20/month SaaS subscriptions) fail for autonomous AI agents:
+* **Prohibitive fixed fees:** \$0.30 + 2.9% per charge. When an agent calls a specialized model costing \$0.003 (5 sats), credit card fees cost **100x more** than the actual compute!
+* **No subscription fatigue:** Nobody can maintain 50 separate SaaS subscriptions for 50 specialized models called occasionally.
+* **Banking friction & KYC:** Autonomous software agents do not hold national IDs, corporate bank accounts, or smartphones to pass 3D-Secure SMS OTP verification.
 * **Reviving open web standards:** Ampero revives the web's native **HTTP 402 Payment Required** status code and the **L402** (bLIP-0004) protocol powered by the **Bitcoin Lightning Network**.
 
 Satoshis serve as **programmable network fluid**, settling value directly from machine to machine in sub-second latency.
+
+📖 **Want to explore the broader thesis?** Read our manifesto: **[The Autonomous Machine Economy & Specialized Models (docs/VISION.md)](docs/VISION.md)**.
 
 ---
 

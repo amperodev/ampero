@@ -88,13 +88,13 @@ export function renderPlaygroundHtml(tools: PlaygroundToolInfo[], envInfo: { lig
         <span>⚡ HTTP 402 + Macaroons + Bitcoin Lightning</span>
       </div>
       <h2 class="text-4xl sm:text-5xl font-extrabold tracking-tight text-white max-w-4xl mx-auto leading-tight">
-        The native micro-payment infrastructure for <span class="bg-gradient-to-r from-lightning via-amber-400 to-amber-200 bg-clip-text text-transparent">autonomous AI agents</span>
+        The Visa network for <span class="bg-gradient-to-r from-lightning via-amber-400 to-amber-200 bg-clip-text text-transparent">autonomous AI agents & specialized models</span>
       </h2>
       <p class="text-xl font-semibold text-amber-300 max-w-2xl mx-auto">
-        ⚡ Get paid while your MCP tools work for you.
+        ⚡ Get paid in satoshis while your specialized models and tools work for you.
       </p>
       <p class="text-base text-slate-400 max-w-2xl mx-auto">
-        Remunerate tools machine-to-machine at sub-cent precision. No bank account, no credit card, no KYC, and no fixed monthly subscriptions.
+        Monetize compute, fine-tuned SLMs, and MCP tools per query with Bitcoin Lightning. No bank account, no credit card, no KYC, and no subscription fatigue.
       </p>
       <div class="flex flex-wrap items-center justify-center gap-4 pt-2">
         <div class="flex items-center gap-2 text-xs text-slate-400 bg-surface-900 px-4 py-2 rounded-xl border border-surface-800">
