@@ -87,6 +87,26 @@ sequenceDiagram
 
 ---
 
+## ⚡ Getting a Lightning Account (Under 60 Seconds)
+
+You do **not** need to run a physical node, manage liquidity channels, or buy specialized hardware. Receiving and spending satoshis is as frictionless as using an email address.
+
+### 1. For Tool Creators: Receive Satoshis (Free in 30s)
+To monetize your MCP tools and APIs, you only need a **Lightning Address** (format: `username@domain.com`):
+* **[Alby Account](https://getalby.com)** *(Recommended for developers)* — Web extension & developer hub. Provides an instant `yourname@getalby.com` Lightning Address in 30 seconds.
+* **[Blink Wallet](https://www.blink.sv/)** *(Mobile)* — Fast mobile wallet with instant `yourname@blink.sv` Lightning Address.
+* **[CoinOS](https://coinos.io)** *(Web)* — Simple web-based Bitcoin/Lightning wallet with custom address.
+* **Self-Hosted / Sovereign:** Run [Alby Hub](https://albyhub.com), [Umbrel](https://umbrel.com), or your own LND/CLN node to connect your self-sovereign Lightning address with zero third-party dependencies.
+
+### 2. For AI Agents: Autonomous Funding via NWC (Nostr Wallet Connect)
+To grant an autonomous agent permission to pay micro-invoices in the background without human intervention:
+1. In your Alby account (or Alby Hub), navigate to **Connections** &rarr; **Add Connection** (NWC / NIP-47).
+2. Define a strict spending limit for your agent (e.g., max 500 sats/day, max 20 sats/call).
+3. Copy the generated connection string (`nostr+walletconnect://...`).
+4. Provide it to `createL402Fetch({ nwcUrl })`. Your agent now has an autonomous, cryptographic expense card with hard financial boundaries!
+
+---
+
 ## 🚀 Quickstart
 
 ### 1. Monetize an MCP Tool in 1 Line of Code
