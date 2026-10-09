@@ -10,7 +10,7 @@ import { L402Middleware } from './l402/middleware';
 import { KVReplayStore, MemoryReplayStore } from './l402/replay';
 import { McpToolDescription } from './l402/types';
 import { EdgeMcpRouter } from './mcp/router';
-import { fetchAndExtractUrl } from './tools/deep-extractor';
+import { fetchAndExtractUrl, htmlToCleanMarkdown } from './tools/deep-extractor';
 import { fetchMempoolFeeEstimates } from './tools/mempool-fees';
 import { renderPlaygroundHtml } from './ui/playground';
 import { renderLlmsTxt } from './ui/llms-txt';
@@ -297,7 +297,26 @@ export default {
           if (!args.url || !/^https?:\/\//i.test(args.url)) {
             return { isError: true, content: [{ type: 'text', text: '"url" parameter is required and must be HTTP(S)' }] };
           }
-          const page = await fetchAndExtractUrl(args.url);
+          let page;
+          try {
+            const targetUrl = new URL(args.url);
+            if (targetUrl.hostname === url.hostname) {
+              const html = renderPlaygroundHtml(
+                dynamicRegistry.map(t => ({
+                  name: t.name,
+                  description: t.description,
+                  priceSats: t.price_sats,
+                  endpoint: t.endpoint
+                })),
+                { lightningAddress }
+              );
+              page = htmlToCleanMarkdown(html, args.url);
+            } else {
+              page = await fetchAndExtractUrl(args.url);
+            }
+          } catch (e: any) {
+            return { isError: true, content: [{ type: 'text', text: e.message }] };
+          }
           return {
             content: [{ type: 'text', text: page.markdown }],
             _meta: { url: args.url, word_count: page.wordCount, reading_time: page.readingTimeMinutes }
@@ -362,7 +381,22 @@ export default {
       }
 
       try {
-        const page = await fetchAndExtractUrl(reqData.url);
+        let page;
+        const targetUrl = new URL(reqData.url);
+        if (targetUrl.hostname === url.hostname) {
+          const html = renderPlaygroundHtml(
+            dynamicRegistry.map(t => ({
+              name: t.name,
+              description: t.description,
+              priceSats: t.price_sats,
+              endpoint: t.endpoint
+            })),
+            { lightningAddress }
+          );
+          page = htmlToCleanMarkdown(html, reqData.url);
+        } else {
+          page = await fetchAndExtractUrl(reqData.url);
+        }
         return Response.json(
           {
             success: true,
