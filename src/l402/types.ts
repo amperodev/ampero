@@ -75,7 +75,7 @@ export interface McpToolDescription {
   name: string;
   description: string;
   price_sats: number;
-  pricing_model: 'per_call' | 'metered';
+  pricing_model: 'per_call' | 'metered' | 'free';
   endpoint: string;
   input_schema?: Record<string, unknown>;
 }

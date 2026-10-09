@@ -79,6 +79,7 @@ export interface McpToolResult {
       macaroon?: string;
       payment_hash?: string;
       settled?: boolean;
+      llm_instruction?: string;
     };
     [key: string]: unknown;
   };

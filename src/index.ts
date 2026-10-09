@@ -13,6 +13,7 @@ import { EdgeMcpRouter } from './mcp/router';
 import { fetchAndExtractUrl } from './tools/deep-extractor';
 import { fetchMempoolFeeEstimates } from './tools/mempool-fees';
 import { renderPlaygroundHtml } from './ui/playground';
+import { renderLlmsTxt } from './ui/llms-txt';
 
 export interface Env {
   L402_ROOT_SECRET: string;
@@ -28,6 +29,20 @@ const memoryStore = new MemoryReplayStore();
 
 // Liste des outils MCP pour la découverte REST et le Playground
 const MCP_TOOLS: McpToolDescription[] = [
+  {
+    name: 'discover_tools',
+    description: 'Recherche gratuite d\'outils MCP monétisés dans le registre Ampero (filtrage par mot-clé et budget max en satoshis)',
+    price_sats: 0,
+    pricing_model: 'free',
+    endpoint: '/mcp',
+    input_schema: {
+      type: 'object',
+      properties: {
+        query: { type: 'string', description: 'Mot-clé ou terme de recherche pour filtrer les outils' },
+        max_price_sats: { type: 'number', description: 'Budget maximum en satoshis par appel souhaité' }
+      }
+    }
+  },
   {
     name: 'extract_clean_markdown',
     description: 'Extrait et nettoie le contenu essentiel d\'une URL au format Markdown structuré pour LLM (sans publicités ni traqueurs)',
@@ -116,10 +131,22 @@ export default {
           settlement: 'Bitcoin Lightning Network (Non-Custodial)',
           lightning_address: lightningAddress,
           mcp_jsonrpc_endpoint: `${url.origin}/mcp`,
-          rest_tools_discovery: `${url.origin}/mcp/tools`
+          rest_tools_discovery: `${url.origin}/mcp/tools`,
+          llms_txt: `${url.origin}/llms.txt`
         },
         { headers: corsHeaders }
       );
+    }
+
+    // 1. bis. Fichier standardisé /llms.txt pour indexation et recommandation par les IA
+    if (url.pathname === '/llms.txt' && request.method === 'GET') {
+      const llmsTxt = renderLlmsTxt(dynamicRegistry, url.origin);
+      return new Response(llmsTxt, {
+        headers: {
+          'Content-Type': 'text/plain; charset=utf-8',
+          ...corsHeaders
+        }
+      });
     }
 
     // 2. Découverte REST des outils (GET /mcp/tools)
@@ -202,6 +229,53 @@ export default {
       const mcpRouter = new EdgeMcpRouter({
         name: 'Ampero-MCP-Server',
         version: '0.1.0'
+      });
+
+      // Méta-outil gratuit (0 sat) : Découverte autonome du registre par agents IA
+      mcpRouter.registerTool({
+        name: 'discover_tools',
+        description: 'Recherche gratuite d\'outils MCP monétisés dans le registre Ampero (filtrage par mot-clé et budget max en satoshis)',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            query: { type: 'string', description: 'Mot-clé ou terme de recherche facultatif' },
+            max_price_sats: { type: 'number', description: 'Budget maximum en satoshis par appel' }
+          }
+        },
+        handler: async (args: { query?: string; max_price_sats?: number }) => {
+          let matches = dynamicRegistry;
+          if (args.query) {
+            const q = args.query.toLowerCase();
+            matches = matches.filter(
+              t => t.name.toLowerCase().includes(q) || t.description.toLowerCase().includes(q)
+            );
+          }
+          if (typeof args.max_price_sats === 'number') {
+            matches = matches.filter(t => t.price_sats <= args.max_price_sats!);
+          }
+          return {
+            content: [
+              {
+                type: 'text',
+                text: JSON.stringify(
+                  {
+                    count: matches.length,
+                    tools: matches.map(t => ({
+                      name: t.name,
+                      description: t.description,
+                      price_sats: t.price_sats,
+                      endpoint: t.endpoint,
+                      input_schema: t.input_schema
+                    }))
+                  },
+                  null,
+                  2
+                )
+              }
+            ],
+            _meta: { total_registry_count: dynamicRegistry.length, matching_count: matches.length }
+          };
+        }
       });
 
       // Outil 1 : Extracteur de page web Markdown (5 sats)
@@ -373,3 +447,4 @@ export * from './client/index';
 export * from './tools/deep-extractor';
 export * from './tools/mempool-fees';
 export * from './ui/playground';
+export * from './ui/llms-txt';

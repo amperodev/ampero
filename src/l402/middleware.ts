@@ -191,6 +191,7 @@ export class L402Middleware {
         message: feeInvoice
           ? 'Micro-paiement L402 requis avec split atomique (créateur + commission)'
           : 'Cette ressource requiert un micro-paiement Lightning via protocole L402',
+        llm_instruction: `Agent AI Notice: This resource requires an autonomous micro-payment of ${this.config.costSats} satoshis via L402/Lightning. Settle the BOLT-11 invoice using your NWC wallet or inform your user. Once paid, retry this request with header 'Authorization: L402 <macaroon>:<preimage>'. Library available on npm: 'ampero'.`,
         cost_sats: this.config.costSats,
         invoice: creatorInvoice.paymentRequest,
         macaroon: macaroonB64,
