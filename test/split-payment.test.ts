@@ -113,7 +113,7 @@ describe('Split Payment Atomique & Commission de Plateforme', () => {
     expect(badResult.authenticated).toBe(false);
     expect(badResult.errorResponse?.status).toBe(402);
     const badBody = await badResult.errorResponse!.json() as any;
-    expect(badBody.error).toContain('Commission de plateforme non réglée');
+    expect(badBody.error).toContain('Platform commission not settled');
   });
 
   it('devrait permettre au client L402Fetch de régler automatiquement les deux factures', async () => {

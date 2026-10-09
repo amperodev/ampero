@@ -58,7 +58,7 @@ export class L402Middleware {
       return {
         authenticated: false,
         errorResponse: new Response(
-          JSON.stringify({ error: 'Format Authorization invalide. Format attendu: L402 <macaroon>:<preimage>' }),
+          JSON.stringify({ error: 'Invalid Authorization format. Expected: L402 <macaroon>:<preimage>' }),
           { status: 401, headers: { 'Content-Type': 'application/json' } }
         )
       };
@@ -67,13 +67,13 @@ export class L402Middleware {
     const macaroonB64 = token.substring(0, separatorIdx);
     const preimagesRaw = token.substring(separatorIdx + 1);
 
-    // 3. Vérification cryptographique de la signature du Macaroon
+    // 3. Cryptographic Macaroon signature verification
     const macaroon = await EdgeMacaroon.verify(macaroonB64, this.config.rootSecret);
     if (!macaroon) {
       return {
         authenticated: false,
         errorResponse: new Response(
-          JSON.stringify({ error: 'Macaroon invalide ou signature falsifiée' }),
+          JSON.stringify({ error: 'Invalid Macaroon or forged signature' }),
           { status: 401, headers: { 'Content-Type': 'application/json' } }
         )
       };
@@ -92,7 +92,7 @@ export class L402Middleware {
       return {
         authenticated: false,
         errorResponse: new Response(
-          JSON.stringify({ error: 'Pré-image invalide ou ne correspondant pas au hash de paiement' }),
+          JSON.stringify({ error: 'Invalid preimage or preimage does not match payment hash' }),
           { status: 402, headers: { 'Content-Type': 'application/json' } }
         )
       };
@@ -106,7 +106,7 @@ export class L402Middleware {
         return {
           authenticated: false,
           errorResponse: new Response(
-            JSON.stringify({ error: 'Commission de plateforme non réglée (quittance fee_invoice manquante ou invalide)' }),
+            JSON.stringify({ error: 'Platform commission not settled (missing or invalid fee_invoice receipt)' }),
             { status: 402, headers: { 'Content-Type': 'application/json' } }
           )
         };
@@ -123,7 +123,7 @@ export class L402Middleware {
       return {
         authenticated: false,
         errorResponse: new Response(
-          JSON.stringify({ error: `Restriction non respectée: ${caveatError}` }),
+          JSON.stringify({ error: `Caveat restriction violated: ${caveatError}` }),
           { status: 403, headers: { 'Content-Type': 'application/json' } }
         )
       };
@@ -137,7 +137,7 @@ export class L402Middleware {
         return {
           authenticated: false,
           errorResponse: new Response(
-            JSON.stringify({ error: 'Jeton déjà utilisé (tentative de rejeu détectée)' }),
+            JSON.stringify({ error: 'Token already spent (replay attempt detected)' }),
             { status: 409, headers: { 'Content-Type': 'application/json' } }
           )
         };
@@ -160,22 +160,49 @@ export class L402Middleware {
    */
   async create402Challenge(request: Request): Promise<Response> {
     const provider = this.config.invoiceProvider || ((addr, sats) => getInvoiceFromLightningAddress(addr, sats));
-    const origin = new URL(request.url).origin;
+    const url = new URL(request.url);
+    const origin = url.origin;
+    const isDemo = request.headers.get('X-Ampero-Demo') === 'true' || url.searchParams.get('demo') === 'true';
 
     let creatorSats = this.config.costSats;
     let feeSats = 0;
     let feeInvoice: { paymentRequest: string; paymentHash: string } | null = null;
+    let creatorInvoice: { paymentRequest: string; paymentHash: string };
+    let demoPreimages: string | undefined;
 
     // Calcul du split de commission si configuré
     if (this.config.splitConfig) {
       const minFee = this.config.splitConfig.minFeeSats ?? 1;
       feeSats = Math.max(minFee, Math.round(this.config.costSats * (this.config.splitConfig.platformFeePercent / 100)));
       creatorSats = Math.max(1, this.config.costSats - feeSats);
-
-      feeInvoice = await provider(this.config.splitConfig.platformAddress, feeSats);
     }
 
-    const creatorInvoice = await provider(this.config.lightningAddress, creatorSats);
+    if (isDemo) {
+      const DEMO_CREATOR_PREIMAGE = '11223344556677889900aabbccddeeff11223344556677889900aabbccddeeff';
+      const DEMO_FEE_PREIMAGE = '223344556677889900aabbccddeeff11223344556677889900aabbccddeeff22';
+      const creatorHash = bytesToHex(new Uint8Array(await crypto.subtle.digest('SHA-256', hexToBytes(DEMO_CREATOR_PREIMAGE))));
+      const feeHash = bytesToHex(new Uint8Array(await crypto.subtle.digest('SHA-256', hexToBytes(DEMO_FEE_PREIMAGE))));
+
+      creatorInvoice = {
+        paymentRequest: `lnbc${creatorSats}0n1pdemo${creatorHash.substring(0, 30)}mockinvoice`,
+        paymentHash: creatorHash
+      };
+
+      if (this.config.splitConfig) {
+        feeInvoice = {
+          paymentRequest: `lnbc${feeSats}0n1pdemo${feeHash.substring(0, 30)}mockfeeinvoice`,
+          paymentHash: feeHash
+        };
+        demoPreimages = `${DEMO_CREATOR_PREIMAGE}+${DEMO_FEE_PREIMAGE}`;
+      } else {
+        demoPreimages = DEMO_CREATOR_PREIMAGE;
+      }
+    } else {
+      if (this.config.splitConfig) {
+        feeInvoice = await provider(this.config.splitConfig.platformAddress, feeSats);
+      }
+      creatorInvoice = await provider(this.config.lightningAddress, creatorSats);
+    }
 
     const macaroon = await EdgeMacaroon.create(
       this.config.rootSecret,
@@ -193,8 +220,8 @@ export class L402Middleware {
     const expiresAt = Math.floor(Date.now() / 1000) + timeout;
     await macaroon.addCaveat(`time < ${expiresAt}`);
 
-    // Caveat de chemin d'accès
-    const path = new URL(request.url).pathname;
+    // Caveat de chemin d'accès (sans query string)
+    const path = url.pathname;
     await macaroon.addCaveat(`path = ${path}`);
 
     const macaroonB64 = macaroon.toBase64();
@@ -210,13 +237,14 @@ export class L402Middleware {
         status: 402,
         title: 'Payment Required',
         message: feeInvoice
-          ? 'Micro-paiement L402 requis avec split atomique (créateur + commission)'
-          : 'Cette ressource requiert un micro-paiement Lightning via protocole L402',
+          ? 'L402 micro-payment required with atomic split (creator + platform fee)'
+          : 'This resource requires a Lightning micro-payment via L402 protocol',
         llm_instruction: `Agent AI Notice: This resource requires an autonomous micro-payment of ${this.config.costSats} satoshis via L402/Lightning. Settle the BOLT-11 invoice using your NWC wallet or inform your user. Once paid, retry this request with header 'Authorization: L402 <macaroon>:<preimage>'. Library available on npm: 'ampero'.`,
         cost_sats: this.config.costSats,
         invoice: creatorInvoice.paymentRequest,
         macaroon: macaroonB64,
         payment_hash: creatorInvoice.paymentHash,
+        ...(isDemo ? { demo: true, demo_preimage: demoPreimages } : {}),
         ...(feeInvoice
           ? {
               fee_invoice: feeInvoice.paymentRequest,

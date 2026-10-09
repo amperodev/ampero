@@ -439,6 +439,7 @@ registerMonetizedTool(server, 'my_tool', 'Description', schema, {
                 macaroon: challengeData.macaroon,
                 invoice: challengeData.invoice,
                 costSats: challengeData.cost_sats || selectedTool.priceSats,
+                demo_preimage: challengeData.demo_preimage,
                 endpoint: selectedTool.endpoint,
                 payload
               };
@@ -530,9 +531,26 @@ registerMonetizedTool(server, 'my_tool', 'Description', schema, {
       if (btnMockPay) {
         btnMockPay.addEventListener('click', async () => {
           if (!currentChallenge) return;
-          logMessage('NWC SIMULATOR', 'Connecting to Nostr relay and settling ' + currentChallenge.costSats + ' sats...');
-          const mockPreimage = 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855';
-          await settleAndUnlock(mockPreimage);
+          logMessage('NWC SIMULATOR', 'Connecting to Nostr relay and settling ' + currentChallenge.costSats + ' sats via autonomous NWC...');
+
+          let preimage = currentChallenge.demo_preimage;
+          if (!preimage) {
+            logMessage('NWC SIMULATOR', 'Obtaining demo verification challenge...');
+            try {
+              const demoRes = await fetch(currentChallenge.endpoint + '?demo=true', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'X-Ampero-Demo': 'true' },
+                body: JSON.stringify(currentChallenge.payload)
+              });
+              const demoData = await demoRes.json();
+              currentChallenge.macaroon = demoData.macaroon;
+              preimage = demoData.demo_preimage;
+            } catch (err) {
+              logMessage('SIMULATOR ERROR', err.message, 'error');
+              return;
+            }
+          }
+          await settleAndUnlock(preimage);
         });
       }
 
