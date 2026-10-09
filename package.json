@@ -51,7 +51,7 @@
   "homepage": "https://ampero.dev",
   "repository": {
     "type": "git",
-    "url": "https://github.com/amperodev/ampero.git"
+    "url": "git+https://github.com/amperodev/ampero.git"
   },
   "bugs": {
     "url": "https://github.com/amperodev/ampero/issues"
