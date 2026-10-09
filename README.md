@@ -26,6 +26,27 @@ Satoshis serve as **programmable network fluid**, settling value directly from m
 
 ---
 
+## ⚡ Real-World Bitcoin Utility: The Native Currency of AI Agents
+
+Beyond speculation and store of value, **Bitcoin is the only monetary rail capable of powering the autonomous agentic economy**:
+
+1. **Permissionless Machine Autonomy:** An AI agent cannot open a bank account, sign a merchant agreement, or provide KYC documents. With Bitcoin Lightning, any agent holding a cryptographic key can send and receive value instantly.
+2. **Sub-Cent Micro-Transactions:** Compute tasks, single API queries, and web scrapes cost fractions of a cent (\$0.0005 to \$0.01). Satoshis provide the granular accounting unit needed for true pay-per-query machine economics.
+3. **Sub-Second Finality (< 250ms):** Lightning Network payments settle instantly through off-chain routed channels without waiting for block confirmations or risking mempool fee spikes.
+4. **Non-Custodial Bearer Value:** Payments travel directly from the agent's wallet to the creator's Lightning Address (`creator@getalby.com`). No intermediaries, no chargebacks, no account freezing.
+
+### 📊 Payment Rails Comparison for AI Agents
+
+| Capability | Credit Cards / Stripe | Smart Contract Chains (ETH/SOL) | Bitcoin Lightning (Ampero L402) |
+| :--- | :--- | :--- | :--- |
+| **Minimum Economic Unit** | ~\$0.50 (due to \$0.30 fixed fee) | \$0.01 – \$5.00+ (Gas fee fluctuations) | **\$0.0006 (1 satoshi)** |
+| **Settlement Latency** | 2–5 days (bank payouts) | Seconds to minutes (block confirmations) | **< 250 ms (instant channel settlement)** |
+| **Agent Autonomy** | ❌ Impossible (Requires human KYC & bank) | ⚠️ Complex gas management & bridging | **✅ Native (Bearer Macaroon + NWC wallet)** |
+| **Web Standard Alignment** | ❌ Proprietary closed APIs | ❌ Custom Web3 RPCs | **✅ HTTP 402 Payment Required (RFC standard)** |
+| **Custody & Regulatory Risk** | ⚠️ Intermediary custody & chargebacks | ⚠️ Smart contract exploits & tokens | **✅ 100% Non-Custodial (Direct Lightning Address)** |
+
+---
+
 ## 🏗️ M2M Architecture (Execution Flow)
 
 ```mermaid
