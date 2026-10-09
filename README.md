@@ -1,91 +1,95 @@
 # ⚡ Ampero
 
-> **Edge-Native Machine-to-Machine (M2M) Micro-Payment Infrastructure & MCP Gateway**  
-> *Monétisez vos outils MCP en 1 ligne de code. Laissez les agents d'IA se rémunérer en satoshis.*
+> **Edge-Native Machine-to-Machine (M2M) Micro-Payment Infrastructure & Model Context Protocol (MCP) Gateway**  
+> *Monetize your MCP tools in 1 line of code. Enable AI agents to pay autonomously in satoshis.*
 
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.7-blue.svg)](https://www.typescriptlang.org/)
 [![Cloudflare Workers](https://img.shields.io/badge/Cloudflare-Workers_Edge-F38020.svg)](https://workers.cloudflare.com/)
 [![Protocol](https://img.shields.io/badge/Protocol-L402_%2F_LSAT-F7931A.svg)](https://github.com/lightning/blips/blob/master/blip-0004.md)
 [![MCP](https://img.shields.io/badge/Model_Context_Protocol-Anthropic-8A2BE2.svg)](https://modelcontextprotocol.io)
 [![License: MIT](https://img.shields.io/badge/License-MIT-emerald.svg)](LICENSE)
-[![Tests](https://img.shields.io/badge/Tests-35%20passing-brightgreen.svg)]()
+[![Tests](https://img.shields.io/badge/Tests-40%20passing-brightgreen.svg)]()
 
 ---
 
-## 💡 Pourquoi Ampero ?
+## 💡 Why Ampero?
 
-Les modèles de paiement traditionnels (Stripe, cartes de crédit, abonnements SaaS à 20 $/mois) sont incompatibles avec les agents autonomes :
-* **Frais fixes prohibitifs :** 0,30 $ + 2,9 % par transaction. Si un agent appelle un outil coûtant 0,003 $ (5 sats), Stripe coûte **100 fois plus cher** que la tâche elle-même !
-* **Friction bancaire & KYC :** Une machine ne possède pas de carte d'identité, de compte bancaire d'entreprise, ni de téléphone pour valider des codes 3D-Secure / OTP SMS.
-* **Le standard réhabilité :** Ampero réhabilite le code d'état standard du web **HTTP 402 Payment Required** et le protocole **L402** (bLIP-0004) adossé au **Bitcoin Lightning Network**.
+Traditional payment rails (Stripe, credit cards, \$20/month SaaS plans) break down for autonomous AI agents:
+* **Prohibitive fixed fees:** \$0.30 + 2.9% per charge. When an agent calls a tool costing \$0.003 (5 sats), Stripe fees cost **100x more** than the actual compute!
+* **Banking friction & KYC:** Autonomous software agents do not hold national IDs, corporate bank accounts, or smartphones to pass 3D-Secure / OTP SMS verification.
+* **Reviving open web standards:** Ampero revives the web's native **HTTP 402 Payment Required** status code and the **L402** (bLIP-0004) protocol powered by the **Bitcoin Lightning Network**.
 
-Les satoshis agissent comme un **fluide réseau programmable** circulant de machine à machine en quelques millisecondes.
+Satoshis serve as **programmable network fluid**, settling value directly from machine to machine in sub-second latency.
 
 ---
 
-## 🏗️ Architecture M2M (Flux d'exécution)
+## 🏗️ M2M Architecture (Execution Flow)
 
 ```mermaid
 sequenceDiagram
     autonumber
-    participant Agent as Agent IA (Cursor / Claude)
+    participant Agent as AI Agent (Cursor / Claude)
     participant Edge as Ampero Gateway (Cloudflare Edge)
-    participant Creator as Wallet Créateur (Alby / Blink)
-    participant Platform as Wallet Ampero (Commission)
+    participant Creator as Creator Wallet (Alby / Blink)
+    participant Platform as Ampero Platform (Commission)
 
-    Agent->>Edge: POST /mcp/tools/extract (sans auth)
-    Edge->>Edge: Génère défi 402 + Facture créateur (4 sats) + Facture commission (1 sat)
+    Agent->>Edge: POST /mcp/tools/extract (unauthenticated)
+    Edge->>Edge: Generate 402 challenge + Creator invoice (4 sats) + Platform invoice (1 sat)
     Edge-->>Agent: HTTP 402 Payment Required<br/>WWW-Authenticate: L402 macaroon="...", invoice="...", fee_invoice="..."
     
-    Agent->>Agent: Règlement autonome en arrière-plan via NWC (Nostr Wallet Connect)
-    Agent->>Creator: Règlement direct de 4 sats
-    Agent->>Platform: Règlement direct de 1 sat
+    Agent->>Agent: Autonomous settlement in background via NWC (Nostr Wallet Connect)
+    Agent->>Creator: Direct settlement of 4 sats
+    Agent->>Platform: Direct settlement of 1 sat
     
     Agent->>Edge: POST /mcp/tools/extract<br/>Authorization: L402 <macaroon>:<preimage_creator>+<preimage_fee>
-    Edge->>Edge: Validation instantanée Web Crypto (SHA256 preimages == hashes & HMAC)
-    Edge-->>Agent: HTTP 200 OK + Résultat débloqué (Markdown LLM)
+    Edge->>Edge: Instant Web Crypto validation (SHA256 preimages == hashes & HMAC)
+    Edge-->>Agent: HTTP 200 OK + Unlocked result (Structured LLM Markdown)
 ```
 
 ---
 
-## ✨ Fonctionnalités Clés
+## ✨ Key Features
 
-* **Zéro friction pour les créateurs :** Renseignez simplement votre **Lightning Address** (ex: `creator@getalby.com`). Aucun nœud à administrer.
-* **100 % Non-Custodial (Zéro risque réglementaire) :** Ampero ne séquestre jamais l'argent d'autrui. Les fonds sont versés directement dans les portefeuilles des créateurs.
-* **Split Payment Atomique :** La plateforme perçoit sa commission (ex: 5 %) via une double quittance cryptographique vérifiée en temps constant.
-* **Ultra-rapide à l'Edge :** Moteur de Macaroons v1 et parseur BOLT-11 natifs **Web Crypto API** (zéro dépendance lourde, exécution en < 1 ms dans les isolats V8).
-* **Double protocole :** Supporte à la fois les appels REST classiques et le standard **JSON-RPC 2.0 de Model Context Protocol (MCP)**.
-* **Garde-fous financiers intégrés :** Plafonnement unitaire (`maxSatsPerRequest`) et budget de session (`sessionBudgetSats`) avec audit log.
+* **Zero Creator Friction:** Simply specify your **Lightning Address** (e.g., `creator@getalby.com`). No Lightning node setup or maintenance required.
+* **100% Non-Custodial (Zero Regulatory Overhead):** Ampero never custodies third-party funds. Micro-payments settle directly into creator wallets.
+* **Atomic Dual-Invoice Split:** The platform earns its commission (e.g., 5%) via cryptographic caveats verified simultaneously in constant time.
+* **Edge-Native Performance:** Pure **Web Crypto API** (HMAC-SHA256 Macaroons v1 and zero-dependency BOLT-11 Bech32 parser) running worldwide in < 1 ms on Cloudflare Workers V8 isolates.
+* **Dual Protocol Support:** Compatible with standard REST endpoints as well as the official **Model Context Protocol (MCP) JSON-RPC 2.0** specification.
+* **Agentic Discovery Engine:**
+  * Standardized `/llms.txt` route for LLM indexing and crawler ingestion.
+  * Auto-explaining HTTP 402 challenge guidance (`llm_instruction`).
+  * Free built-in meta-tool `discover_tools` (0 sats) for runtime catalogue search.
+* **Built-in Financial Guardrails:** Per-request spending limits (`maxSatsPerRequest`) and session budgets (`sessionBudgetSats`) with structured audit logs.
 
 ---
 
-## 🚀 Démarrage Rapide
+## 🚀 Quickstart
 
-### 1. Monétiser un outil MCP en 1 ligne de code
+### 1. Monetize an MCP Tool in 1 Line of Code
 
-Avec le SDK officiel `@modelcontextprotocol/sdk` :
+Using the official `@modelcontextprotocol/sdk`:
 
 ```typescript
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { z } from 'zod';
 import { registerMonetizedTool } from 'ampero';
 
-const server = new McpServer({ name: 'MonServeurMonétisé', version: '1.0.0' });
+const server = new McpServer({ name: 'MyMonetizedServer', version: '1.0.0' });
 
-// ⚡ Monétisation automatique via Lightning Address
+// ⚡ Automatic monetization via Lightning Address
 registerMonetizedTool(
   server,
   'extract_clean_markdown',
-  'Extrait et assainit le contenu d\'une URL pour LLM',
+  'Extracts and sanitizes any webpage into clean Markdown for LLMs',
   { url: z.string().url() },
   {
     priceSats: 5,
-    lightningAddress: 'votre_adresse@getalby.com'
+    lightningAddress: 'creator@getalby.com'
   },
   async (args, extra) => {
-    // extra.l402 contient { paymentHash, preimage, costSats }
+    // extra.l402 contains { paymentHash, preimage, costSats }
     return {
-      content: [{ type: 'text', text: `# Données extraites pour ${args.url}` }]
+      content: [{ type: 'text', text: `# Extracted data for ${args.url}` }]
     };
   }
 );
@@ -93,27 +97,27 @@ registerMonetizedTool(
 
 ---
 
-### 2. Consommer des outils payants avec un Agent IA (Client Autonome)
+### 2. Consume Paid Tools with an Autonomous AI Agent
 
-Remplacement direct et transparent de `fetch` :
+Drop-in replacement for standard `fetch`:
 
 ```typescript
 import { createL402Fetch } from 'ampero';
 
 const l402Fetch = createL402Fetch({
-  // Connexion NWC (Nostr Wallet Connect) de l'agent
+  // Agent Nostr Wallet Connect (NWC) URI
   nwcUrl: 'nostr+walletconnect://<pubkey>?relay=wss://relay.damus.io&secret=<secret>',
   
-  // Garde-fous financiers
-  maxSatsPerRequest: 10,   // Max 10 sats par appel
-  sessionBudgetSats: 500,  // Budget plafond de la session
+  // Financial guardrails
+  maxSatsPerRequest: 10,   // Max 10 sats per request
+  sessionBudgetSats: 500,  // Max budget for the entire session
 
   onPayment: (log) => {
-    console.log(`[Ampero] ${log.costSats} sats réglés pour ${log.url}`);
+    console.log(`[Ampero] Settled ${log.costSats} sats for ${log.url}`);
   }
 });
 
-// Appel transparent : le 402 est intercepté, payé via NWC et résolu en 200 ms
+// Transparent execution: 402 is intercepted, settled via NWC, and retried in ~200 ms
 const response = await l402Fetch('https://ampero.dev/mcp/tools/extract', {
   method: 'POST',
   body: JSON.stringify({ url: 'https://bitcoin.org' })
@@ -125,9 +129,9 @@ console.log(data);
 
 ---
 
-### 3. Intégration dans Claude Desktop & Cursor
+### 3. Claude Desktop & Cursor Integration
 
-Ajoutez Ampero à votre fichier de configuration `claude_desktop_config.json` :
+Add Ampero to your `claude_desktop_config.json`:
 
 ```json
 {
@@ -148,79 +152,100 @@ Ajoutez Ampero à votre fichier de configuration `claude_desktop_config.json` :
 
 ---
 
-## 🧪 Tester en local (Showcase & Developer Playground)
+### 4. Autonomous Agent Discovery (`/llms.txt` & `discover_tools`)
 
-Lancez l'émulateur Cloudflare Workers :
+- **LLM Context Ingestion:** Point any LLM agent or crawler to `https://ampero.dev/llms.txt` to discover Ampero capabilities, integration examples, and currently registered tools.
+- **Runtime Discovery Meta-Tool (0 sats):** Any AI agent can search the tool catalogue for free by calling `discover_tools` via JSON-RPC:
+  ```json
+  {
+    "name": "discover_tools",
+    "arguments": {
+      "query": "markdown",
+      "max_price_sats": 10
+    }
+  }
+  ```
+
+---
+
+## 🧪 Local Testing & Developer Playground
+
+Start the local Cloudflare Workers emulator:
 
 ```bash
 npm install
 npm run dev
 ```
 
-Ouvrez votre navigateur sur **`http://localhost:8787`** :
-1. Vous accédez au **Showcase interactif** avec le catalogue des outils disponibles.
-2. Cliquez sur **« Déclencher l'appel Machine-to-Machine »** pour observer en direct le handshake HTTP 402.
-3. Réglez 5 sats en 1 clic avec votre extension **Alby (WebLN)** ou cliquez sur **« Simuler le règlement autonome NWC »** pour tester sans dépenser de fonds réels.
+Open your browser at **`http://localhost:8787`**:
+1. Explore the **Interactive Showcase & Developer Playground**.
+2. Click **"Trigger M2M Request"** to inspect the live HTTP 402 handshake.
+3. Settle 5 sats in 1 click using **Alby (WebLN)** or click **"Simulate Autonomous NWC Settlement"** to test without spending real funds.
 
 ---
 
-## 📦 Organisation du Code Source
+## 📦 Repository Structure
 
 ```
 ampero/
 ├── src/
-│   ├── index.ts                # Point d'entrée Worker & Showcase HTML
+│   ├── index.ts                # Cloudflare Worker entry point, REST routes & MCP gateway
 │   ├── l402/
-│   │   ├── macaroon.ts         # Moteur de Macaroons v1 (Pur Web Crypto HMAC-SHA256)
-│   │   ├── middleware.ts       # Middleware L402 (Défi 402, Quittances & Split Payment)
-│   │   ├── replay.ts           # Magasins anti-rejeu (In-Memory & Cloudflare KV)
-│   │   └── types.ts            # Définitions TypeScript protocolaires
+│   │   ├── macaroon.ts         # Macaroons v1 engine (Pure Web Crypto HMAC-SHA256)
+│   │   ├── middleware.ts       # L402 middleware (402 challenge, caveats & atomic split)
+│   │   ├── replay.ts           # Anti-replay stores (Memory & Cloudflare KV)
+│   │   └── types.ts            # L402 TypeScript protocol definitions
 │   ├── lightning/
-│   │   ├── bolt11.ts           # Décodeur BOLT-11 / Bech32 (extraction payment_hash et montant)
-│   │   └── lnurl.ts            # Client LNURL-pay / Lightning Address (LUD-16)
+│   │   ├── bolt11.ts           # BOLT-11 / Bech32 decoder (payment_hash & amount extractor)
+│   │   └── lnurl.ts            # LNURL-pay / Lightning Address (LUD-16) client
 │   ├── mcp/
-│   │   ├── wrapper.ts          # HOF withL402Tool (1 ligne de code pour monétiser)
-│   │   ├── router.ts           # Routeur JSON-RPC 2.0 Edge (tools/list & tools/call)
-│   │   └── adapter.ts          # Adaptateur officiel @modelcontextprotocol/sdk McpServer
+│   │   ├── wrapper.ts          # Higher-Order Function withL402Tool (1-line monetization)
+│   │   ├── router.ts           # Edge JSON-RPC 2.0 router (tools/list & tools/call)
+│   │   ├── adapter.ts          # Official @modelcontextprotocol/sdk McpServer adapter
+│   │   └── errors.ts           # L402PaymentRequiredError with LLM guidance
 │   ├── client/
-│   │   ├── fetch.ts            # Client HTTP fetch L402 universel avec interception 402
-│   │   ├── mcp-client.ts       # Client autonome MCP L402 pour agents IA
-│   │   └── nwc.ts              # Connecteur Nostr Wallet Connect (NIP-47)
+│   │   ├── fetch.ts            # Drop-in L402 fetch with automatic 402 interception
+│   │   ├── mcp-client.ts       # Autonomous MCP client for AI agents
+│   │   └── nwc.ts              # Nostr Wallet Connect (NIP-47) client
 │   ├── tools/
-│   │   ├── deep-extractor.ts   # Outil payant : Extracteur Markdown assaini pour LLM (5 sats)
-│   │   └── mempool-fees.ts     # Outil payant : Frais de minage Bitcoin en direct (2 sats)
+│   │   ├── deep-extractor.ts   # Monetized tool: Sanitized web markdown for LLMs (5 sats)
+│   │   └── mempool-fees.ts     # Monetized tool: Live Bitcoin mempool fees (2 sats)
 │   └── ui/
-│       └── playground.ts       # Interface web moderne Tailwind CSS servie à l'Edge
-└── test/                       # 35 tests unitaires complets (Vitest)
+│       ├── playground.ts       # Tailwind CSS developer playground & showcase UI
+│       └── llms-txt.ts         # Standard /llms.txt generator for LLM discovery
+└── test/                       # 40 comprehensive unit tests (Vitest)
 ```
 
 ---
 
-## 🛡️ Suite de Tests
+## 🛡️ Test Suite
+
+Run the full automated test suite:
 
 ```bash
 npm test
 ```
 
 ```
- ✓ test/bolt11.test.ts (4 tests)
  ✓ test/macaroon.test.ts (4 tests)
  ✓ test/deep-extractor.test.ts (3 tests)
- ✓ test/mcp-wrapper.test.ts (5 tests)
  ✓ test/mcp-router.test.ts (4 tests)
+ ✓ test/mcp-wrapper.test.ts (5 tests)
  ✓ test/middleware.test.ts (5 tests)
- ✓ test/client-fetch.test.ts (4 tests)
  ✓ test/client-mcp.test.ts (2 tests)
+ ✓ test/client-fetch.test.ts (4 tests)
  ✓ test/split-payment.test.ts (3 tests)
+ ✓ test/registry-submit.test.ts (2 tests)
+ ✓ test/agent-discovery.test.ts (3 tests)
  ✓ test/mcp-adapter.test.ts (1 test)
+ ✓ test/bolt11.test.ts (4 tests)
 
-Test Files  10 passed (10)
-     Tests  35 passed (35)
-  Duration  899ms
+Test Files  12 passed (12)
+     Tests  40 passed (40)
 ```
 
 ---
 
-## 📜 Licence
+## 📜 License
 
-Projet publié sous licence open-source **MIT**. Conçu pour libérer l'économie des machines et des agents autonomes.
+Released under the **MIT License**. Built to unlock the autonomous machine-to-machine economy.
