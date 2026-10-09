@@ -212,7 +212,11 @@ Add Ampero to your `claude_desktop_config.json`:
 
 ---
 
-## 🧪 Local Testing & Developer Playground
+## ⏱️ Test in Under 5 Minutes (Zero Setup Required)
+
+Ampero includes 4 instant ways to test the entire stack locally without needing to configure accounts or spend real satoshis:
+
+### Option 1: Interactive Browser Playground (2 Minutes • Zero Sats)
 
 Start the local Cloudflare Workers emulator:
 
@@ -221,10 +225,47 @@ npm install
 npm run dev
 ```
 
-Open your browser at **`http://localhost:8787`**:
-1. Explore the **Interactive Showcase & Developer Playground**.
-2. Click **"Trigger M2M Request"** to inspect the live HTTP 402 handshake.
-3. Settle 5 sats in 1 click using **Alby (WebLN)** or click **"Simulate Autonomous NWC Settlement"** to test without spending real funds.
+Open **`http://localhost:8787`** in your browser:
+1. View the live registry of monetized tools (`extract_clean_markdown`, `bitcoin_mempool_fees`, `discover_tools`).
+2. Click **"Trigger M2M Request"** to inspect the live HTTP 402 challenge, invoice, and Macaroon handshake in real time.
+3. Click **"Simulate Autonomous NWC Settlement"** to test the full client-server handshake and unlock the result for free.
+4. *(Optional)* Click **"Pay with WebLN"** if you have an Alby wallet extension installed to test an authentic 5-sat settlement.
+
+---
+
+### Option 2: 60-Second Core Engine Demo (10 Seconds)
+
+Run the standalone engine verification script directly in your terminal:
+
+```bash
+npm run quickstart
+```
+
+Verifies zero-dependency BOLT-11 parsing, Web Crypto HMAC-SHA256 Macaroon forging, and caveat verification in sub-second execution.
+
+---
+
+### Option 3: Command-Line cURL Test (1 Minute)
+
+With `npm run dev` running in your terminal, inspect the raw HTTP 402 handshake:
+
+```bash
+curl -i -X POST http://localhost:8787/mcp/tools/extract \
+  -H "Content-Type: application/json" \
+  -d '{"url": "https://bitcoin.org"}'
+```
+
+You will receive an immediate `HTTP/1.1 402 Payment Required` with the `WWW-Authenticate: L402` header and structured JSON instruction for AI agents.
+
+---
+
+### Option 4: Full Automated Test Suite (2 Seconds)
+
+Run all 40 unit and integration tests across all 12 test suites:
+
+```bash
+npm test
+```
 
 ---
 

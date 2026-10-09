@@ -128,6 +128,13 @@ export class EdgeMacaroon {
   }
 
   /**
+   * Alias de sérialisation pour compatibilité standard
+   */
+  serialize(): string {
+    return this.toBase64();
+  }
+
+  /**
    * Désérialise et vérifie cryptographiquement l'intégrité du Macaroon
    */
   static async verify(
