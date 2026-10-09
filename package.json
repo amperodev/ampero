@@ -2,11 +2,37 @@
   "name": "ampero",
   "version": "0.1.0",
   "description": "Ampero: Edge-native L402 machine-to-machine micropayments and MCP gateway for AI agents on Cloudflare Workers",
-  "main": "src/index.ts",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./client": {
+      "types": "./dist/client/index.d.ts",
+      "import": "./dist/client/index.js",
+      "default": "./dist/client/index.js"
+    },
+    "./mcp": {
+      "types": "./dist/mcp/wrapper.d.ts",
+      "import": "./dist/mcp/wrapper.js",
+      "default": "./dist/mcp/wrapper.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
   "scripts": {
     "dev": "wrangler dev",
     "deploy": "wrangler deploy",
-    "build": "tsc --noEmit",
+    "build": "tsc -p tsconfig.build.json",
+    "prepublishOnly": "npm run test && npm run build",
     "quickstart": "tsx examples/quickstart.ts",
     "test": "vitest run",
     "test:watch": "vitest"
