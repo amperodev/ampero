@@ -7,12 +7,8 @@
   "vars": {
     "L402_ROOT_SECRET": "test-dev-secret-change-in-production-0123456789abcdef",
     "CREATOR_LIGHTNING_ADDRESS": "satoshi@getalby.com",
+    "PLATFORM_LIGHTNING_ADDRESS": "satoshi@getalby.com",
+    "PLATFORM_FEE_PERCENT": 5,
     "DEFAULT_TOOL_PRICE_SATS": 5
-  },
-  "kv_namespaces": [
-    {
-      "binding": "REPLAY_KV",
-      "id": "dev-replay-kv-mock"
-    }
-  ]
+  }
 }
