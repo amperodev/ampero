@@ -178,10 +178,14 @@ export class L402Middleware {
     }
 
     if (isDemo) {
-      const DEMO_CREATOR_PREIMAGE = '11223344556677889900aabbccddeeff11223344556677889900aabbccddeeff';
-      const DEMO_FEE_PREIMAGE = '223344556677889900aabbccddeeff11223344556677889900aabbccddeeff22';
-      const creatorHash = bytesToHex(new Uint8Array(await crypto.subtle.digest('SHA-256', hexToBytes(DEMO_CREATOR_PREIMAGE))));
-      const feeHash = bytesToHex(new Uint8Array(await crypto.subtle.digest('SHA-256', hexToBytes(DEMO_FEE_PREIMAGE))));
+      const creatorBytes = new Uint8Array(32);
+      const feeBytes = new Uint8Array(32);
+      crypto.getRandomValues(creatorBytes);
+      crypto.getRandomValues(feeBytes);
+      const DEMO_CREATOR_PREIMAGE = bytesToHex(creatorBytes);
+      const DEMO_FEE_PREIMAGE = bytesToHex(feeBytes);
+      const creatorHash = bytesToHex(new Uint8Array(await crypto.subtle.digest('SHA-256', creatorBytes)));
+      const feeHash = bytesToHex(new Uint8Array(await crypto.subtle.digest('SHA-256', feeBytes)));
 
       creatorInvoice = {
         paymentRequest: `lnbc${creatorSats}0n1pdemo${creatorHash.substring(0, 30)}mockinvoice`,

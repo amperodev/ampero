@@ -317,7 +317,9 @@ registerMonetizedTool(server, 'my_tool', 'Description', schema, {
     (function() {
       const tools = ${toolsJson};
       let currentChallenge = null;
-      let selectedTool = tools[0] || null;
+      // Filter tools to only include monetized tools (price > 0) in the simulator
+      const monetizedTools = Array.isArray(tools) ? tools.filter(t => t.priceSats > 0) : [];
+      let selectedTool = monetizedTools[0] || (Array.isArray(tools) ? tools[0] : null);
 
       const consoleLogs = document.getElementById('console-logs');
       const statusBadge = document.getElementById('status-badge');
@@ -361,10 +363,10 @@ registerMonetizedTool(server, 'my_tool', 'Description', schema, {
         }
       }
 
-      // Render tool radio buttons
-      if (toolSelectorContainer && Array.isArray(tools)) {
+      // Render tool radio buttons for monetized tools
+      if (toolSelectorContainer && monetizedTools.length > 0) {
         toolSelectorContainer.innerHTML = '';
-        tools.forEach((t, idx) => {
+        monetizedTools.forEach((t, idx) => {
           const label = document.createElement('label');
           label.className = 'flex items-center justify-between p-3.5 rounded-xl border border-surface-800 bg-surface-950/60 cursor-pointer hover:border-amber-500/50 transition-all';
           label.innerHTML = 
@@ -385,6 +387,10 @@ registerMonetizedTool(server, 'my_tool', 'Description', schema, {
           });
           toolSelectorContainer.appendChild(label);
         });
+      }
+
+      if (toolParamsContainer && selectedTool) {
+        toolParamsContainer.style.display = selectedTool.name.includes('extract') ? 'block' : 'none';
       }
 
       // Render marketplace cards
@@ -421,14 +427,24 @@ registerMonetizedTool(server, 'my_tool', 'Description', schema, {
 
           logMessage('AGENT -> EDGE', 'POST ' + selectedTool.endpoint + ' (without Authorization header)');
 
+          const urlInput = document.getElementById('input-url');
+          const rawUrl = urlInput ? urlInput.value.trim() : '';
           const payload = selectedTool.name.includes('extract') 
-            ? { url: document.getElementById('input-url').value }
+            ? { url: rawUrl || 'https://bitcoin.org' }
             : {};
 
           try {
-            const res = await fetch(selectedTool.endpoint, {
+            // Check if WebLN is available on the client
+            const isWebLn = typeof window.webln !== 'undefined';
+            // If WebLN is not installed, use demo=true so the challenge returns immediately with valid demo preimages
+            const reqUrl = isWebLn ? selectedTool.endpoint : selectedTool.endpoint + '?demo=true';
+
+            const res = await fetch(reqUrl, {
               method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
+              headers: { 
+                'Content-Type': 'application/json',
+                ...(!isWebLn ? { 'X-Ampero-Demo': 'true' } : {})
+              },
               body: JSON.stringify(payload)
             });
 
@@ -498,8 +514,8 @@ registerMonetizedTool(server, 'my_tool', 'Description', schema, {
               resultContent.textContent = JSON.stringify(data, null, 2);
             }
           } else {
-            const errData = await res.json();
-            logMessage('VALIDATION ERROR', 'HTTP ' + res.status + ': ' + (errData.error || 'Error'), 'error');
+            const errData = await res.json().catch(() => ({}));
+            logMessage('VALIDATION ERROR', 'HTTP ' + res.status + ': ' + (errData.error || res.statusText || 'Error'), 'error');
           }
         } catch (err) {
           logMessage('RETRY ERROR', err.message, 'error');
@@ -517,6 +533,18 @@ registerMonetizedTool(server, 'my_tool', 'Description', schema, {
           try {
             await window.webln.enable();
             logMessage('WEBLN', 'Payment in progress via WebLN extension...');
+            // If the challenge was issued with demo invoice, request a live BOLT-11 invoice for real payment:
+            if (currentChallenge.invoice.includes('demo')) {
+              logMessage('WEBLN', 'Requesting live BOLT-11 Lightning invoice for Alby wallet...');
+              const liveRes = await fetch(currentChallenge.endpoint, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(currentChallenge.payload)
+              });
+              const liveData = await liveRes.json();
+              currentChallenge.macaroon = liveData.macaroon;
+              currentChallenge.invoice = liveData.invoice;
+            }
             const payment = await window.webln.sendPayment(currentChallenge.invoice);
             if (payment && payment.preimage) {
               await settleAndUnlock(payment.preimage);

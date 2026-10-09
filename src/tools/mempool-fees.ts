@@ -32,10 +32,10 @@ export async function fetchMempoolFeeEstimates(fetchFn: typeof fetch = fetch): P
   };
 
   const advice = data.fastestFee < 15
-    ? 'Le réseau Bitcoin est fluide : frais très bas, transactions rapides recommandées.'
+    ? 'Bitcoin network is clear: very low fees, fast on-chain transactions recommended.'
     : data.fastestFee < 50
-    ? 'Trafic modéré sur le mempool : priorité standard conseillée.'
-    : 'Forte congestion sur le mempool : privilégier le Lightning Network pour les règlements urgents.';
+    ? 'Moderate mempool traffic: standard priority recommended.'
+    : 'High mempool congestion: prioritize Lightning Network for urgent settlements.';
 
   return {
     fastestFee: data.fastestFee,
