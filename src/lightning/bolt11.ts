@@ -133,17 +133,14 @@ export function parseBolt11(invoice: string): ParsedBolt11 {
     words.push(val);
   }
 
-  // On ignore la somme de contrôle (les 6 derniers mots)
-  const payloadWords = words.slice(0, words.length - 6);
-
   // Les 7 premiers mots (35 bits) constituent l'horodatage UNIX
-  if (payloadWords.length < 7) {
+  if (words.length < 7) {
     throw new Error('Facture incomplète (horodatage manquant)');
   }
 
   let timestamp = 0;
   for (let i = 0; i < 7; i++) {
-    timestamp = timestamp * 32 + payloadWords[i];
+    timestamp = timestamp * 32 + words[i];
   }
 
   // Itération sur les tagged fields
@@ -154,16 +151,17 @@ export function parseBolt11(invoice: string): ParsedBolt11 {
   const TAG_PAYMENT_HASH = 1; // 'p'
   const TAG_DESCRIPTION = 13;  // 'd'
 
-  while (pos < payloadWords.length) {
-    const tag = payloadWords[pos];
-    const len = payloadWords[pos + 1] * 32 + payloadWords[pos + 2];
+  while (pos + 3 <= words.length) {
+    const tag = words[pos];
+    const len = words[pos + 1] * 32 + words[pos + 2];
     pos += 3;
 
-    if (pos + len > payloadWords.length) {
-      throw new Error('Facture BOLT-11 corrompue: longueur de tag excédentaire');
+    // Si la longueur dépasse les mots disponibles (ex: atteinte de la signature ou padding final)
+    if (pos + len > words.length) {
+      break;
     }
 
-    const tagWords = payloadWords.slice(pos, pos + len);
+    const tagWords = words.slice(pos, pos + len);
     pos += len;
 
     if (tag === TAG_PAYMENT_HASH && len === 52) {

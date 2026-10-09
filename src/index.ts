@@ -89,7 +89,7 @@ export default {
     }
 
     const rootSecret = env.L402_ROOT_SECRET || 'dev-insecure-secret-key-must-be-configured';
-    const lightningAddress = env.CREATOR_LIGHTNING_ADDRESS || 'satoshi@getalby.com';
+    const lightningAddress = env.CREATOR_LIGHTNING_ADDRESS || 'bumi@getalby.com';
     const replayStore = env.REPLAY_KV ? new KVReplayStore(env.REPLAY_KV) : memoryStore;
 
     // Configuration de commission de plateforme si configurée

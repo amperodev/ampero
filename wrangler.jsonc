@@ -5,10 +5,16 @@
   "compatibility_date": "2025-02-01",
   "compatibility_flags": ["nodejs_compat"],
   "vars": {
-    "L402_ROOT_SECRET": "test-dev-secret-change-in-production-0123456789abcdef",
-    "CREATOR_LIGHTNING_ADDRESS": "satoshi@getalby.com",
-    "PLATFORM_LIGHTNING_ADDRESS": "satoshi@getalby.com",
+    "L402_ROOT_SECRET": "ampero-production-root-secret-l402-9988776655443322",
+    "CREATOR_LIGHTNING_ADDRESS": "bumi@getalby.com",
+    "PLATFORM_LIGHTNING_ADDRESS": "bumi@getalby.com",
     "PLATFORM_FEE_PERCENT": 5,
     "DEFAULT_TOOL_PRICE_SATS": 5
-  }
+  },
+  "kv_namespaces": [
+    {
+      "binding": "REPLAY_KV",
+      "id": "39987fa4dc2544c187682e5d67f2ec9e"
+    }
+  ]
 }

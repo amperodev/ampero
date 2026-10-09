@@ -23,10 +23,31 @@ export class L402Middleware {
 
     // 1. Absence d'en-tête d'autorisation -> Défi HTTP 402
     if (!authHeader || (!authHeader.startsWith('L402 ') && !authHeader.startsWith('LSAT '))) {
-      return {
-        authenticated: false,
-        errorResponse: await this.create402Challenge(request)
-      };
+      try {
+        return {
+          authenticated: false,
+          errorResponse: await this.create402Challenge(request)
+        };
+      } catch (err: unknown) {
+        const message = err instanceof Error ? err.message : 'Invoice generation failed';
+        return {
+          authenticated: false,
+          errorResponse: Response.json(
+            {
+              error: 'Lightning Invoice Provider Error',
+              message,
+              lightning_address: this.config.lightningAddress
+            },
+            {
+              status: 502,
+              headers: {
+                'Access-Control-Allow-Origin': '*',
+                'Content-Type': 'application/json'
+              }
+            }
+          )
+        };
+      }
     }
 
     // 2. Extraction du token L402 : "L402 <macaroon_base64>:<preimage_hex>"
