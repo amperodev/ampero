@@ -76,6 +76,9 @@ export function renderPlaygroundHtml(tools: PlaygroundToolInfo[], envInfo: { lig
         <a href="#faq" class="hidden sm:inline-flex items-center px-3 py-1.5 text-xs font-medium rounded-xl text-slate-300 hover:text-white transition-colors">
           FAQ
         </a>
+        <a href="#contact" class="hidden sm:inline-flex items-center px-3 py-1.5 text-xs font-medium rounded-xl text-slate-300 hover:text-white transition-colors">
+          Contact
+        </a>
         <a href="/catalogue" class="hidden sm:inline-flex items-center px-3.5 py-1.5 text-xs font-bold rounded-xl bg-surface-800 hover:bg-surface-700 text-slate-200 hover:text-white border border-surface-700 transition-all">
           <span>📦</span> Catalogue
         </a>
@@ -541,6 +544,79 @@ function execute(userInput) {
         </details>
       </div>
     </section>
+    
+    <!-- Contact & Direct Support Section -->
+    <section id="contact" class="scroll-mt-24 space-y-8 max-w-4xl mx-auto pt-6">
+      <div class="text-center space-y-2">
+        <span class="text-xs font-mono font-bold text-amber-400 uppercase tracking-wider px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 inline-block">
+          ✉️ Get In Touch
+        </span>
+        <h3 class="text-2xl sm:text-3xl font-bold text-white tracking-tight">
+          Talk to the Engineering Team
+        </h3>
+        <p class="text-xs sm:text-sm text-slate-400 max-w-xl mx-auto">
+          Need help integrating L402 micro-payments, listing a custom model endpoint, or building autonomous AI agents? Reach out directly.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <!-- Option 1: Direct Email -->
+        <a href="mailto:contact@ampero.dev" class="p-6 rounded-2xl bg-surface-900 border border-surface-800 hover:border-amber-500/50 transition-all flex flex-col justify-between space-y-4 group shadow-lg">
+          <div class="space-y-2">
+            <div class="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-xl">✉️</div>
+            <h4 class="text-base font-bold text-white group-hover:text-amber-400 transition-colors">Direct Email</h4>
+            <p class="text-xs text-slate-400 leading-relaxed">
+              For private inquiries, custom enterprise routing, and infrastructure partnerships.
+            </p>
+          </div>
+          <span class="text-xs font-mono text-amber-400 font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+            contact@ampero.dev &rarr;
+          </span>
+        </a>
+
+        <!-- Option 2: Discord -->
+        <a href="https://discord.gg/ampero" target="_blank" rel="noopener" class="p-6 rounded-2xl bg-surface-900 border border-surface-800 hover:border-indigo-500/50 transition-all flex flex-col justify-between space-y-4 group shadow-lg">
+          <div class="space-y-2">
+            <div class="w-10 h-10 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-xl">💬</div>
+            <h4 class="text-base font-bold text-white group-hover:text-indigo-400 transition-colors">Developer Discord</h4>
+            <p class="text-xs text-slate-400 leading-relaxed">
+              Real-time engineering chat, bug reports, and peer-to-peer debugging with other agent builders.
+            </p>
+          </div>
+          <span class="text-xs font-mono text-indigo-400 font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+            discord.gg/ampero &rarr;
+          </span>
+        </a>
+
+        <!-- Option 3: Telegram -->
+        <a href="https://t.me/amperodev" target="_blank" rel="noopener" class="p-6 rounded-2xl bg-surface-900 border border-surface-800 hover:border-sky-500/50 transition-all flex flex-col justify-between space-y-4 group shadow-lg">
+          <div class="space-y-2">
+            <div class="w-10 h-10 rounded-xl bg-sky-500/10 border border-sky-500/20 flex items-center justify-center text-xl">✈️</div>
+            <h4 class="text-base font-bold text-white group-hover:text-sky-400 transition-colors">Telegram Community</h4>
+            <p class="text-xs text-slate-400 leading-relaxed">
+              Direct announcements, quick questions, and fast feedback with the core team.
+            </p>
+          </div>
+          <span class="text-xs font-mono text-sky-400 font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+            t.me/amperodev &rarr;
+          </span>
+        </a>
+
+        <!-- Option 4: Twitter / X -->
+        <a href="https://x.com/amperodev" target="_blank" rel="noopener" class="p-6 rounded-2xl bg-surface-900 border border-surface-800 hover:border-slate-500/50 transition-all flex flex-col justify-between space-y-4 group shadow-lg">
+          <div class="space-y-2">
+            <div class="w-10 h-10 rounded-xl bg-slate-800 border border-slate-700 flex items-center justify-center text-xl font-bold text-white">𝕏</div>
+            <h4 class="text-base font-bold text-white group-hover:text-slate-200 transition-colors">Twitter / X</h4>
+            <p class="text-xs text-slate-400 leading-relaxed">
+              Follow launch updates, technical threads, or reach out via direct message.
+            </p>
+          </div>
+          <span class="text-xs font-mono text-slate-300 font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+            @amperodev &rarr;
+          </span>
+        </a>
+      </div>
+    </section>
 
   </main>
 
@@ -569,6 +645,7 @@ function execute(userInput) {
       <a href="/save-tokens" class="text-slate-400 hover:text-emerald-400 transition-colors">📉 Save 90% Tokens</a>
       <a href="/lightning-ai" class="text-slate-400 hover:text-amber-400 transition-colors">⚡ Bitcoin & L402</a>
       <a href="#faq" class="text-slate-400 hover:text-white transition-colors">💡 FAQ</a>
+      <a href="#contact" class="text-slate-400 hover:text-white transition-colors">✉️ Contact</a>
       <a href="/catalogue" class="text-slate-400 hover:text-white transition-colors">📦 Registry Catalogue</a>
       <a href="/llms.txt" class="text-slate-400 hover:text-white transition-colors">🤖 llms.txt</a>
     </div>

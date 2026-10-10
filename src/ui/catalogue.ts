@@ -69,6 +69,12 @@ export function renderCatalogueHtml(tools: CatalogueToolInfo[], envInfo: { light
         <a href="/" class="text-xs text-slate-400 hover:text-white transition-colors hidden sm:inline-block">
           Home
         </a>
+        <a href="/#faq" class="text-xs text-slate-400 hover:text-white transition-colors hidden sm:inline-block">
+          FAQ
+        </a>
+        <a href="/#contact" class="text-xs text-slate-400 hover:text-white transition-colors hidden sm:inline-block">
+          Contact
+        </a>
         <a href="/#submit" class="inline-flex items-center px-3.5 py-1.5 text-xs font-bold rounded-xl bg-surface-800 hover:bg-surface-700 text-amber-300 border border-amber-500/30 transition-all">
           <span>🚀</span> List a Tool
         </a>
@@ -173,6 +179,7 @@ export function renderCatalogueHtml(tools: CatalogueToolInfo[], envInfo: { light
       <a href="/save-tokens" class="text-slate-400 hover:text-emerald-400 transition-colors">📉 Save 90% Tokens</a>
       <a href="/lightning-ai" class="text-slate-400 hover:text-amber-400 transition-colors">⚡ Bitcoin & L402</a>
       <a href="/#faq" class="text-slate-400 hover:text-white transition-colors">💡 FAQ</a>
+      <a href="/#contact" class="text-slate-400 hover:text-white transition-colors">✉️ Contact</a>
       <a href="/catalogue" class="text-slate-400 hover:text-white transition-colors">📦 Registry Catalogue</a>
       <a href="/llms.txt" class="text-slate-400 hover:text-white transition-colors">🤖 llms.txt</a>
     </div>
