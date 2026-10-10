@@ -147,7 +147,7 @@ export default {
       : undefined;
 
     // 1. Web Showcase & Developer Playground (GET /)
-    if (url.pathname === '/' && request.method === 'GET') {
+    if (url.pathname === '/' && (request.method === 'GET' || request.method === 'HEAD')) {
       const accept = request.headers.get('Accept') || '';
       if (accept.includes('text/html') || !accept.includes('application/json')) {
         const playgroundHtml = renderPlaygroundHtml(
