@@ -24,6 +24,24 @@ export function renderCatalogueHtml(tools: CatalogueToolInfo[], envInfo: { light
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>M2M Tools & Models Catalogue • Ampero</title>
+  <meta name="description" content="Discover and execute monetized MCP tools and Hugging Face models paid per call in satoshis via Bitcoin Lightning.">
+
+  <!-- OpenGraph / Facebook / LinkedIn / Discord -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Ampero">
+  <meta property="og:url" content="https://ampero.ampero-dev.workers.dev/catalogue">
+  <meta property="og:title" content="M2M Tools & Models Catalogue • Ampero">
+  <meta property="og:description" content="Discover and execute monetized MCP tools and Hugging Face models paid per call in satoshis via Bitcoin Lightning.">
+  <meta property="og:image" content="https://ampero.ampero-dev.workers.dev/og-image.svg">
+
+  <!-- Twitter / X Cards -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@amperodev">
+  <meta name="twitter:creator" content="@amperodev">
+  <meta name="twitter:title" content="M2M Tools & Models Catalogue • Ampero">
+  <meta name="twitter:description" content="Discover and execute monetized MCP tools and Hugging Face models paid per call in satoshis via Bitcoin Lightning.">
+  <meta name="twitter:image" content="https://ampero.ampero-dev.workers.dev/og-image.svg">
+
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {

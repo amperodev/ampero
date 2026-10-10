@@ -14,6 +14,13 @@ export function renderBitcoinPageHtml(): string {
   <meta property="og:title" content="Bitcoin Lightning: The Native Currency of AI Agents • Ampero">
   <meta property="og:description" content="AI agents have no passports, bank accounts, or credit cards. Bitcoin Lightning is the only open, permissionless, instant settlement rail for machines.">
   <meta property="og:type" content="website">
+  <meta property="og:image" content="https://ampero.ampero-dev.workers.dev/og-image.svg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@amperodev">
+  <meta name="twitter:creator" content="@amperodev">
+  <meta name="twitter:title" content="Bitcoin Lightning: The Native Currency of AI Agents • Ampero">
+  <meta name="twitter:description" content="AI agents have no passports, bank accounts, or credit cards. Bitcoin Lightning is the only open, permissionless, instant settlement rail for machines.">
+  <meta name="twitter:image" content="https://ampero.ampero-dev.workers.dev/og-image.svg">
   <link rel="canonical" href="https://ampero.ampero-dev.workers.dev/lightning-ai">
   <script src="https://cdn.tailwindcss.com"></script>
   <script>

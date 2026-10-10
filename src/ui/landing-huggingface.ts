@@ -14,6 +14,13 @@ export function renderHuggingFacePageHtml(): string {
   <meta property="og:title" content="Monetize Hugging Face Models with Bitcoin Lightning • Ampero">
   <meta property="og:description" content="Turn your Hugging Face models, LoRAs, and fine-tuned SLMs into an autonomous revenue stream. Get paid per inference in satoshis.">
   <meta property="og:type" content="website">
+  <meta property="og:image" content="https://ampero.ampero-dev.workers.dev/og-image.svg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@amperodev">
+  <meta name="twitter:creator" content="@amperodev">
+  <meta name="twitter:title" content="Monetize Hugging Face Models with Bitcoin Lightning • Ampero">
+  <meta name="twitter:description" content="Turn your Hugging Face models, LoRAs, and fine-tuned SLMs into an autonomous revenue stream. Get paid per inference in satoshis.">
+  <meta name="twitter:image" content="https://ampero.ampero-dev.workers.dev/og-image.svg">
   <link rel="canonical" href="https://ampero.ampero-dev.workers.dev/monetize-huggingface">
   <script src="https://cdn.tailwindcss.com"></script>
   <script>

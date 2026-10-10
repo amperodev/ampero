@@ -19,6 +19,24 @@ export function renderPlaygroundHtml(tools: PlaygroundToolInfo[], envInfo: { lig
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ampero • M2M Micro-Payment Gateway & MCP Showcase</title>
+  <meta name="description" content="The open marketplace where autonomous AI agents pay for micro-compute and creators earn sats. Powered by L402 & Bitcoin Lightning.">
+
+  <!-- OpenGraph / Facebook / LinkedIn / Discord -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Ampero">
+  <meta property="og:url" content="https://ampero.ampero-dev.workers.dev/">
+  <meta property="og:title" content="Ampero • Autonomous M2M Compute Marketplace & Lightning Settlement">
+  <meta property="og:description" content="Pay-per-call AI compute, specialized models & MCP tools. 100% non-custodial streaming micropayments via Bitcoin Lightning and L402.">
+  <meta property="og:image" content="https://ampero.ampero-dev.workers.dev/og-image.svg">
+
+  <!-- Twitter / X Cards -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@amperodev">
+  <meta name="twitter:creator" content="@amperodev">
+  <meta name="twitter:title" content="Ampero • Autonomous M2M Compute Marketplace & Lightning Settlement">
+  <meta name="twitter:description" content="Pay-per-call AI compute, specialized models & MCP tools. 100% non-custodial streaming micropayments via Bitcoin Lightning and L402.">
+  <meta name="twitter:image" content="https://ampero.ampero-dev.workers.dev/og-image.svg">
+
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>

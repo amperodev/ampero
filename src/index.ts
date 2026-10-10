@@ -22,6 +22,7 @@ import { renderHuggingFacePageHtml } from './ui/landing-huggingface';
 import { renderMcpPageHtml } from './ui/landing-mcp';
 import { renderBitcoinPageHtml } from './ui/landing-bitcoin';
 import { renderTokensPageHtml } from './ui/landing-tokens';
+import { renderOgImageSvg } from './ui/og-image';
 import { getMergedRegistry, saveCommunityTool, inMemoryCommunityTools } from './registry/store';
 import { fetchHuggingFaceMetadata } from './registry/huggingface';
 import { recordToolExecution, getMetricsSummary } from './analytics/metrics';
@@ -197,6 +198,18 @@ export default {
       return new Response(llmsTxt, {
         headers: {
           'Content-Type': 'text/plain; charset=utf-8',
+          ...corsHeaders
+        }
+      });
+    }
+
+    // 1b2. Edge-rendered 1200x630 OpenGraph / Twitter Social Preview Card
+    if ((url.pathname === '/og-image.svg' || url.pathname === '/og-image.png') && request.method === 'GET') {
+      const svg = renderOgImageSvg();
+      return new Response(svg, {
+        headers: {
+          'Content-Type': 'image/svg+xml; charset=utf-8',
+          'Cache-Control': 'public, max-age=86400, s-maxage=86400',
           ...corsHeaders
         }
       });

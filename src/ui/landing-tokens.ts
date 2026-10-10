@@ -14,6 +14,13 @@ export function renderTokensPageHtml(): string {
   <meta property="og:title" content="Slash AI Agent Token Costs by 90% • Token Arbitrage • Ampero">
   <meta property="og:description" content="Why burn 30,000 tokens parsing raw documents when a 5-sat edge tool returns clean data in 25ms?">
   <meta property="og:type" content="website">
+  <meta property="og:image" content="https://ampero.ampero-dev.workers.dev/og-image.svg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@amperodev">
+  <meta name="twitter:creator" content="@amperodev">
+  <meta name="twitter:title" content="Slash AI Agent Token Costs by 90% • Token Arbitrage • Ampero">
+  <meta name="twitter:description" content="Why burn 30,000 tokens parsing raw documents when a 5-sat edge tool returns clean data in 25ms?">
+  <meta name="twitter:image" content="https://ampero.ampero-dev.workers.dev/og-image.svg">
   <link rel="canonical" href="https://ampero.ampero-dev.workers.dev/save-tokens">
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
