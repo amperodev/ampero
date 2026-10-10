@@ -149,12 +149,30 @@ export function renderCatalogueHtml(tools: CatalogueToolInfo[], envInfo: { light
 
   </main>
 
-  <footer class="border-t border-surface-800 py-10 text-center text-xs text-slate-400 space-y-4 mt-12">
+  <footer class="border-t border-surface-800 py-12 text-center text-xs text-slate-400 space-y-6 mt-12">
+    <!-- Community Channels Row -->
+    <div class="flex flex-wrap items-center justify-center gap-3 text-xs font-mono">
+      <span class="text-slate-400 font-semibold hidden sm:inline">Join the Community:</span>
+      <a href="https://x.com/amperodev" target="_blank" rel="noopener" class="px-3 py-1.5 rounded-xl bg-surface-900 hover:bg-surface-800 text-slate-200 hover:text-white border border-surface-800 hover:border-amber-500/40 transition-all flex items-center gap-1.5 shadow-sm">
+        <span>𝕏</span> @amperodev
+      </a>
+      <a href="https://t.me/amperodev" target="_blank" rel="noopener" class="px-3 py-1.5 rounded-xl bg-surface-900 hover:bg-surface-800 text-sky-300 hover:text-sky-200 border border-surface-800 hover:border-sky-500/40 transition-all flex items-center gap-1.5 shadow-sm">
+        <span>✈️</span> Telegram
+      </a>
+      <a href="https://discord.gg/ampero" target="_blank" rel="noopener" class="px-3 py-1.5 rounded-xl bg-surface-900 hover:bg-surface-800 text-indigo-300 hover:text-indigo-200 border border-surface-800 hover:border-indigo-500/40 transition-all flex items-center gap-1.5 shadow-sm">
+        <span>💬</span> Discord
+      </a>
+      <a href="https://github.com/amperodev/ampero" target="_blank" rel="noopener" class="px-3 py-1.5 rounded-xl bg-surface-900 hover:bg-surface-800 text-slate-200 hover:text-white border border-surface-800 hover:border-slate-600 transition-all flex items-center gap-1.5 shadow-sm">
+        <span>🐙</span> GitHub
+      </a>
+    </div>
+
     <div class="flex flex-wrap items-center justify-center gap-6 font-mono text-xs">
       <a href="/monetize-huggingface" class="text-slate-400 hover:text-amber-400 transition-colors">🤗 Hugging Face Models</a>
       <a href="/monetize-tools" class="text-slate-400 hover:text-amber-400 transition-colors">🛠️ MCP Tool Authors</a>
       <a href="/save-tokens" class="text-slate-400 hover:text-emerald-400 transition-colors">📉 Save 90% Tokens</a>
       <a href="/lightning-ai" class="text-slate-400 hover:text-amber-400 transition-colors">⚡ Bitcoin & L402</a>
+      <a href="/#faq" class="text-slate-400 hover:text-white transition-colors">💡 FAQ</a>
       <a href="/catalogue" class="text-slate-400 hover:text-white transition-colors">📦 Registry Catalogue</a>
       <a href="/llms.txt" class="text-slate-400 hover:text-white transition-colors">🤖 llms.txt</a>
     </div>

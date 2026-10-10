@@ -73,6 +73,9 @@ export function renderPlaygroundHtml(tools: PlaygroundToolInfo[], envInfo: { lig
           <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
           Cloudflare Edge Active
         </span>
+        <a href="#faq" class="hidden sm:inline-flex items-center px-3 py-1.5 text-xs font-medium rounded-xl text-slate-300 hover:text-white transition-colors">
+          FAQ
+        </a>
         <a href="/catalogue" class="hidden sm:inline-flex items-center px-3.5 py-1.5 text-xs font-bold rounded-xl bg-surface-800 hover:bg-surface-700 text-slate-200 hover:text-white border border-surface-700 transition-all">
           <span>📦</span> Catalogue
         </a>
@@ -456,17 +459,120 @@ function execute(userInput) {
       </a>
     </section>
 
+    <!-- FAQ Section: Answers to Top Developer & Bitcoiner Questions -->
+    <section id="faq" class="scroll-mt-24 max-w-4xl mx-auto space-y-6">
+      <div class="text-center space-y-2 max-w-2xl mx-auto">
+        <span class="text-xs font-mono font-bold text-amber-400 uppercase tracking-wider px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 inline-block">
+          💡 Frequently Asked Questions
+        </span>
+        <h3 class="text-2xl sm:text-3xl font-bold text-white tracking-tight">
+          Everything You Need to Know About Ampero
+        </h3>
+        <p class="text-xs sm:text-sm text-slate-400">
+          Got questions about Lightning payments, model privacy, or agent integration? We've got answers.
+        </p>
+      </div>
+
+      <div class="space-y-3">
+        <!-- Q1: How do I get paid? -->
+        <details class="group p-5 rounded-2xl bg-surface-900 border border-surface-800 open:border-amber-500/40 transition-all cursor-pointer">
+          <summary class="flex items-center justify-between font-bold text-sm text-white select-none list-none">
+            <span class="flex items-center gap-2.5"><span>⚡</span> How do I receive payouts as a tool or model creator?</span>
+            <span class="text-amber-400 text-lg transition-transform group-open:rotate-45 font-mono">+</span>
+          </summary>
+          <div class="pt-3 text-xs text-slate-300 leading-relaxed border-t border-surface-800/60 mt-3 space-y-1.5">
+            <p>You get paid directly to any standard <strong>Lightning Address</strong> (e.g. <code>you@getalby.com</code>, <code>you@strike.me</code>, Wallet of Satoshi, or your own self-hosted Lightning node). Whenever an AI agent runs your tool, satoshis stream directly into your wallet in ~200ms with zero threshold delays.</p>
+          </div>
+        </details>
+
+        <!-- Q2: No Lightning wallet? -->
+        <details class="group p-5 rounded-2xl bg-surface-900 border border-surface-800 open:border-amber-500/40 transition-all cursor-pointer">
+          <summary class="flex items-center justify-between font-bold text-sm text-white select-none list-none">
+            <span class="flex items-center gap-2.5"><span>👛</span> What if I don't have a Bitcoin Lightning wallet yet?</span>
+            <span class="text-amber-400 text-lg transition-transform group-open:rotate-45 font-mono">+</span>
+          </summary>
+          <div class="pt-3 text-xs text-slate-300 leading-relaxed border-t border-surface-800/60 mt-3 space-y-1.5">
+            <p>Setting up a Lightning address takes less than 30 seconds. We recommend installing the free <a href="https://getalby.com" target="_blank" rel="noopener" class="text-amber-400 underline font-semibold">Alby browser extension</a> or downloading <a href="https://walletofsatoshi.com" target="_blank" rel="noopener" class="text-amber-400 underline font-semibold">Wallet of Satoshi</a> on iOS/Android. You instantly receive an email-like address (e.g. <code>yourname@getalby.com</code>) with zero paperwork.</p>
+          </div>
+        </details>
+
+        <!-- Q3: KYC & Accounts -->
+        <details class="group p-5 rounded-2xl bg-surface-900 border border-surface-800 open:border-amber-500/40 transition-all cursor-pointer">
+          <summary class="flex items-center justify-between font-bold text-sm text-white select-none list-none">
+            <span class="flex items-center gap-2.5"><span>🛡️</span> Is there any KYC or user registration required?</span>
+            <span class="text-amber-400 text-lg transition-transform group-open:rotate-45 font-mono">+</span>
+          </summary>
+          <div class="pt-3 text-xs text-slate-300 leading-relaxed border-t border-surface-800/60 mt-3 space-y-1.5">
+            <p><strong>Zero KYC. Zero accounts.</strong> Ampero is completely non-custodial and operates via the open L402 protocol (HTTP 402 + Macaroons). We never hold your funds, we never ask for passports, and creators can register tools from any country in the world without merchant approval.</p>
+          </div>
+        </details>
+
+        <!-- Q4: Hugging Face model privacy -->
+        <details class="group p-5 rounded-2xl bg-surface-900 border border-surface-800 open:border-amber-500/40 transition-all cursor-pointer">
+          <summary class="flex items-center justify-between font-bold text-sm text-white select-none list-none">
+            <span class="flex items-center gap-2.5"><span>🔒</span> Can I keep my Hugging Face model weights private?</span>
+            <span class="text-amber-400 text-lg transition-transform group-open:rotate-45 font-mono">+</span>
+          </summary>
+          <div class="pt-3 text-xs text-slate-300 leading-relaxed border-t border-surface-800/60 mt-3 space-y-1.5">
+            <p><strong>Yes.</strong> You never upload your model weights or source code to Ampero. You host your model wherever you choose (Hugging Face Private Inference Endpoint, RunPod, Modal, or local vLLM server). Ampero simply acts as an Edge payment verification gateway in front of your endpoint.</p>
+          </div>
+        </details>
+
+        <!-- Q5: How agents pay autonomously -->
+        <details class="group p-5 rounded-2xl bg-surface-900 border border-surface-800 open:border-amber-500/40 transition-all cursor-pointer">
+          <summary class="flex items-center justify-between font-bold text-sm text-white select-none list-none">
+            <span class="flex items-center gap-2.5"><span>🤖</span> How do autonomous AI agents pay without human intervention?</span>
+            <span class="text-amber-400 text-lg transition-transform group-open:rotate-45 font-mono">+</span>
+          </summary>
+          <div class="pt-3 text-xs text-slate-300 leading-relaxed border-t border-surface-800/60 mt-3 space-y-1.5">
+            <p>Agents connect to a Lightning wallet via <strong>Nostr Wallet Connect (NWC)</strong>. You define a spending allowance (e.g. max 50 sats per call, 500 sats total budget). When an agent receives an HTTP 402 challenge, it settles the micro-invoice programmatically in 200ms and unlocks the data instantly.</p>
+          </div>
+        </details>
+
+        <!-- Q6: What are the fees? -->
+        <details class="group p-5 rounded-2xl bg-surface-900 border border-surface-800 open:border-amber-500/40 transition-all cursor-pointer">
+          <summary class="flex items-center justify-between font-bold text-sm text-white select-none list-none">
+            <span class="flex items-center gap-2.5"><span>💰</span> What are the platform fees?</span>
+            <span class="text-amber-400 text-lg transition-transform group-open:rotate-45 font-mono">+</span>
+          </summary>
+          <div class="pt-3 text-xs text-slate-300 leading-relaxed border-t border-surface-800/60 mt-3 space-y-1.5">
+            <p><strong>Listing is 100% free.</strong> Ampero takes a 5% split fee on settled payments to maintain the global Cloudflare Edge infrastructure and DDoS protection. 95% of every satoshi goes directly to your wallet.</p>
+          </div>
+        </details>
+      </div>
+    </section>
+
   </main>
 
-  <footer class="border-t border-surface-800 py-10 text-center text-xs text-slate-400 space-y-4">
+  <footer class="border-t border-surface-800 py-12 text-center text-xs text-slate-400 space-y-6">
+    <!-- Community Channels Row -->
+    <div class="flex flex-wrap items-center justify-center gap-3 text-xs font-mono">
+      <span class="text-slate-400 font-semibold hidden sm:inline">Join the Community:</span>
+      <a href="https://x.com/amperodev" target="_blank" rel="noopener" class="px-3 py-1.5 rounded-xl bg-surface-900 hover:bg-surface-800 text-slate-200 hover:text-white border border-surface-800 hover:border-amber-500/40 transition-all flex items-center gap-1.5 shadow-sm">
+        <span>𝕏</span> @amperodev
+      </a>
+      <a href="https://t.me/amperodev" target="_blank" rel="noopener" class="px-3 py-1.5 rounded-xl bg-surface-900 hover:bg-surface-800 text-sky-300 hover:text-sky-200 border border-surface-800 hover:border-sky-500/40 transition-all flex items-center gap-1.5 shadow-sm">
+        <span>✈️</span> Telegram
+      </a>
+      <a href="https://discord.gg/ampero" target="_blank" rel="noopener" class="px-3 py-1.5 rounded-xl bg-surface-900 hover:bg-surface-800 text-indigo-300 hover:text-indigo-200 border border-surface-800 hover:border-indigo-500/40 transition-all flex items-center gap-1.5 shadow-sm">
+        <span>💬</span> Discord
+      </a>
+      <a href="https://github.com/amperodev/ampero" target="_blank" rel="noopener" class="px-3 py-1.5 rounded-xl bg-surface-900 hover:bg-surface-800 text-slate-200 hover:text-white border border-surface-800 hover:border-slate-600 transition-all flex items-center gap-1.5 shadow-sm">
+        <span>🐙</span> GitHub
+      </a>
+    </div>
+
+    <!-- Navigation links -->
     <div class="flex flex-wrap items-center justify-center gap-6 font-mono text-xs">
       <a href="/monetize-huggingface" class="text-slate-400 hover:text-amber-400 transition-colors">🤗 Hugging Face Models</a>
       <a href="/monetize-tools" class="text-slate-400 hover:text-amber-400 transition-colors">🛠️ MCP Tool Authors</a>
       <a href="/save-tokens" class="text-slate-400 hover:text-emerald-400 transition-colors">📉 Save 90% Tokens</a>
       <a href="/lightning-ai" class="text-slate-400 hover:text-amber-400 transition-colors">⚡ Bitcoin & L402</a>
+      <a href="#faq" class="text-slate-400 hover:text-white transition-colors">💡 FAQ</a>
       <a href="/catalogue" class="text-slate-400 hover:text-white transition-colors">📦 Registry Catalogue</a>
       <a href="/llms.txt" class="text-slate-400 hover:text-white transition-colors">🤖 llms.txt</a>
     </div>
+
     <p>L402 Edge • Protocol bLIP-0004 / LSAT on Cloudflare Workers & Bitcoin Lightning Network.</p>
     <p>100% Non-Custodial • Privacy by Design • Machine-to-Machine Intelligence.</p>
   </footer>
