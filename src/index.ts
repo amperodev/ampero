@@ -24,6 +24,7 @@ import { renderBitcoinPageHtml } from './ui/landing-bitcoin';
 import { renderTokensPageHtml } from './ui/landing-tokens';
 import { getMergedRegistry, saveCommunityTool, inMemoryCommunityTools } from './registry/store';
 import { fetchHuggingFaceMetadata } from './registry/huggingface';
+import { recordToolExecution, getMetricsSummary } from './analytics/metrics';
 
 export interface Env {
   L402_ROOT_SECRET: string;
@@ -361,6 +362,33 @@ export default {
       });
     }
 
+    // 2d. Private Admin Metrics & Analytics Endpoint (GET /api/admin/metrics, GET /api/admin/stats)
+    // 🔒 STRICTLY PRIVATE: Requires valid operator key (matches L402_ROOT_SECRET)
+    if ((url.pathname === '/api/admin/metrics' || url.pathname === '/api/admin/stats') && request.method === 'GET') {
+      const authHeader = request.headers.get('x-admin-key') || '';
+      const bearerHeader = request.headers.get('authorization') || '';
+      const bearerToken = bearerHeader.startsWith('Bearer ') ? bearerHeader.slice(7).trim() : '';
+      const queryKey = url.searchParams.get('key') || '';
+
+      const providedKey = authHeader || bearerToken || queryKey;
+      const validKey = rootSecret;
+
+      if (!providedKey || providedKey !== validKey) {
+        // Return 404 to ensure complete invisibility from scanners
+        return new Response('Route not found', { status: 404, headers: corsHeaders });
+      }
+
+      const metrics = await getMetricsSummary(env.REPLAY_KV);
+      return Response.json(
+        {
+          authenticated: true,
+          notice: 'Confidential Internal Analytics — Ampero Infrastructure',
+          metrics
+        },
+        { headers: corsHeaders }
+      );
+    }
+
     // 3. Native MCP JSON-RPC 2.0 endpoint (POST /mcp)
     if (url.pathname === '/mcp') {
       const mcpRouter = new EdgeMcpRouter({
@@ -454,6 +482,7 @@ export default {
           } catch (e: any) {
             return { isError: true, content: [{ type: 'text', text: e.message }] };
           }
+          await recordToolExecution('extract_clean_markdown', 5, env.REPLAY_KV);
           return {
             content: [{ type: 'text', text: page.markdown }],
             _meta: { url: args.url, word_count: page.wordCount, reading_time: page.readingTimeMinutes }
@@ -474,6 +503,7 @@ export default {
         },
         handler: async () => {
           const fees = await fetchMempoolFeeEstimates();
+          await recordToolExecution('bitcoin_mempool_fees', 2, env.REPLAY_KV);
           return {
             content: [{ type: 'text', text: JSON.stringify(fees, null, 2) }],
             _meta: { fees }
@@ -505,6 +535,7 @@ export default {
           }
           try {
             const audit = auditCodeSecurity(args.code, args.language);
+            await recordToolExecution('slm_code_audit', 10, env.REPLAY_KV);
             return {
               content: [{ type: 'text', text: JSON.stringify(audit, null, 2) }],
               _meta: { securityScore: audit.securityScore, rating: audit.rating, vulnerabilities: audit.vulnerabilities.length }
@@ -534,6 +565,7 @@ export default {
         handler: async (args?: { currency?: string }) => {
           try {
             const data = await fetchCryptoOracleData(args?.currency || 'USD');
+            await recordToolExecution('crypto_market_depth', 1, env.REPLAY_KV);
             return {
               content: [{ type: 'text', text: JSON.stringify(data, null, 2) }],
               _meta: { btcPriceUsd: data.btcPriceUsd, satsPerDollar: data.satsPerDollar }
@@ -567,6 +599,7 @@ export default {
           }
           try {
             const report = await scanDomainSecurity(args.domain);
+            await recordToolExecution('domain_security_scanner', 3, env.REPLAY_KV);
             return {
               content: [{ type: 'text', text: JSON.stringify(report, null, 2) }],
               _meta: { domain: report.domain, securityScore: report.securityScore, grade: report.grade }
@@ -630,6 +663,7 @@ export default {
         } else {
           page = await fetchAndExtractUrl(reqData.url);
         }
+        await recordToolExecution('extract_clean_markdown', 5, env.REPLAY_KV);
         return Response.json(
           {
             success: true,
@@ -671,6 +705,7 @@ export default {
 
       try {
         const fees = await fetchMempoolFeeEstimates();
+        await recordToolExecution('bitcoin_mempool_fees', 2, env.REPLAY_KV);
         return Response.json(
           {
             success: true,
@@ -729,6 +764,7 @@ export default {
 
       try {
         const audit = auditCodeSecurity(reqData.code, reqData.language);
+        await recordToolExecution('slm_code_audit', 10, env.REPLAY_KV);
         return Response.json(
           {
             success: true,
@@ -777,6 +813,7 @@ export default {
 
       try {
         const oracle = await fetchCryptoOracleData(reqData.currency || 'USD');
+        await recordToolExecution('crypto_market_depth', 1, env.REPLAY_KV);
         return Response.json(
           {
             success: true,
@@ -835,6 +872,7 @@ export default {
 
       try {
         const report = await scanDomainSecurity(reqData.domain);
+        await recordToolExecution('domain_security_scanner', 3, env.REPLAY_KV);
         return Response.json(
           {
             success: true,
@@ -883,3 +921,4 @@ export * from './tools/security-scanner';
 export * from './ui/playground';
 export * from './ui/catalogue';
 export * from './ui/llms-txt';
+export * from './analytics/metrics';
