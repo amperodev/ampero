@@ -63,17 +63,20 @@ export function renderPlaygroundHtml(tools: PlaygroundToolInfo[], envInfo: { lig
         </div>
         <div>
           <h1 class="text-lg font-bold tracking-tight text-white flex items-center gap-2">
-            Ampero <span class="text-xs bg-amber-500/20 text-amber-400 px-2 py-0.5 rounded-full font-mono font-medium border border-amber-500/30">M2M Gateway</span>
+            Ampero <span class="text-xs bg-amber-500/20 text-amber-400 px-2 py-0.5 rounded-full font-mono font-medium border border-amber-500/30">MCP Marketplace</span>
           </h1>
           <p class="text-xs text-slate-400">Autonomous micro-payments for Model Context Protocol (MCP)</p>
         </div>
       </div>
-      <div class="flex items-center space-x-4">
-        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+      <div class="flex items-center space-x-3">
+        <span class="hidden md:inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
           <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
           Cloudflare Edge Active
         </span>
-        <a href="#playground" class="hidden sm:inline-flex items-center px-4 py-2 text-sm font-semibold rounded-xl bg-lightning hover:bg-amber-400 text-black transition-all shadow-md shadow-amber-500/10">
+        <a href="#submit" class="hidden sm:inline-flex items-center px-3.5 py-1.5 text-xs font-bold rounded-xl bg-surface-800 hover:bg-surface-700 text-amber-300 border border-amber-500/30 transition-all">
+          <span>🚀</span> List a Tool
+        </a>
+        <a href="#playground" class="inline-flex items-center px-3.5 py-1.5 text-xs font-bold rounded-xl bg-lightning hover:bg-amber-400 text-black transition-all shadow-md shadow-amber-500/10">
           Try Simulator
         </a>
       </div>
@@ -83,28 +86,52 @@ export function renderPlaygroundHtml(tools: PlaygroundToolInfo[], envInfo: { lig
   <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-16">
 
     <!-- Hero Section -->
-    <section class="text-center space-y-6 pt-6 pb-2">
-      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-xl bg-surface-800/80 border border-surface-800 text-xs font-mono text-amber-400 mb-2">
-        <span>⚡ HTTP 402 + Macaroons + Bitcoin Lightning</span>
+    <section class="text-center space-y-6 pt-4 pb-2">
+      <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-xl bg-surface-800/90 border border-surface-800 text-xs font-mono text-amber-400 mb-1">
+        <span>⚡ Open Machine-to-Machine Compute & Settlement</span>
       </div>
       <h2 class="text-4xl sm:text-5xl font-extrabold tracking-tight text-white max-w-4xl mx-auto leading-tight">
-        The Visa network for <span class="bg-gradient-to-r from-lightning via-amber-400 to-amber-200 bg-clip-text text-transparent">autonomous AI agents & specialized models</span>
+        The Open Marketplace for <span class="bg-gradient-to-r from-lightning via-amber-400 to-amber-200 bg-clip-text text-transparent">Monetized MCP Tools & Models</span>
       </h2>
       <p class="text-xl font-semibold text-amber-300 max-w-2xl mx-auto">
-        ⚡ Get paid in satoshis while your specialized models and tools work for you.
+        ⚡ A Win-Win Compute Economy for the AI Era.
       </p>
-      <p class="text-base text-slate-400 max-w-2xl mx-auto">
-        Monetize compute, fine-tuned SLMs, and MCP tools per query with Bitcoin Lightning. No bank account, no credit card, no KYC, and no subscription fatigue.
-      </p>
+
+      <!-- Win-Win Value Proposition Cards -->
+      <div class="max-w-3xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-4 text-left pt-2">
+        <div class="p-4 rounded-2xl bg-surface-900 border border-surface-800 space-y-1.5 hover:border-amber-500/30 transition-all">
+          <span class="text-xs font-bold text-amber-400 uppercase tracking-wider block font-mono">🤖 For AI Agent Builders</span>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            <strong>Cut token bills by up to 90%.</strong> Offload messy web scrapes, live financial oracles, and security checks to Edge tools for 1 to 5 sats. Stop wasting context.
+          </p>
+        </div>
+        <div class="p-4 rounded-2xl bg-surface-900 border border-surface-800 space-y-1.5 hover:border-emerald-500/30 transition-all">
+          <span class="text-xs font-bold text-emerald-400 uppercase tracking-wider block font-mono">⚡ For Tool & SLM Creators</span>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            <strong>Monetize your code & 7B models.</strong> Expose your APIs to autonomous agents and get paid in satoshis on every single call directly to your Lightning wallet.
+          </p>
+        </div>
+      </div>
+
+      <!-- Dual Call to Action Buttons -->
       <div class="flex flex-wrap items-center justify-center gap-4 pt-2">
+        <a href="#playground" class="px-6 py-3.5 rounded-xl bg-gradient-to-r from-lightning to-amber-500 hover:from-amber-400 hover:to-amber-500 text-black font-bold text-sm transition-all shadow-lg shadow-amber-500/20 flex items-center gap-2">
+          <span>🧪</span> Try Simulator & Save Tokens
+        </a>
+        <a href="#submit" class="px-6 py-3.5 rounded-xl bg-surface-900 hover:bg-surface-800 text-amber-300 font-bold text-sm border border-amber-500/30 hover:border-amber-400 transition-all shadow-md flex items-center gap-2">
+          <span>🚀</span> List Your Tool or Model (Free)
+        </a>
+      </div>
+
+      <div class="flex flex-wrap items-center justify-center gap-4 pt-1">
         <div class="flex items-center gap-2 text-xs text-slate-400 bg-surface-900 px-4 py-2 rounded-xl border border-surface-800">
           <span class="text-emerald-400 font-bold">✓</span> 100% Non-Custodial
         </div>
         <div class="flex items-center gap-2 text-xs text-slate-400 bg-surface-900 px-4 py-2 rounded-xl border border-surface-800">
-          <span class="text-emerald-400 font-bold">✓</span> Atomic Split Commission
+          <span class="text-emerald-400 font-bold">✓</span> Zero Human Friction & Zero KYC
         </div>
         <div class="flex items-center gap-2 text-xs text-slate-400 bg-surface-900 px-4 py-2 rounded-xl border border-surface-800">
-          <span class="text-emerald-400 font-bold">✓</span> Zero-Friction Lightning Address
+          <span class="text-emerald-400 font-bold">✓</span> Instant Lightning Address Payouts
         </div>
       </div>
     </section>
@@ -294,16 +321,18 @@ function execute(userInput) {
     </section>
 
     <!-- Section 3 : Submit / Register an MCP Tool -->
-    <section class="bg-gradient-to-b from-surface-900 to-surface-950 border border-amber-500/20 rounded-2xl p-8 space-y-6 shadow-2xl relative overflow-hidden">
+    <section id="submit" class="scroll-mt-24 bg-gradient-to-b from-surface-900 to-surface-950 border border-amber-500/20 rounded-2xl p-8 space-y-6 shadow-2xl relative overflow-hidden">
       <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-surface-800 pb-6">
         <div>
           <span class="text-xs font-mono font-bold px-2.5 py-1 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/30 uppercase tracking-wider">
-            🚀 Instant Registration
+            🚀 30-Second Free Listing
           </span>
           <h3 class="text-2xl font-bold text-white mt-2 flex items-center gap-2">
-            Submit your MCP tool to the Ampero Registry
+            Monetize Your MCP Tool or Specialized SLM Model
           </h3>
-          <p class="text-sm text-slate-400">Add your MCP server or tool to make it immediately discoverable and monetized by autonomous AI agents.</p>
+          <p class="text-sm text-slate-300">
+            Have an API, scraper, database connector, or specialized 7B model? Expose it to autonomous agents worldwide. Satoshis stream directly to your Lightning wallet on every single execution.
+          </p>
         </div>
       </div>
 
