@@ -115,6 +115,26 @@ export function renderHuggingFacePageHtml(): string {
           <div class="text-[11px] text-slate-400">Expose API, not raw files</div>
         </div>
       </div>
+
+      <!-- 1-Click Model Import Preview Card -->
+      <div class="max-w-xl mx-auto p-5 rounded-2xl bg-surface-900/90 border border-amber-500/30 space-y-3 text-left shadow-2xl">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-bold text-white uppercase font-mono flex items-center gap-1.5">
+            <span>🤗</span> Check Your Model on Ampero
+          </span>
+          <span class="text-[10px] px-2 py-0.5 rounded bg-amber-500/10 text-amber-400 font-mono">1-Click Metadata</span>
+        </div>
+        <p class="text-xs text-slate-400">
+          Enter your Hugging Face model URL to see suggested pricing and parameter details:
+        </p>
+        <div class="flex flex-col sm:flex-row gap-2">
+          <input type="text" id="hf-page-input" placeholder="e.g. mistralai/Mistral-7B-Instruct-v0.2" class="flex-1 px-3.5 py-2.5 rounded-xl bg-surface-950 border border-surface-800 text-xs font-mono text-white focus:outline-none focus:border-amber-500" />
+          <button type="button" id="btn-hf-page-import" class="px-5 py-2.5 rounded-xl bg-lightning hover:bg-amber-400 text-black text-xs font-bold transition-all whitespace-nowrap cursor-pointer">
+            <span>🪄</span> Check Model &rarr;
+          </button>
+        </div>
+        <div id="hf-page-result" class="hidden text-xs font-mono p-3.5 rounded-xl bg-surface-950 border border-surface-800 space-y-2"></div>
+      </div>
     </section>
 
     <!-- Why Hugging Face Creators Need Ampero -->
@@ -243,6 +263,49 @@ async def infer(request: Request):
     <p>Protocol bLIP-0004 / L402 • 100% Non-Custodial • Privacy by Design.</p>
   </footer>
 
+  <script is:inline>
+    (function() {
+      const hfPageInput = document.getElementById('hf-page-input');
+      const btnHfPage = document.getElementById('btn-hf-page-import');
+      const hfPageResult = document.getElementById('hf-page-result');
+
+      if (btnHfPage && hfPageInput) {
+        btnHfPage.addEventListener('click', async () => {
+          const val = hfPageInput.value.trim();
+          if (!val) return;
+          btnHfPage.disabled = true;
+          btnHfPage.textContent = 'Checking...';
+          try {
+            const res = await fetch('/api/registry/import-huggingface', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ url: val })
+            });
+            const data = await res.json();
+            if (hfPageResult) {
+              hfPageResult.classList.remove('hidden');
+              if (res.ok && data.success) {
+                hfPageResult.innerHTML = 
+                  '<div class="text-emerald-400 font-bold">✓ Model Detected: ' + data.model_id + '</div>' +
+                  '<div class="text-slate-300">Parameters: <strong>' + (data.parameters || 'Standard') + '</strong> • Task: <strong>' + data.pipeline_tag + '</strong> • Recommended Price: <strong>' + data.suggested_price_sats + ' sats</strong></div>' +
+                  '<div class="pt-2"><a href="/#submit" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-lightning hover:bg-amber-400 text-black text-xs font-bold transition-all shadow-md"><span>⚡</span> Register this model in Ampero &rarr;</a></div>';
+              } else {
+                hfPageResult.innerHTML = '<span class="text-rose-400 font-bold">Error: ' + (data.error || 'Failed to detect model') + '</span>';
+              }
+            }
+          } catch (err) {
+            if (hfPageResult) {
+              hfPageResult.classList.remove('hidden');
+              hfPageResult.innerHTML = '<span class="text-rose-400 font-bold">Error: ' + err.message + '</span>';
+            }
+          } finally {
+            btnHfPage.disabled = false;
+            btnHfPage.innerHTML = '<span>🪄</span> Check Model &rarr;';
+          }
+        });
+      }
+    })();
+  </script>
 </body>
 </html>`;
 }

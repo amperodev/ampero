@@ -8,7 +8,7 @@
 [![Cloudflare Workers](https://img.shields.io/badge/Cloudflare-Workers_Edge-F38020.svg)](https://workers.cloudflare.com/)
 [![MCP](https://img.shields.io/badge/Model_Context_Protocol-Anthropic-8A2BE2.svg)](https://modelcontextprotocol.io)
 [![License: MIT](https://img.shields.io/badge/License-MIT-emerald.svg)](LICENSE)
-[![Tests](https://img.shields.io/badge/Tests-53%20passing-brightgreen.svg)]()
+[![Tests](https://img.shields.io/badge/Tests-61%20passing-brightgreen.svg)]()
 
 > 🚀 **Got an MCP server, API, or specialized 7B model?**  
 > **[List your tool in the Ampero Registry in 30 seconds](https://ampero.ampero-dev.workers.dev/#submit)** and start earning satoshis directly into your Lightning wallet.

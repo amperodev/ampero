@@ -22,6 +22,8 @@ import { renderHuggingFacePageHtml } from './ui/landing-huggingface';
 import { renderMcpPageHtml } from './ui/landing-mcp';
 import { renderBitcoinPageHtml } from './ui/landing-bitcoin';
 import { renderTokensPageHtml } from './ui/landing-tokens';
+import { getMergedRegistry, saveCommunityTool, inMemoryCommunityTools } from './registry/store';
+import { fetchHuggingFaceMetadata } from './registry/huggingface';
 
 export interface Env {
   L402_ROOT_SECRET: string;
@@ -120,9 +122,6 @@ const MCP_TOOLS: McpToolDescription[] = [
   }
 ];
 
-// In-memory dynamic tool registry (enriched with community submissions)
-const dynamicRegistry: McpToolDescription[] = [...MCP_TOOLS];
-
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     const url = new URL(request.url);
@@ -141,6 +140,9 @@ export default {
     const rootSecret = env.L402_ROOT_SECRET || 'dev-insecure-secret-key-must-be-configured';
     const lightningAddress = env.CREATOR_LIGHTNING_ADDRESS || 'bumi@getalby.com';
     const replayStore = env.REPLAY_KV ? new KVReplayStore(env.REPLAY_KV) : memoryStore;
+
+    // Persisted dynamic registry combining built-in tools and KV community submissions
+    const dynamicRegistry = await getMergedRegistry(MCP_TOOLS, env.REPLAY_KV, inMemoryCommunityTools);
 
     // Platform fee split configuration if configured
     const splitConfig = env.PLATFORM_LIGHTNING_ADDRESS
@@ -309,7 +311,8 @@ export default {
           endpoint: body.endpoint.trim()
         };
 
-        // Register into active in-memory registry
+        // Register into active registry and persist to Cloudflare KV
+        await saveCommunityTool(newTool, env.REPLAY_KV, inMemoryCommunityTools);
         const existingIdx = dynamicRegistry.findIndex(t => t.name === newTool.name);
         if (existingIdx !== -1) {
           dynamicRegistry[existingIdx] = newTool;
@@ -329,6 +332,33 @@ export default {
         const errorMsg = err instanceof Error ? err.message : 'Invalid JSON';
         return Response.json({ error: errorMsg }, { status: 400, headers: corsHeaders });
       }
+    }
+
+    // 2c. 1-Click Hugging Face Model Importer (POST / GET /api/registry/import-huggingface)
+    if (url.pathname === '/api/registry/import-huggingface' && (request.method === 'POST' || request.method === 'GET')) {
+      let modelInput = url.searchParams.get('url') || url.searchParams.get('model') || url.searchParams.get('model_id') || '';
+
+      if (request.method === 'POST') {
+        try {
+          const body = (await request.json().catch(() => ({}))) as { url?: string; model?: string; model_id?: string };
+          modelInput = body.url || body.model || body.model_id || modelInput;
+        } catch {
+          // Fall back to query param
+        }
+      }
+
+      if (!modelInput) {
+        return Response.json(
+          { error: 'Hugging Face model URL or ID is required (e.g. mistralai/Mistral-7B-Instruct-v0.2)' },
+          { status: 400, headers: corsHeaders }
+        );
+      }
+
+      const hfResult = await fetchHuggingFaceMetadata(modelInput);
+      return Response.json(hfResult, {
+        status: hfResult.success ? 200 : 400,
+        headers: corsHeaders
+      });
     }
 
     // 3. Native MCP JSON-RPC 2.0 endpoint (POST /mcp)

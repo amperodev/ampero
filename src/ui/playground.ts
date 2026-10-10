@@ -378,6 +378,29 @@ function execute(userInput) {
           </div>
         </div>
 
+        <!-- 1-Click Hugging Face Model Importer -->
+        <div class="p-5 rounded-2xl bg-surface-950/80 border border-amber-500/30 space-y-3">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="text-xl">🤗</span>
+              <div>
+                <h4 class="text-xs font-bold text-white uppercase tracking-wider font-mono">1-Click Hugging Face Importer</h4>
+                <p class="text-[11px] text-slate-400">Paste your Hugging Face model URL to autofill name, description, parameters & endpoint.</p>
+              </div>
+            </div>
+            <span class="text-[10px] px-2 py-0.5 rounded bg-amber-500/10 text-amber-400 font-mono hidden sm:inline-block">Instant Metadata</span>
+          </div>
+
+          <div class="flex flex-col sm:flex-row gap-2.5">
+            <input type="text" id="hf-import-input" placeholder="e.g. mistralai/Mistral-7B-Instruct-v0.2 or https://huggingface.co/..." class="flex-1 px-4 py-2.5 rounded-xl bg-surface-900 border border-surface-800 text-slate-100 text-xs focus:outline-none focus:border-amber-500 font-mono" />
+            <button type="button" id="btn-hf-import" class="px-5 py-2.5 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 text-xs font-bold transition-all flex items-center justify-center gap-1.5 whitespace-nowrap cursor-pointer">
+              <span>🪄</span> Autofill Form
+            </button>
+          </div>
+
+          <div id="hf-import-alert" class="hidden text-xs font-mono p-2.5 rounded-lg"></div>
+        </div>
+
         <form id="form-register-tool" class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div class="space-y-2">
             <label class="block text-xs font-bold uppercase text-slate-300">Tool Slug (Unique Identifier)</label>
@@ -820,6 +843,70 @@ function execute(userInput) {
             }
           }
           await settleAndUnlock(preimage);
+        });
+      }
+
+      // 1-Click Hugging Face Importer Handler
+      const hfInput = document.getElementById('hf-import-input');
+      const btnHfImport = document.getElementById('btn-hf-import');
+      const hfAlert = document.getElementById('hf-import-alert');
+
+      if (btnHfImport && hfInput) {
+        btnHfImport.addEventListener('click', async () => {
+          const rawVal = hfInput.value.trim();
+          if (!rawVal) {
+            if (hfAlert) {
+              hfAlert.className = 'text-xs font-mono p-2.5 rounded-lg bg-rose-500/10 border border-rose-500/30 text-rose-400 block';
+              hfAlert.textContent = 'Please enter a Hugging Face model URL or model ID (e.g. mistralai/Mistral-7B-Instruct-v0.2)';
+            }
+            return;
+          }
+
+          btnHfImport.disabled = true;
+          btnHfImport.innerHTML = '<span>⏳</span> Fetching Hugging Face...';
+          if (hfAlert) hfAlert.className = 'hidden';
+
+          try {
+            const res = await fetch('/api/registry/import-huggingface', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ url: rawVal })
+            });
+
+            const data = await res.json();
+            if (res.ok && data.success) {
+              const regName = document.getElementById('reg-name');
+              const regPrice = document.getElementById('reg-price');
+              const regEndpoint = document.getElementById('reg-endpoint');
+              const regDesc = document.getElementById('reg-description');
+              const regAddress = document.getElementById('reg-address');
+
+              if (regName) regName.value = data.name;
+              if (regPrice) regPrice.value = data.suggested_price_sats;
+              if (regEndpoint) regEndpoint.value = data.endpoint;
+              if (regDesc) regDesc.value = data.description;
+
+              if (hfAlert) {
+                hfAlert.className = 'text-xs font-mono p-2.5 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 block';
+                hfAlert.innerHTML = '✓ <strong>Imported ' + data.model_id + '</strong> (' + (data.parameters || data.pipeline_tag) + '). Enter your Lightning Address below to finish listing!';
+              }
+
+              if (regAddress) regAddress.focus();
+            } else {
+              if (hfAlert) {
+                hfAlert.className = 'text-xs font-mono p-2.5 rounded-lg bg-rose-500/10 border border-rose-500/30 text-rose-400 block';
+                hfAlert.textContent = 'Error: ' + (data.error || 'Failed to fetch Hugging Face model metadata');
+              }
+            }
+          } catch (err) {
+            if (hfAlert) {
+              hfAlert.className = 'text-xs font-mono p-2.5 rounded-lg bg-rose-500/10 border border-rose-500/30 text-rose-400 block';
+              hfAlert.textContent = 'Network error: ' + err.message;
+            }
+          } finally {
+            btnHfImport.disabled = false;
+            btnHfImport.innerHTML = '<span>🪄</span> Autofill Form';
+          }
         });
       }
 
