@@ -73,6 +73,9 @@ export function renderPlaygroundHtml(tools: PlaygroundToolInfo[], envInfo: { lig
           <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
           Cloudflare Edge Active
         </span>
+        <a href="/catalogue" class="hidden sm:inline-flex items-center px-3.5 py-1.5 text-xs font-bold rounded-xl bg-surface-800 hover:bg-surface-700 text-slate-200 hover:text-white border border-surface-700 transition-all">
+          <span>📦</span> Catalogue
+        </a>
         <a href="#submit" class="hidden sm:inline-flex items-center px-3.5 py-1.5 text-xs font-bold rounded-xl bg-surface-800 hover:bg-surface-700 text-amber-300 border border-amber-500/30 transition-all">
           <span>🚀</span> List a Tool
         </a>
@@ -314,18 +317,21 @@ function execute(userInput) {
       </div>
     </section>
 
-    <!-- Section 2 : Available MCP Tools Catalogue -->
-    <section class="space-y-6">
-      <div>
-        <h3 class="text-2xl font-bold text-white flex items-center gap-2">
-          <span>📦</span> Available Tools Catalogue (M2M Registry)
-        </h3>
-        <p class="text-sm text-slate-400">Indexed tools ready to be queried autonomously by AI agents.</p>
+    <!-- Section 2 : Dedicated Catalogue Link Banner -->
+    <section class="p-6 sm:p-8 rounded-2xl bg-surface-900 border border-surface-800 flex flex-col sm:flex-row items-center justify-between gap-6 shadow-xl hover:border-amber-500/30 transition-all">
+      <div class="space-y-1.5 text-center sm:text-left">
+        <div class="flex items-center justify-center sm:justify-start gap-2.5">
+          <span class="text-2xl">📦</span>
+          <h3 class="text-xl font-bold text-white tracking-tight">Available Tools & Models Catalogue</h3>
+          <span class="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-amber-500/10 text-amber-400 border border-amber-500/20">Dedicated Registry</span>
+        </div>
+        <p class="text-xs sm:text-sm text-slate-400 max-w-2xl leading-relaxed">
+          Explore all indexed, Edge-native MCP tools, live financial oracles, and fine-tuned SLMs ready to be queried autonomously by AI agents.
+        </p>
       </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="tools-cards-grid">
-        <!-- Dynamically populated -->
-      </div>
+      <a href="/catalogue" class="px-6 py-3.5 rounded-xl bg-surface-800 hover:bg-surface-700 text-amber-300 hover:text-amber-200 font-bold text-sm border border-amber-500/30 transition-all flex items-center gap-2 whitespace-nowrap shadow-md group">
+        <span>Browse Full Catalogue</span> <span class="group-hover:translate-x-1 transition-transform">&rarr;</span>
+      </a>
     </section>
 
     <!-- The Architectural Shift: Why Specialized Models & Token Economy Win -->

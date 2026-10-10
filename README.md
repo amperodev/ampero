@@ -151,7 +151,7 @@ Every time an autonomous agent invokes `my_custom_analysis`, satoshis stream dir
 
 ## 📦 Ready-to-Use Tools in the Catalogue
 
-Try them live in the **[Interactive Simulator Playground](https://ampero.ampero-dev.workers.dev)**:
+Try them live in the **[Interactive Simulator](https://ampero.ampero-dev.workers.dev/#playground)** or explore the **[Full Tools & Models Catalogue](https://ampero.ampero-dev.workers.dev/catalogue)**:
 
 | Tool Name | Price | What it does | Est. Token Savings |
 | :--- | :---: | :--- | :---: |

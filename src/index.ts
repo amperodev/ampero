@@ -16,6 +16,7 @@ import { auditCodeSecurity } from './tools/slm-code-audit';
 import { fetchCryptoOracleData } from './tools/crypto-oracle';
 import { scanDomainSecurity } from './tools/security-scanner';
 import { renderPlaygroundHtml } from './ui/playground';
+import { renderCatalogueHtml } from './ui/catalogue';
 import { renderLlmsTxt } from './ui/llms-txt';
 
 export interface Env {
@@ -189,6 +190,26 @@ export default {
       return new Response(llmsTxt, {
         headers: {
           'Content-Type': 'text/plain; charset=utf-8',
+          ...corsHeaders
+        }
+      });
+    }
+
+    // 1c. Dedicated Full Tools & Models Catalogue Page (GET /catalogue, GET /tools)
+    if ((url.pathname === '/catalogue' || url.pathname === '/tools') && (request.method === 'GET' || request.method === 'HEAD')) {
+      const catalogueHtml = renderCatalogueHtml(
+        dynamicRegistry.map(t => ({
+          name: t.name,
+          description: t.description,
+          priceSats: t.price_sats,
+          endpoint: t.endpoint,
+          input_schema: t.input_schema
+        })),
+        { lightningAddress }
+      );
+      return new Response(catalogueHtml, {
+        headers: {
+          'Content-Type': 'text/html; charset=utf-8',
           ...corsHeaders
         }
       });
@@ -789,4 +810,5 @@ export * from './tools/slm-code-audit';
 export * from './tools/crypto-oracle';
 export * from './tools/security-scanner';
 export * from './ui/playground';
+export * from './ui/catalogue';
 export * from './ui/llms-txt';
