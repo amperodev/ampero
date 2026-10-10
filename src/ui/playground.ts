@@ -147,194 +147,7 @@ export function renderPlaygroundHtml(tools: PlaygroundToolInfo[], envInfo: { lig
       </div>
     </section>
 
-    <!-- Token Arbitrage Value Comparison: Before vs After -->
-    <section class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-4">
-      <div class="p-5 rounded-2xl bg-surface-900 border border-rose-500/20 space-y-2.5">
-        <div class="flex items-center justify-between text-rose-400 font-bold text-xs">
-          <span class="flex items-center gap-1.5"><span>❌</span> The Old Way (LLM Token Waste)</span>
-          <span class="px-2 py-0.5 rounded bg-rose-500/10 border border-rose-500/20 font-mono">~$0.10 / call</span>
-        </div>
-        <ul class="text-xs text-slate-400 space-y-1.5 list-disc list-inside">
-          <li>Agent dumps 25,000 raw HTML tokens into Claude / GPT</li>
-          <li>Model burns expensive tokens parsing CSS, ads & noise</li>
-          <li>Slow 4–6s latency with frequent hallucination risks</li>
-        </ul>
-      </div>
-
-      <div class="p-5 rounded-2xl bg-surface-900 border border-emerald-500/30 space-y-2.5 shadow-lg shadow-emerald-500/5">
-        <div class="flex items-center justify-between text-emerald-400 font-bold text-xs">
-          <span class="flex items-center gap-1.5"><span>⚡</span> The Ampero Way (Token Arbitrage)</span>
-          <span class="px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 font-mono">5 sats (~$0.004)</span>
-        </div>
-        <ul class="text-xs text-slate-300 space-y-1.5 list-disc list-inside">
-          <li>Edge tool cleans and sanitizes data in &lt; 30ms</li>
-          <li>LLM only ingests 500 clean tokens (<strong class="text-emerald-400">95% token savings</strong>)</li>
-          <li>Deterministic ground truth with zero human friction</li>
-        </ul>
-      </div>
-    </section>
-
-    <!-- Section 1 : Interactive L402 Simulator (Playground) -->
-    <section id="playground" class="scroll-mt-24 space-y-6">
-      <div class="flex items-center justify-between">
-        <div>
-          <h3 class="text-2xl font-bold text-white flex items-center gap-2">
-            <span>🧪</span> Interactive M2M Simulator
-          </h3>
-          <p class="text-sm text-slate-400">Observe the complete HTTP 402 micro-payment handshake in real time.</p>
-        </div>
-        <span id="webln-status" class="text-xs px-3 py-1.5 rounded-xl bg-surface-800 border border-surface-800 text-slate-400">
-          Detecting WebLN (Alby)...
-        </span>
-      </div>
-
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        <!-- Control Panel -->
-        <div class="lg:col-span-5 bg-surface-900 border border-surface-800 rounded-2xl p-6 space-y-6 shadow-xl">
-          <div class="space-y-4">
-            <label class="block text-sm font-semibold text-slate-200">1. Select an MCP tool to execute</label>
-            <div class="space-y-2" id="tool-selector-container">
-              <!-- Dynamically populated -->
-            </div>
-          </div>
-
-          <div class="space-y-4" id="tool-params-container">
-            <label class="block text-sm font-semibold text-slate-200">2. Request parameters</label>
-            
-            <!-- Parameter Group: URL (extract_clean_markdown) -->
-            <div id="param-group-url" class="space-y-2">
-              <label for="input-url" class="block text-xs font-mono text-slate-400">Webpage URL to extract:</label>
-              <input type="url" id="input-url" value="https://bitcoin.org" class="w-full px-4 py-2.5 rounded-xl bg-surface-950 border border-surface-800 text-slate-100 text-sm focus:outline-none focus:border-amber-500 font-mono" placeholder="https://example.com" />
-              <p class="text-xs text-slate-400">The tool will extract sanitized content converted to Markdown for LLMs.</p>
-            </div>
-
-            <!-- Parameter Group: Code (slm_code_audit) -->
-            <div id="param-group-code" class="space-y-2 hidden">
-              <label for="input-code" class="block text-xs font-mono text-slate-400">Source code snippet to audit:</label>
-              <textarea id="input-code" rows="4" class="w-full px-4 py-2 rounded-xl bg-surface-950 border border-surface-800 text-slate-100 text-xs focus:outline-none focus:border-amber-500 font-mono">// Sample agent code to analyze
-const API_KEY = "ghp_123456789012345678901234567890123456";
-function execute(userInput) {
-  return eval(userInput);
-}</textarea>
-              <p class="text-xs text-slate-400">Specialized 7B model will inspect tokens, eval injections, and cryptographic strength.</p>
-            </div>
-
-            <!-- Parameter Group: Domain (domain_security_scanner) -->
-            <div id="param-group-domain" class="space-y-2 hidden">
-              <label for="input-domain" class="block text-xs font-mono text-slate-400">Target domain or host:</label>
-              <input type="text" id="input-domain" value="bitcoin.org" class="w-full px-4 py-2.5 rounded-xl bg-surface-950 border border-surface-800 text-slate-100 text-sm focus:outline-none focus:border-amber-500 font-mono" placeholder="example.com" />
-              <p class="text-xs text-slate-400">Inspects HSTS, Content-Security-Policy, X-Frame-Options, and TLS headers.</p>
-            </div>
-
-            <!-- Parameter Group: None (bitcoin_mempool_fees & crypto_market_depth) -->
-            <div id="param-group-none" class="p-3 rounded-xl bg-surface-950 border border-surface-800 text-xs text-slate-400 hidden">
-              ⚡ Zero input parameters required. Live data signed and returned directly at the Edge.
-            </div>
-          </div>
-
-          <button id="btn-trigger" class="w-full py-3.5 px-6 rounded-xl bg-gradient-to-r from-lightning to-amber-500 hover:from-amber-400 hover:to-amber-500 text-black font-bold text-sm transition-all shadow-lg shadow-amber-500/20 flex items-center justify-center gap-2">
-            <span>🚀</span> Trigger Machine-to-Machine Request
-          </button>
-
-          <!-- Dynamic Payment Box -->
-          <div id="payment-box" class="hidden p-5 rounded-2xl bg-amber-500/10 border border-amber-500/30 space-y-4">
-            <div class="flex items-center justify-between">
-              <span class="text-xs font-bold uppercase tracking-wider text-amber-400 flex items-center gap-1.5">
-                <span class="text-base">⚡</span> 402 Challenge Received
-              </span>
-              <span id="challenge-cost" class="text-xs font-mono font-bold px-2 py-0.5 rounded bg-amber-400/20 text-amber-300">
-                5 sats
-              </span>
-            </div>
-            <p class="text-xs text-slate-300 leading-relaxed">
-              The server returned <code class="text-amber-400 font-mono font-bold">HTTP 402 Payment Required</code> with a cryptographic Macaroon and BOLT-11 invoice.
-            </p>
-            <div class="space-y-2">
-              <button id="btn-pay-webln" class="w-full py-2.5 px-4 rounded-xl bg-lightning hover:bg-amber-400 text-black font-bold text-xs flex items-center justify-center gap-2 transition-all">
-                <span>⚡</span> Pay Instantly with Alby (WebLN)
-              </button>
-              <button id="btn-mock-pay" class="w-full py-2 px-4 rounded-xl bg-surface-800 hover:bg-surface-700 text-slate-300 font-medium text-xs border border-surface-800 flex items-center justify-center gap-1.5">
-                <span>🤖</span> Simulate Autonomous NWC Settlement (Demo)
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Live Terminal -->
-        <div class="lg:col-span-7 bg-surface-950 border border-surface-800 rounded-2xl p-6 font-mono text-xs flex flex-col justify-between shadow-2xl relative overflow-hidden">
-          <div class="space-y-4">
-            <div class="flex items-center justify-between border-b border-surface-800 pb-3">
-              <div class="flex items-center space-x-2">
-                <span class="w-3 h-3 rounded-full bg-rose-500/80"></span>
-                <span class="w-3 h-3 rounded-full bg-amber-500/80"></span>
-                <span class="w-3 h-3 rounded-full bg-emerald-500/80"></span>
-                <span class="text-slate-400 ml-2 font-sans font-semibold">Live M2M Console</span>
-              </div>
-              <span id="status-badge" class="px-2 py-0.5 rounded bg-surface-800 text-slate-400">Idle</span>
-            </div>
-
-            <div id="console-logs" class="space-y-2 max-h-96 overflow-y-auto pr-2 text-slate-300">
-              <div class="text-slate-400">// Click "Trigger Machine-to-Machine Request" to initiate the L402 handshake.</div>
-            </div>
-          </div>
-
-          <div id="result-preview" class="hidden mt-4 pt-4 border-t border-surface-800 space-y-3">
-            <div class="flex items-center justify-between">
-              <span class="text-xs font-sans font-bold text-emerald-400 flex items-center gap-1.5">
-                <span>✓</span> Data Successfully Unlocked (HTTP 200)
-              </span>
-              <span id="roi-latency" class="text-xs font-mono text-emerald-400 font-semibold">⚡ 24ms Edge Latency</span>
-            </div>
-
-            <!-- Token Arbitrage & Economic ROI Banner -->
-            <div id="roi-banner" class="p-3.5 rounded-xl bg-gradient-to-r from-emerald-500/10 via-surface-900 to-emerald-500/10 border border-emerald-500/30 flex flex-wrap items-center justify-between gap-3 text-xs">
-              <div class="flex items-center gap-2">
-                <span class="text-base">⚡</span>
-                <div>
-                  <span class="text-slate-400 block text-[10px] uppercase font-bold tracking-wider">Settlement Cost</span>
-                  <span id="roi-cost" class="font-bold text-amber-400 font-mono">5 sats (~$0.004)</span>
-                </div>
-              </div>
-              <div class="flex items-center gap-2">
-                <span class="text-base">📉</span>
-                <div>
-                  <span class="text-slate-400 block text-[10px] uppercase font-bold tracking-wider">LLM Tokens Saved</span>
-                  <span id="roi-tokens" class="font-bold text-emerald-400 font-mono">~24,500 tokens</span>
-                </div>
-              </div>
-              <div class="flex items-center gap-2">
-                <span class="text-base">💰</span>
-                <div>
-                  <span class="text-slate-400 block text-[10px] uppercase font-bold tracking-wider">Net Savings vs GPT-4</span>
-                  <span id="roi-savings" class="font-bold text-emerald-300 font-mono">+$0.068 (1,700% ROI)</span>
-                </div>
-              </div>
-            </div>
-
-            <pre id="result-content" class="p-4 rounded-xl bg-surface-900 border border-surface-800 max-h-52 overflow-y-auto text-slate-200 text-xs whitespace-pre-wrap"></pre>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Section 2 : Dedicated Catalogue Link Banner -->
-    <section class="p-6 sm:p-8 rounded-2xl bg-surface-900 border border-surface-800 flex flex-col sm:flex-row items-center justify-between gap-6 shadow-xl hover:border-amber-500/30 transition-all">
-      <div class="space-y-1.5 text-center sm:text-left">
-        <div class="flex items-center justify-center sm:justify-start gap-2.5">
-          <span class="text-2xl">📦</span>
-          <h3 class="text-xl font-bold text-white tracking-tight">Available Tools & Models Catalogue</h3>
-          <span class="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-amber-500/10 text-amber-400 border border-amber-500/20">Dedicated Registry</span>
-        </div>
-        <p class="text-xs sm:text-sm text-slate-400 max-w-2xl leading-relaxed">
-          Explore all indexed, Edge-native MCP tools, live financial oracles, and fine-tuned SLMs ready to be queried autonomously by AI agents.
-        </p>
-      </div>
-      <a href="/catalogue" class="px-6 py-3.5 rounded-xl bg-surface-800 hover:bg-surface-700 text-amber-300 hover:text-amber-200 font-bold text-sm border border-amber-500/30 transition-all flex items-center gap-2 whitespace-nowrap shadow-md group">
-        <span>Browse Full Catalogue</span> <span class="group-hover:translate-x-1 transition-transform">&rarr;</span>
-      </a>
-    </section>
-
-    <!-- The Architectural Shift: Why Specialized Models & Token Economy Win -->
+    <!-- The Architectural Shift: Why Specialized Models & Token Economy Win (Moved high up) -->
     <section class="p-8 rounded-2xl bg-gradient-to-b from-surface-900 to-surface-950 border border-surface-800 space-y-8 shadow-xl">
       <div class="text-center space-y-2 max-w-2xl mx-auto">
         <span class="text-xs font-mono font-bold text-amber-400 uppercase tracking-wider px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 inline-block">
@@ -388,57 +201,260 @@ function execute(userInput) {
       </div>
     </section>
 
-    <!-- Section 3 : Submit / Register an MCP Tool -->
-    <section id="submit" class="scroll-mt-24 bg-gradient-to-b from-surface-900 to-surface-950 border border-amber-500/20 rounded-2xl p-8 space-y-6 shadow-2xl relative overflow-hidden">
-      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-surface-800 pb-6">
-        <div>
-          <span class="text-xs font-mono font-bold px-2.5 py-1 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/30 uppercase tracking-wider">
-            🚀 30-Second Free Listing
-          </span>
-          <h3 class="text-2xl font-bold text-white mt-2 flex items-center gap-2">
-            Monetize Your MCP Tool or Specialized SLM Model
-          </h3>
-          <p class="text-sm text-slate-300">
-            Have an API, scraper, database connector, or specialized 7B model? Expose it to autonomous agents worldwide. Satoshis stream directly to your Lightning wallet on every single execution.
-          </p>
+    <!-- Token Arbitrage Value Comparison: Before vs After -->
+    <section class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="p-5 rounded-2xl bg-surface-900 border border-rose-500/20 space-y-2.5">
+        <div class="flex items-center justify-between text-rose-400 font-bold text-xs">
+          <span class="flex items-center gap-1.5"><span>❌</span> The Old Way (LLM Token Waste)</span>
+          <span class="px-2 py-0.5 rounded bg-rose-500/10 border border-rose-500/20 font-mono">~$0.10 / call</span>
         </div>
+        <ul class="text-xs text-slate-400 space-y-1.5 list-disc list-inside">
+          <li>Agent dumps 25,000 raw HTML tokens into Claude / GPT</li>
+          <li>Model burns expensive tokens parsing CSS, ads & noise</li>
+          <li>Slow 4–6s latency with frequent hallucination risks</li>
+        </ul>
       </div>
 
-      <form id="form-register-tool" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div class="space-y-2">
-          <label class="block text-xs font-bold uppercase text-slate-300">Tool Slug (Unique Identifier)</label>
-          <input type="text" id="reg-name" required placeholder="my_awesome_tool" class="w-full px-4 py-2.5 rounded-xl bg-surface-900 border border-surface-800 text-slate-100 text-sm focus:outline-none focus:border-amber-500 font-mono" />
+      <div class="p-5 rounded-2xl bg-surface-900 border border-emerald-500/30 space-y-2.5 shadow-lg shadow-emerald-500/5">
+        <div class="flex items-center justify-between text-emerald-400 font-bold text-xs">
+          <span class="flex items-center gap-1.5"><span>⚡</span> The Ampero Way (Token Arbitrage)</span>
+          <span class="px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 font-mono">5 sats (~$0.004)</span>
+        </div>
+        <ul class="text-xs text-slate-300 space-y-1.5 list-disc list-inside">
+          <li>Edge tool cleans and sanitizes data in &lt; 30ms</li>
+          <li>LLM only ingests 500 clean tokens (<strong class="text-emerald-400">95% token savings</strong>)</li>
+          <li>Deterministic ground truth with zero human friction</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Interactive Persona Switcher Tabs -->
+    <div id="mode-switcher-container" class="max-w-xl mx-auto pt-2">
+      <div class="flex items-center p-1.5 rounded-2xl bg-surface-900 border border-surface-800 shadow-xl">
+        <button id="tab-builder" type="button" class="flex-1 py-3 px-4 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center justify-center gap-2 bg-lightning text-black shadow-md cursor-pointer">
+          <span>🤖</span> Test & Save Tokens
+        </button>
+        <button id="tab-creator" type="button" class="flex-1 py-3 px-4 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center justify-center gap-2 text-slate-400 hover:text-white cursor-pointer">
+          <span>⚡</span> Monetize a Tool / Model
+        </button>
+      </div>
+    </div>
+
+    <!-- VIEW A: Agent Builder Simulator (Default) -->
+    <div id="view-builder" class="space-y-6">
+      <section id="playground" class="scroll-mt-24 space-y-6">
+        <div class="flex items-center justify-between">
+          <div>
+            <h3 class="text-2xl font-bold text-white flex items-center gap-2">
+              <span>🧪</span> Interactive M2M Simulator
+            </h3>
+            <p class="text-sm text-slate-400">Observe the complete HTTP 402 micro-payment handshake in real time.</p>
+          </div>
+          <span id="webln-status" class="text-xs px-3 py-1.5 rounded-xl bg-surface-800 border border-surface-800 text-slate-400">
+            Detecting WebLN (Alby)...
+          </span>
         </div>
 
-        <div class="space-y-2">
-          <label class="block text-xs font-bold uppercase text-slate-300">Price per call (in satoshis)</label>
-          <input type="number" id="reg-price" required min="1" value="5" class="w-full px-4 py-2.5 rounded-xl bg-surface-900 border border-surface-800 text-slate-100 text-sm focus:outline-none focus:border-amber-500 font-mono" />
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          <!-- Control Panel -->
+          <div class="lg:col-span-5 bg-surface-900 border border-surface-800 rounded-2xl p-6 space-y-6 shadow-xl">
+            <div class="space-y-4">
+              <label class="block text-sm font-semibold text-slate-200">1. Select an MCP tool to execute</label>
+              <div class="space-y-2" id="tool-selector-container">
+                <!-- Dynamically populated -->
+              </div>
+            </div>
+
+            <div class="space-y-4" id="tool-params-container">
+              <label class="block text-sm font-semibold text-slate-200">2. Request parameters</label>
+              
+              <!-- Parameter Group: URL (extract_clean_markdown) -->
+              <div id="param-group-url" class="space-y-2">
+                <label for="input-url" class="block text-xs font-mono text-slate-400">Webpage URL to extract:</label>
+                <input type="url" id="input-url" value="https://bitcoin.org" class="w-full px-4 py-2.5 rounded-xl bg-surface-950 border border-surface-800 text-slate-100 text-sm focus:outline-none focus:border-amber-500 font-mono" placeholder="https://example.com" />
+                <p class="text-xs text-slate-400">The tool will extract sanitized content converted to Markdown for LLMs.</p>
+              </div>
+
+              <!-- Parameter Group: Code (slm_code_audit) -->
+              <div id="param-group-code" class="space-y-2 hidden">
+                <label for="input-code" class="block text-xs font-mono text-slate-400">Source code snippet to audit:</label>
+                <textarea id="input-code" rows="4" class="w-full px-4 py-2 rounded-xl bg-surface-950 border border-surface-800 text-slate-100 text-xs focus:outline-none focus:border-amber-500 font-mono">// Sample agent code to analyze
+const API_KEY = "ghp_123456789012345678901234567890123456";
+function execute(userInput) {
+  return eval(userInput);
+}</textarea>
+                <p class="text-xs text-slate-400">Specialized 7B model will inspect tokens, eval injections, and cryptographic strength.</p>
+              </div>
+
+              <!-- Parameter Group: Domain (domain_security_scanner) -->
+              <div id="param-group-domain" class="space-y-2 hidden">
+                <label for="input-domain" class="block text-xs font-mono text-slate-400">Target domain or host:</label>
+                <input type="text" id="input-domain" value="bitcoin.org" class="w-full px-4 py-2.5 rounded-xl bg-surface-950 border border-surface-800 text-slate-100 text-sm focus:outline-none focus:border-amber-500 font-mono" placeholder="example.com" />
+                <p class="text-xs text-slate-400">Inspects HSTS, Content-Security-Policy, X-Frame-Options, and TLS headers.</p>
+              </div>
+
+              <!-- Parameter Group: None (bitcoin_mempool_fees & crypto_market_depth) -->
+              <div id="param-group-none" class="p-3 rounded-xl bg-surface-950 border border-surface-800 text-xs text-slate-400 hidden">
+                ⚡ Zero input parameters required. Live data signed and returned directly at the Edge.
+              </div>
+            </div>
+
+            <button id="btn-trigger" class="w-full py-3.5 px-6 rounded-xl bg-gradient-to-r from-lightning to-amber-500 hover:from-amber-400 hover:to-amber-500 text-black font-bold text-sm transition-all shadow-lg shadow-amber-500/20 flex items-center justify-center gap-2">
+              <span>🚀</span> Trigger Machine-to-Machine Request
+            </button>
+
+            <!-- Dynamic Payment Box -->
+            <div id="payment-box" class="hidden p-5 rounded-2xl bg-amber-500/10 border border-amber-500/30 space-y-4">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold uppercase tracking-wider text-amber-400 flex items-center gap-1.5">
+                  <span class="text-base">⚡</span> 402 Challenge Received
+                </span>
+                <span id="challenge-cost" class="text-xs font-mono font-bold px-2 py-0.5 rounded bg-amber-400/20 text-amber-300">
+                  5 sats
+                </span>
+              </div>
+              <p class="text-xs text-slate-300 leading-relaxed">
+                The server returned <code class="text-amber-400 font-mono font-bold">HTTP 402 Payment Required</code> with a cryptographic Macaroon and BOLT-11 invoice.
+              </p>
+              <div class="space-y-2">
+                <button id="btn-pay-webln" class="w-full py-2.5 px-4 rounded-xl bg-lightning hover:bg-amber-400 text-black font-bold text-xs flex items-center justify-center gap-2 transition-all">
+                  <span>⚡</span> Pay Instantly with Alby (WebLN)
+                </button>
+                <button id="btn-mock-pay" class="w-full py-2 px-4 rounded-xl bg-surface-800 hover:bg-surface-700 text-slate-300 font-medium text-xs border border-surface-800 flex items-center justify-center gap-1.5">
+                  <span>🤖</span> Simulate Autonomous NWC Settlement (Demo)
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Live Terminal -->
+          <div class="lg:col-span-7 bg-surface-950 border border-surface-800 rounded-2xl p-6 font-mono text-xs flex flex-col justify-between shadow-2xl relative overflow-hidden">
+            <div class="space-y-4">
+              <div class="flex items-center justify-between border-b border-surface-800 pb-3">
+                <div class="flex items-center space-x-2">
+                  <span class="w-3 h-3 rounded-full bg-rose-500/80"></span>
+                  <span class="w-3 h-3 rounded-full bg-amber-500/80"></span>
+                  <span class="w-3 h-3 rounded-full bg-emerald-500/80"></span>
+                  <span class="text-slate-400 ml-2 font-sans font-semibold">Live M2M Console</span>
+                </div>
+                <span id="status-badge" class="px-2 py-0.5 rounded bg-surface-800 text-slate-400">Idle</span>
+              </div>
+
+              <div id="console-logs" class="space-y-2 max-h-96 overflow-y-auto pr-2 text-slate-300">
+                <div class="text-slate-400">// Click "Trigger Machine-to-Machine Request" to initiate the L402 handshake.</div>
+              </div>
+            </div>
+
+            <div id="result-preview" class="hidden mt-4 pt-4 border-t border-surface-800 space-y-3">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-sans font-bold text-emerald-400 flex items-center gap-1.5">
+                  <span>✓</span> Data Successfully Unlocked (HTTP 200)
+                </span>
+                <span id="roi-latency" class="text-xs font-mono text-emerald-400 font-semibold">⚡ 24ms Edge Latency</span>
+              </div>
+
+              <!-- Token Arbitrage & Economic ROI Banner -->
+              <div id="roi-banner" class="p-3.5 rounded-xl bg-gradient-to-r from-emerald-500/10 via-surface-900 to-emerald-500/10 border border-emerald-500/30 flex flex-wrap items-center justify-between gap-3 text-xs">
+                <div class="flex items-center gap-2">
+                  <span class="text-base">⚡</span>
+                  <div>
+                    <span class="text-slate-400 block text-[10px] uppercase font-bold tracking-wider">Settlement Cost</span>
+                    <span id="roi-cost" class="font-bold text-amber-400 font-mono">5 sats (~$0.004)</span>
+                  </div>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="text-base">📉</span>
+                  <div>
+                    <span class="text-slate-400 block text-[10px] uppercase font-bold tracking-wider">LLM Tokens Saved</span>
+                    <span id="roi-tokens" class="font-bold text-emerald-400 font-mono">~24,500 tokens</span>
+                  </div>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="text-base">💰</span>
+                  <div>
+                    <span class="text-slate-400 block text-[10px] uppercase font-bold tracking-wider">Net Savings vs GPT-4</span>
+                    <span id="roi-savings" class="font-bold text-emerald-300 font-mono">+$0.068 (1,700% ROI)</span>
+                  </div>
+                </div>
+              </div>
+
+              <pre id="result-content" class="p-4 rounded-xl bg-surface-900 border border-surface-800 max-h-52 overflow-y-auto text-slate-200 text-xs whitespace-pre-wrap"></pre>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- VIEW B: Tool / Model Creator Monetization Form (Hidden by default, shown via Tab) -->
+    <div id="view-creator" class="space-y-6 hidden">
+      <section id="submit" class="scroll-mt-24 bg-gradient-to-b from-surface-900 to-surface-950 border border-amber-500/20 rounded-2xl p-8 space-y-6 shadow-2xl relative overflow-hidden">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-surface-800 pb-6">
+          <div>
+            <span class="text-xs font-mono font-bold px-2.5 py-1 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/30 uppercase tracking-wider">
+              🚀 30-Second Free Listing
+            </span>
+            <h3 class="text-2xl font-bold text-white mt-2 flex items-center gap-2">
+              Monetize Your MCP Tool or Specialized SLM Model
+            </h3>
+            <p class="text-sm text-slate-300">
+              Have an API, scraper, database connector, or specialized 7B model? Expose it to autonomous agents worldwide. Satoshis stream directly to your Lightning wallet on every single execution.
+            </p>
+          </div>
         </div>
 
-        <div class="space-y-2">
-          <label class="block text-xs font-bold uppercase text-slate-300">Tool URL / Endpoint</label>
-          <input type="url" id="reg-endpoint" required placeholder="https://my-server.workers.dev/mcp" class="w-full px-4 py-2.5 rounded-xl bg-surface-900 border border-surface-800 text-slate-100 text-sm focus:outline-none focus:border-amber-500 font-mono" />
-        </div>
+        <form id="form-register-tool" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="space-y-2">
+            <label class="block text-xs font-bold uppercase text-slate-300">Tool Slug (Unique Identifier)</label>
+            <input type="text" id="reg-name" required placeholder="my_awesome_tool" class="w-full px-4 py-2.5 rounded-xl bg-surface-900 border border-surface-800 text-slate-100 text-sm focus:outline-none focus:border-amber-500 font-mono" />
+          </div>
 
-        <div class="space-y-2">
-          <label class="block text-xs font-bold uppercase text-slate-300">Your Lightning Address (Where you receive satoshis)</label>
-          <input type="text" id="reg-address" required placeholder="yourname@getalby.com" class="w-full px-4 py-2.5 rounded-xl bg-surface-900 border border-surface-800 text-slate-100 text-sm focus:outline-none focus:border-amber-500 font-mono" />
-        </div>
+          <div class="space-y-2">
+            <label class="block text-xs font-bold uppercase text-slate-300">Price per call (in satoshis)</label>
+            <input type="number" id="reg-price" required min="1" value="5" class="w-full px-4 py-2.5 rounded-xl bg-surface-900 border border-surface-800 text-slate-100 text-sm focus:outline-none focus:border-amber-500 font-mono" />
+          </div>
 
-        <div class="md:col-span-2 space-y-2">
-          <label class="block text-xs font-bold uppercase text-slate-300">Clear Description for AI Agents</label>
-          <textarea id="reg-description" required rows="2" placeholder="Explain what this tool does so an LLM agent knows when to invoke it..." class="w-full px-4 py-2.5 rounded-xl bg-surface-900 border border-surface-800 text-slate-100 text-sm focus:outline-none focus:border-amber-500"></textarea>
-        </div>
+          <div class="space-y-2">
+            <label class="block text-xs font-bold uppercase text-slate-300">Tool URL / Endpoint</label>
+            <input type="url" id="reg-endpoint" required placeholder="https://my-server.workers.dev/mcp" class="w-full px-4 py-2.5 rounded-xl bg-surface-900 border border-surface-800 text-slate-100 text-sm focus:outline-none focus:border-amber-500 font-mono" />
+          </div>
 
-        <div class="md:col-span-2 flex flex-col sm:flex-row items-center justify-between gap-4 pt-2">
-          <p class="text-xs text-slate-400">100% Non-Custodial: payments settle directly into your Lightning Address.</p>
-          <button type="submit" id="btn-submit-tool" class="w-full sm:w-auto px-6 py-3 rounded-xl bg-lightning hover:bg-amber-400 text-black font-bold text-sm transition-all shadow-lg shadow-amber-500/10 flex items-center justify-center gap-2">
-            <span>⚡</span> Register this Tool in Ampero Registry
-          </button>
-        </div>
-      </form>
+          <div class="space-y-2">
+            <label class="block text-xs font-bold uppercase text-slate-300">Your Lightning Address (Where you receive satoshis)</label>
+            <input type="text" id="reg-address" required placeholder="yourname@getalby.com" class="w-full px-4 py-2.5 rounded-xl bg-surface-900 border border-surface-800 text-slate-100 text-sm focus:outline-none focus:border-amber-500 font-mono" />
+          </div>
 
-      <div id="register-alert" class="hidden p-4 rounded-xl text-xs font-mono"></div>
+          <div class="md:col-span-2 space-y-2">
+            <label class="block text-xs font-bold uppercase text-slate-300">Clear Description for AI Agents</label>
+            <textarea id="reg-description" required rows="2" placeholder="Explain what this tool does so an LLM agent knows when to invoke it..." class="w-full px-4 py-2.5 rounded-xl bg-surface-900 border border-surface-800 text-slate-100 text-sm focus:outline-none focus:border-amber-500"></textarea>
+          </div>
+
+          <div class="md:col-span-2 flex flex-col sm:flex-row items-center justify-between gap-4 pt-2">
+            <p class="text-xs text-slate-400">100% Non-Custodial: payments settle directly into your Lightning Address.</p>
+            <button type="submit" id="btn-submit-tool" class="w-full sm:w-auto px-6 py-3 rounded-xl bg-lightning hover:bg-amber-400 text-black font-bold text-sm transition-all shadow-lg shadow-amber-500/10 flex items-center justify-center gap-2">
+              <span>⚡</span> Register this Tool in Ampero Registry
+            </button>
+          </div>
+        </form>
+
+        <div id="register-alert" class="hidden p-4 rounded-xl text-xs font-mono"></div>
+      </section>
+    </div>
+
+    <!-- Section 2 : Dedicated Catalogue Link Banner -->
+    <section class="p-6 sm:p-8 rounded-2xl bg-surface-900 border border-surface-800 flex flex-col sm:flex-row items-center justify-between gap-6 shadow-xl hover:border-amber-500/30 transition-all">
+      <div class="space-y-1.5 text-center sm:text-left">
+        <div class="flex items-center justify-center sm:justify-start gap-2.5">
+          <span class="text-2xl">📦</span>
+          <h3 class="text-xl font-bold text-white tracking-tight">Available Tools & Models Catalogue</h3>
+          <span class="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-amber-500/10 text-amber-400 border border-amber-500/20">Dedicated Registry</span>
+        </div>
+        <p class="text-xs sm:text-sm text-slate-400 max-w-2xl leading-relaxed">
+          Explore all indexed, Edge-native MCP tools, live financial oracles, and fine-tuned SLMs ready to be queried autonomously by AI agents.
+        </p>
+      </div>
+      <a href="/catalogue" class="px-6 py-3.5 rounded-xl bg-surface-800 hover:bg-surface-700 text-amber-300 hover:text-amber-200 font-bold text-sm border border-amber-500/30 transition-all flex items-center gap-2 whitespace-nowrap shadow-md group">
+        <span>Browse Full Catalogue</span> <span class="group-hover:translate-x-1 transition-transform">&rarr;</span>
+      </a>
     </section>
 
     <!-- Section 4 : Quick Integration (Claude Desktop, Cursor, SDK) -->
@@ -515,6 +531,54 @@ registerMonetizedTool(server, 'my_tool', 'Description', schema, {
       const toolParamsContainer = document.getElementById('tool-params-container');
       const toolsCardsGrid = document.getElementById('tools-cards-grid');
       const weblnStatus = document.getElementById('webln-status');
+
+      // Persona Tab Switching: Simulator (Agent Builder) vs Monetization (Tool/Model Creator)
+      const tabBuilder = document.getElementById('tab-builder');
+      const tabCreator = document.getElementById('tab-creator');
+      const viewBuilder = document.getElementById('view-builder');
+      const viewCreator = document.getElementById('view-creator');
+
+      function switchMode(mode) {
+        if (!viewBuilder || !viewCreator || !tabBuilder || !tabCreator) return;
+        const activeClass = 'flex-1 py-3 px-4 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center justify-center gap-2 bg-lightning text-black shadow-md cursor-pointer';
+        const inactiveClass = 'flex-1 py-3 px-4 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center justify-center gap-2 text-slate-400 hover:text-white cursor-pointer';
+
+        if (mode === 'creator') {
+          viewBuilder.classList.add('hidden');
+          viewCreator.classList.remove('hidden');
+          tabCreator.className = activeClass;
+          tabBuilder.className = inactiveClass;
+        } else {
+          viewCreator.classList.add('hidden');
+          viewBuilder.classList.remove('hidden');
+          tabBuilder.className = activeClass;
+          tabCreator.className = inactiveClass;
+        }
+      }
+
+      if (tabBuilder) tabBuilder.addEventListener('click', () => switchMode('builder'));
+      if (tabCreator) tabCreator.addEventListener('click', () => switchMode('creator'));
+
+      // Intercept anchor links for #submit and #playground
+      document.querySelectorAll('a[href="#submit"]').forEach(el => {
+        el.addEventListener('click', () => {
+          switchMode('creator');
+        });
+      });
+      document.querySelectorAll('a[href="#playground"]').forEach(el => {
+        el.addEventListener('click', () => {
+          switchMode('builder');
+        });
+      });
+
+      // Handle initial hash and hashchange
+      if (window.location.hash === '#submit') {
+        switchMode('creator');
+      }
+      window.addEventListener('hashchange', () => {
+        if (window.location.hash === '#submit') switchMode('creator');
+        if (window.location.hash === '#playground') switchMode('builder');
+      });
 
       function logMessage(prefix, message, type = 'info') {
         if (!consoleLogs) return;
