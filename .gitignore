@@ -20,3 +20,8 @@ npm-debug.log*
 Thumbs.db
 .vscode/
 .idea/
+
+# Notes personnelles
+TODO.md
+TODO*.md
+*.todo.md
