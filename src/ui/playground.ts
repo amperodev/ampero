@@ -86,6 +86,17 @@ export function renderPlaygroundHtml(tools: PlaygroundToolInfo[], envInfo: { lig
     </div>
   </header>
 
+  <!-- Audience Solutions Bar -->
+  <div class="border-b border-surface-800 bg-surface-900/40">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5 flex items-center justify-start sm:justify-center gap-2 sm:gap-4 overflow-x-auto text-xs font-mono">
+      <span class="text-slate-400 font-medium hidden md:inline">Audience Solutions:</span>
+      <a href="/monetize-huggingface" class="px-3 py-1 rounded-lg text-slate-300 hover:text-amber-400 hover:bg-surface-800 transition-all whitespace-nowrap">🤗 Hugging Face Models</a>
+      <a href="/monetize-tools" class="px-3 py-1 rounded-lg text-slate-300 hover:text-amber-400 hover:bg-surface-800 transition-all whitespace-nowrap">🛠️ MCP Tools & APIs</a>
+      <a href="/save-tokens" class="px-3 py-1 rounded-lg text-slate-300 hover:text-emerald-400 hover:bg-surface-800 transition-all whitespace-nowrap">📉 Save 90% Tokens</a>
+      <a href="/lightning-ai" class="px-3 py-1 rounded-lg text-slate-300 hover:text-amber-400 hover:bg-surface-800 transition-all whitespace-nowrap">⚡ Bitcoin & L402</a>
+    </div>
+  </div>
+
   <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-16">
 
     <!-- Hero Section: Ultra-Clean Minimalist -->
@@ -504,9 +515,17 @@ registerMonetizedTool(server, 'my_tool', 'Description', schema, {
 
   </main>
 
-  <footer class="border-t border-surface-800 py-8 text-center text-xs text-slate-400 space-y-2">
+  <footer class="border-t border-surface-800 py-10 text-center text-xs text-slate-400 space-y-4">
+    <div class="flex flex-wrap items-center justify-center gap-6 font-mono text-xs">
+      <a href="/monetize-huggingface" class="text-slate-400 hover:text-amber-400 transition-colors">🤗 Hugging Face Models</a>
+      <a href="/monetize-tools" class="text-slate-400 hover:text-amber-400 transition-colors">🛠️ MCP Tool Authors</a>
+      <a href="/save-tokens" class="text-slate-400 hover:text-emerald-400 transition-colors">📉 Save 90% Tokens</a>
+      <a href="/lightning-ai" class="text-slate-400 hover:text-amber-400 transition-colors">⚡ Bitcoin & L402</a>
+      <a href="/catalogue" class="text-slate-400 hover:text-white transition-colors">📦 Registry Catalogue</a>
+      <a href="/llms.txt" class="text-slate-400 hover:text-white transition-colors">🤖 llms.txt</a>
+    </div>
     <p>L402 Edge • Protocol bLIP-0004 / LSAT on Cloudflare Workers & Bitcoin Lightning Network.</p>
-    <p>100% Non-Custodial • Privacy by Design.</p>
+    <p>100% Non-Custodial • Privacy by Design • Machine-to-Machine Intelligence.</p>
   </footer>
 
   <!-- Vanilla JS Interactive Client -->

@@ -18,6 +18,10 @@ import { scanDomainSecurity } from './tools/security-scanner';
 import { renderPlaygroundHtml } from './ui/playground';
 import { renderCatalogueHtml } from './ui/catalogue';
 import { renderLlmsTxt } from './ui/llms-txt';
+import { renderHuggingFacePageHtml } from './ui/landing-huggingface';
+import { renderMcpPageHtml } from './ui/landing-mcp';
+import { renderBitcoinPageHtml } from './ui/landing-bitcoin';
+import { renderTokensPageHtml } from './ui/landing-tokens';
 
 export interface Env {
   L402_ROOT_SECRET: string;
@@ -208,6 +212,43 @@ export default {
         { lightningAddress }
       );
       return new Response(catalogueHtml, {
+        headers: {
+          'Content-Type': 'text/html; charset=utf-8',
+          ...corsHeaders
+        }
+      });
+    }
+
+    // 1d. Dedicated Audience Landing Pages (GET / HEAD)
+    if ((url.pathname === '/monetize-huggingface' || url.pathname === '/for-huggingface') && (request.method === 'GET' || request.method === 'HEAD')) {
+      return new Response(renderHuggingFacePageHtml(), {
+        headers: {
+          'Content-Type': 'text/html; charset=utf-8',
+          ...corsHeaders
+        }
+      });
+    }
+
+    if ((url.pathname === '/monetize-tools' || url.pathname === '/for-mcp') && (request.method === 'GET' || request.method === 'HEAD')) {
+      return new Response(renderMcpPageHtml(), {
+        headers: {
+          'Content-Type': 'text/html; charset=utf-8',
+          ...corsHeaders
+        }
+      });
+    }
+
+    if ((url.pathname === '/lightning-ai' || url.pathname === '/for-bitcoin') && (request.method === 'GET' || request.method === 'HEAD')) {
+      return new Response(renderBitcoinPageHtml(), {
+        headers: {
+          'Content-Type': 'text/html; charset=utf-8',
+          ...corsHeaders
+        }
+      });
+    }
+
+    if ((url.pathname === '/save-tokens' || url.pathname === '/token-arbitrage') && (request.method === 'GET' || request.method === 'HEAD')) {
+      return new Response(renderTokensPageHtml(), {
         headers: {
           'Content-Type': 'text/html; charset=utf-8',
           ...corsHeaders

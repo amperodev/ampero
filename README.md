@@ -8,10 +8,23 @@
 [![Cloudflare Workers](https://img.shields.io/badge/Cloudflare-Workers_Edge-F38020.svg)](https://workers.cloudflare.com/)
 [![MCP](https://img.shields.io/badge/Model_Context_Protocol-Anthropic-8A2BE2.svg)](https://modelcontextprotocol.io)
 [![License: MIT](https://img.shields.io/badge/License-MIT-emerald.svg)](LICENSE)
-[![Tests](https://img.shields.io/badge/Tests-49%20passing-brightgreen.svg)]()
+[![Tests](https://img.shields.io/badge/Tests-53%20passing-brightgreen.svg)]()
 
 > 🚀 **Got an MCP server, API, or specialized 7B model?**  
 > **[List your tool in the Ampero Registry in 30 seconds](https://ampero.ampero-dev.workers.dev/#submit)** and start earning satoshis directly into your Lightning wallet.
+
+---
+
+## 🎯 Solutions by Audience
+
+Explore dedicated guides tailored to each participant in the machine economy:
+
+| Audience | What You Get | Dedicated Guide |
+|---|---|---|
+| **🤗 Hugging Face Creators** | Monetize fine-tuned SLMs & inference endpoints per call without Stripe | [Monetize Hugging Face Models](https://ampero.ampero-dev.workers.dev/monetize-huggingface) |
+| **🛠️ MCP Tool & API Authors** | Turn Model Context Protocol servers and scrapers into streaming satoshi revenue | [Monetize MCP Tools](https://ampero.ampero-dev.workers.dev/monetize-tools) |
+| **📉 AI Agent Builders & Token Savers** | Slash LLM context bills by 90% and cut latency from seconds to 25ms | [Token Arbitrage Guide](https://ampero.ampero-dev.workers.dev/save-tokens) |
+| **⚡ Bitcoin & Lightning Community** | Real-world M2M utility with L402 (bLIP-0004), non-custodial streaming micropayments & zero KYC | [Bitcoin Lightning for AI](https://ampero.ampero-dev.workers.dev/lightning-ai) |
 
 ---
 
