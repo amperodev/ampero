@@ -1,7 +1,7 @@
 # ⚡ Ampero
 
-> **The Open Marketplace for Monetized MCP Tools & Models.**  
-> *A win-win compute economy for the AI era: Agent builders save up to 90% in tokens. Tool & model creators get paid automatically on every single execution.*
+> **Get paid when AI agents use your tools & models.**  
+> *The open marketplace where AI agents buy micro-compute and creators earn on every execution.*
 
 [![npm version](https://img.shields.io/npm/v/ampero.svg?color=cb3837)](https://www.npmjs.com/package/ampero)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.7-blue.svg)](https://www.typescriptlang.org/)
@@ -11,22 +11,21 @@
 [![Tests](https://img.shields.io/badge/Tests-49%20passing-brightgreen.svg)]()
 
 > 🚀 **Got an MCP server, API, or specialized 7B model?**  
-> **[List your tool in the Ampero Registry in 30 seconds](https://ampero.ampero-dev.workers.dev/#submit)** and start earning satoshis directly into your Lightning wallet with zero human friction.
+> **[List your tool in the Ampero Registry in 30 seconds](https://ampero.ampero-dev.workers.dev/#submit)** and start earning satoshis directly into your Lightning wallet.
 
 ---
 
 ## 🤝 A Win-Win Compute Economy
 
-Ampero connects two sides of the AI ecosystem in a mutually beneficial micro-economy:
+Ampero connects two sides of the AI ecosystem in a simple, mutually beneficial micro-economy:
 
 ```
 ┌────────────────────────────────────────┐       ┌────────────────────────────────────────┐
 │      🤖 FOR AI AGENT BUILDERS          │       │      ⚡ FOR TOOL & MODEL CREATORS      │
 │                                        │       │                                        │
-│ • Cut token bills by up to 90%         │ ◄───► │ • Monetize every single API call       │
-│ • Sub-30ms deterministic data at Edge  │  Win  │ • Instant payouts to Lightning wallet  │
-│ • No subscriptions, pay-per-call only  │  Win  │ • Turn GPU costs into profitable assets│
-│ • Zero hallucination on math & facts   │       │ • No bank account or Stripe needed     │
+│ • 90% cheaper than raw LLM tokens      │ ◄───► │ • Earn automatically on every call     │
+│ • 25ms instant, deterministic answers  │  Win  │ • Works with APIs & Hugging Face       │
+│ • Zero subscriptions: pay-per-call     │  Win  │ • 100% private: weights stay protected │
 └────────────────────────────────────────┘       └────────────────────────────────────────┘
 ```
 

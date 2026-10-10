@@ -85,31 +85,44 @@ export function renderPlaygroundHtml(tools: PlaygroundToolInfo[], envInfo: { lig
 
   <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-16">
 
-    <!-- Hero Section -->
+    <!-- Hero Section: Ultra-Clean Minimalist -->
     <section class="text-center space-y-6 pt-4 pb-2">
       <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-xl bg-surface-800/90 border border-surface-800 text-xs font-mono text-amber-400 mb-1">
         <span>⚡ Open Machine-to-Machine Compute & Settlement</span>
       </div>
+      
       <h2 class="text-4xl sm:text-5xl font-extrabold tracking-tight text-white max-w-4xl mx-auto leading-tight">
-        The Open Marketplace for <span class="bg-gradient-to-r from-lightning via-amber-400 to-amber-200 bg-clip-text text-transparent">Monetized MCP Tools & Models</span>
+        Get paid when AI agents use <span class="bg-gradient-to-r from-lightning via-amber-400 to-amber-200 bg-clip-text text-transparent">your tools & models</span>
       </h2>
-      <p class="text-xl font-semibold text-amber-300 max-w-2xl mx-auto">
-        ⚡ A Win-Win Compute Economy for the AI Era.
+      
+      <p class="text-lg text-slate-300 max-w-2xl mx-auto font-medium">
+        The open marketplace where AI agents buy micro-compute and creators earn on every execution.
       </p>
 
-      <!-- Win-Win Value Proposition Cards -->
+      <!-- 2 Clean Value Cards (3 bullets each) -->
       <div class="max-w-3xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-4 text-left pt-2">
-        <div class="p-4 rounded-2xl bg-surface-900 border border-surface-800 space-y-1.5 hover:border-amber-500/30 transition-all">
-          <span class="text-xs font-bold text-amber-400 uppercase tracking-wider block font-mono">🤖 For AI Agent Builders</span>
-          <p class="text-xs text-slate-300 leading-relaxed">
-            <strong>Cut token bills by up to 90%.</strong> Offload messy web scrapes, live financial oracles, and security checks to Edge tools for 1 to 5 sats. Stop wasting context.
-          </p>
+        <div class="p-5 rounded-2xl bg-surface-900 border border-surface-800 space-y-2.5 hover:border-amber-500/40 transition-all shadow-lg">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-amber-400 uppercase tracking-wider font-mono">🤖 For AI Agent Builders</span>
+            <span class="text-[10px] px-2 py-0.5 rounded bg-amber-500/10 text-amber-400 font-mono">Save Tokens</span>
+          </div>
+          <ul class="text-xs text-slate-300 space-y-1.5 list-disc list-inside">
+            <li><strong>90% cheaper</strong> than burning raw LLM context</li>
+            <li><strong>25ms latency:</strong> instant, deterministic Edge results</li>
+            <li><strong>Zero subscriptions:</strong> pay-per-call in satoshis</li>
+          </ul>
         </div>
-        <div class="p-4 rounded-2xl bg-surface-900 border border-surface-800 space-y-1.5 hover:border-emerald-500/30 transition-all">
-          <span class="text-xs font-bold text-emerald-400 uppercase tracking-wider block font-mono">⚡ For Tool & SLM Creators</span>
-          <p class="text-xs text-slate-300 leading-relaxed">
-            <strong>Monetize your code & 7B models.</strong> Expose your APIs to autonomous agents and get paid in satoshis on every single call directly to your Lightning wallet.
-          </p>
+
+        <div class="p-5 rounded-2xl bg-surface-900 border border-surface-800 space-y-2.5 hover:border-emerald-500/40 transition-all shadow-lg">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-emerald-400 uppercase tracking-wider font-mono">⚡ For Tool & Model Creators</span>
+            <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 font-mono">Earn Sats</span>
+          </div>
+          <ul class="text-xs text-slate-300 space-y-1.5 list-disc list-inside">
+            <li><strong>Earn automatically</strong> on every single execution</li>
+            <li><strong>Works with any API,</strong> MCP tool or Hugging Face model</li>
+            <li><strong>100% private:</strong> your weights and code stay protected</li>
+          </ul>
         </div>
       </div>
 
@@ -119,20 +132,15 @@ export function renderPlaygroundHtml(tools: PlaygroundToolInfo[], envInfo: { lig
           <span>🧪</span> Try Simulator & Save Tokens
         </a>
         <a href="#submit" class="px-6 py-3.5 rounded-xl bg-surface-900 hover:bg-surface-800 text-amber-300 font-bold text-sm border border-amber-500/30 hover:border-amber-400 transition-all shadow-md flex items-center gap-2">
-          <span>🚀</span> List Your Tool or Model (Free)
+          <span>🚀</span> Monetize a Tool or Model (Free)
         </a>
       </div>
 
-      <div class="flex flex-wrap items-center justify-center gap-4 pt-1">
-        <div class="flex items-center gap-2 text-xs text-slate-400 bg-surface-900 px-4 py-2 rounded-xl border border-surface-800">
-          <span class="text-emerald-400 font-bold">✓</span> 100% Non-Custodial
-        </div>
-        <div class="flex items-center gap-2 text-xs text-slate-400 bg-surface-900 px-4 py-2 rounded-xl border border-surface-800">
-          <span class="text-emerald-400 font-bold">✓</span> Zero Human Friction & Zero KYC
-        </div>
-        <div class="flex items-center gap-2 text-xs text-slate-400 bg-surface-900 px-4 py-2 rounded-xl border border-surface-800">
-          <span class="text-emerald-400 font-bold">✓</span> Instant Lightning Address Payouts
-        </div>
+      <!-- Trust Badges in 1 Simple Row -->
+      <div class="flex flex-wrap items-center justify-center gap-6 pt-1 text-xs text-slate-400">
+        <span class="flex items-center gap-1.5"><strong class="text-emerald-400">✓</strong> 100% Non-Custodial</span>
+        <span class="flex items-center gap-1.5"><strong class="text-emerald-400">✓</strong> Zero KYC & Zero Accounts</span>
+        <span class="flex items-center gap-1.5"><strong class="text-emerald-400">✓</strong> Direct Lightning Payouts</span>
       </div>
     </section>
 
