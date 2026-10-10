@@ -113,33 +113,6 @@ export function renderPlaygroundHtml(tools: PlaygroundToolInfo[], envInfo: { lig
         The open marketplace where AI agents buy micro-compute and creators earn on every execution.
       </p>
 
-      <!-- 2 Clean Value Cards (3 bullets each) -->
-      <div class="max-w-3xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-4 text-left pt-2">
-        <div class="p-5 rounded-2xl bg-surface-900 border border-surface-800 space-y-2.5 hover:border-amber-500/40 transition-all shadow-lg">
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-bold text-amber-400 uppercase tracking-wider font-mono">🤖 For AI Agent Builders</span>
-            <span class="text-[10px] px-2 py-0.5 rounded bg-amber-500/10 text-amber-400 font-mono">Save Tokens</span>
-          </div>
-          <ul class="text-xs text-slate-300 space-y-1.5 list-disc list-inside">
-            <li><strong>90% cheaper</strong> than burning raw LLM context</li>
-            <li><strong>25ms latency:</strong> instant, deterministic Edge results</li>
-            <li><strong>Zero subscriptions:</strong> pay-per-call in satoshis</li>
-          </ul>
-        </div>
-
-        <div class="p-5 rounded-2xl bg-surface-900 border border-surface-800 space-y-2.5 hover:border-emerald-500/40 transition-all shadow-lg">
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-bold text-emerald-400 uppercase tracking-wider font-mono">⚡ For Tool & Model Creators</span>
-            <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 font-mono">Earn Sats</span>
-          </div>
-          <ul class="text-xs text-slate-300 space-y-1.5 list-disc list-inside">
-            <li><strong>Earn automatically</strong> on every single execution</li>
-            <li><strong>Works with any API,</strong> MCP tool or Hugging Face model</li>
-            <li><strong>100% private:</strong> your weights and code stay protected</li>
-          </ul>
-        </div>
-      </div>
-
       <!-- Dual Call to Action Buttons -->
       <div class="flex flex-wrap items-center justify-center gap-4 pt-2">
         <a href="#playground" class="px-6 py-3.5 rounded-xl bg-gradient-to-r from-lightning to-amber-500 hover:from-amber-400 hover:to-amber-500 text-black font-bold text-sm transition-all shadow-lg shadow-amber-500/20 flex items-center gap-2">
@@ -158,84 +131,76 @@ export function renderPlaygroundHtml(tools: PlaygroundToolInfo[], envInfo: { lig
       </div>
     </section>
 
-    <!-- The Architectural Shift: Why Specialized Models & Token Economy Win (Moved high up) -->
-    <section class="p-8 rounded-2xl bg-gradient-to-b from-surface-900 to-surface-950 border border-surface-800 space-y-8 shadow-xl">
+    <!-- 4 Role-Based Solution Cards (Replaces text walls) -->
+    <section class="space-y-6">
       <div class="text-center space-y-2 max-w-2xl mx-auto">
         <span class="text-xs font-mono font-bold text-amber-400 uppercase tracking-wider px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 inline-block">
-          🔮 The Architectural Shift
+          🎯 Dedicated Solutions
         </span>
         <h3 class="text-2xl sm:text-3xl font-bold text-white tracking-tight">
-          The Future of AI is Not Monolithic. It is Modular & Specialized.
+          Built for Every Actor in the AI Economy
         </h3>
         <p class="text-xs sm:text-sm text-slate-400">
-          Why burning 50,000 tokens on a generalist model is being replaced by hyper-specialized expert models.
+          Pick your role to see how Ampero eliminates friction for your workflow.
         </p>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <!-- Pillar 1: Token Economy -->
-        <div class="p-5 rounded-2xl bg-surface-950/80 border border-surface-800 space-y-2.5">
-          <div class="flex items-center space-x-2">
-            <span class="text-xl">📉</span>
-            <h4 class="text-sm font-bold text-white font-mono">1. Critical Token Economy</h4>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <!-- Card 1: Hugging Face -->
+        <a href="/monetize-huggingface" class="p-5 rounded-2xl bg-surface-900 border border-surface-800 hover:border-amber-500/50 transition-all flex flex-col justify-between space-y-4 group shadow-lg">
+          <div class="space-y-2.5">
+            <div class="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-xl">🤗</div>
+            <h4 class="text-base font-bold text-white group-hover:text-amber-400 transition-colors">Hugging Face Models</h4>
+            <p class="text-xs text-slate-400 leading-relaxed">
+              Monetize fine-tuned SLMs and inference endpoints per execution. No Stripe monthly plans, protected weights.
+            </p>
           </div>
-          <p class="text-xs text-slate-400 leading-relaxed">
-            As AI agents scale, context window consumption is the #1 operational bottleneck. Delegating raw extraction and parsing to specialized tools slashes token waste by up to 90%.
-          </p>
-        </div>
+          <span class="text-xs font-mono text-amber-400 font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+            Monetize Models &rarr;
+          </span>
+        </a>
 
-        <!-- Pillar 2: Superior Domain Reliability -->
-        <div class="p-5 rounded-2xl bg-surface-950/80 border border-surface-800 space-y-2.5">
-          <div class="flex items-center space-x-2">
-            <span class="text-xl">🎯</span>
-            <h4 class="text-sm font-bold text-white font-mono">2. Superior Reliability</h4>
+        <!-- Card 2: MCP Tools -->
+        <a href="/monetize-tools" class="p-5 rounded-2xl bg-surface-900 border border-surface-800 hover:border-amber-500/50 transition-all flex flex-col justify-between space-y-4 group shadow-lg">
+          <div class="space-y-2.5">
+            <div class="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-xl">🛠️</div>
+            <h4 class="text-base font-bold text-white group-hover:text-amber-400 transition-colors">MCP Tools & APIs</h4>
+            <p class="text-xs text-slate-400 leading-relaxed">
+              Turn scrapers, databases, and Model Context Protocol servers into autonomous paid tools for Claude & Cursor.
+            </p>
           </div>
-          <p class="text-xs text-slate-400 leading-relaxed">
-            A 7B SLM fine-tuned on code security or financial liquidity consistently outperforms a 1-trillion parameter generalist on domain accuracy, with zero hallucinations.
-          </p>
-        </div>
+          <span class="text-xs font-mono text-amber-400 font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+            Monetize Tools &rarr;
+          </span>
+        </a>
 
-        <!-- Pillar 3: Real-Time Edge Efficiency -->
-        <div class="p-5 rounded-2xl bg-surface-950/80 border border-surface-800 space-y-2.5">
-          <div class="flex items-center space-x-2">
-            <span class="text-xl">⚡</span>
-            <h4 class="text-sm font-bold text-white font-mono">3. Real-Time Efficiency</h4>
+        <!-- Card 3: Token Arbitrage -->
+        <a href="/save-tokens" class="p-5 rounded-2xl bg-surface-900 border border-surface-800 hover:border-emerald-500/50 transition-all flex flex-col justify-between space-y-4 group shadow-lg">
+          <div class="space-y-2.5">
+            <div class="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-xl">📉</div>
+            <h4 class="text-base font-bold text-white group-hover:text-emerald-400 transition-colors">Save 90% Tokens</h4>
+            <p class="text-xs text-slate-400 leading-relaxed">
+              Stop burning 25,000 tokens on noisy context. Offload raw compute to 25ms Edge tools for 5 sats (~$0.004).
+            </p>
           </div>
-          <p class="text-xs text-slate-400 leading-relaxed">
-            Micro-models execute in 25–50ms at the Edge for fractions of a cent, turning slow multi-second search lags into instant, reactive agent workflows.
-          </p>
-        </div>
-      </div>
+          <span class="text-xs font-mono text-emerald-400 font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+            Token Arbitrage &rarr;
+          </span>
+        </a>
 
-      <div class="p-4 rounded-xl bg-surface-900 border border-surface-800 text-center text-xs text-slate-300">
-        💡 <strong class="text-amber-300">The Orchestrator Thesis:</strong> General models (Claude, GPT) will act as conductors, delegating execution to thousands of specialized micro-models. <strong>Ampero is the economic nervous system that powers them.</strong>
-      </div>
-    </section>
-
-    <!-- Token Arbitrage Value Comparison: Before vs After -->
-    <section class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-4">
-      <div class="p-5 rounded-2xl bg-surface-900 border border-rose-500/20 space-y-2.5">
-        <div class="flex items-center justify-between text-rose-400 font-bold text-xs">
-          <span class="flex items-center gap-1.5"><span>❌</span> The Old Way (LLM Token Waste)</span>
-          <span class="px-2 py-0.5 rounded bg-rose-500/10 border border-rose-500/20 font-mono">~$0.10 / call</span>
-        </div>
-        <ul class="text-xs text-slate-400 space-y-1.5 list-disc list-inside">
-          <li>Agent dumps 25,000 raw HTML tokens into Claude / GPT</li>
-          <li>Model burns expensive tokens parsing CSS, ads & noise</li>
-          <li>Slow 4–6s latency with frequent hallucination risks</li>
-        </ul>
-      </div>
-
-      <div class="p-5 rounded-2xl bg-surface-900 border border-emerald-500/30 space-y-2.5 shadow-lg shadow-emerald-500/5">
-        <div class="flex items-center justify-between text-emerald-400 font-bold text-xs">
-          <span class="flex items-center gap-1.5"><span>⚡</span> The Ampero Way (Token Arbitrage)</span>
-          <span class="px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 font-mono">5 sats (~$0.004)</span>
-        </div>
-        <ul class="text-xs text-slate-300 space-y-1.5 list-disc list-inside">
-          <li>Edge tool cleans and sanitizes data in &lt; 30ms</li>
-          <li>LLM only ingests 500 clean tokens (<strong class="text-emerald-400">95% token savings</strong>)</li>
-          <li>Deterministic ground truth with zero human friction</li>
-        </ul>
+        <!-- Card 4: Bitcoin L402 -->
+        <a href="/lightning-ai" class="p-5 rounded-2xl bg-surface-900 border border-surface-800 hover:border-amber-500/50 transition-all flex flex-col justify-between space-y-4 group shadow-lg">
+          <div class="space-y-2.5">
+            <div class="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-xl">⚡</div>
+            <h4 class="text-base font-bold text-white group-hover:text-amber-400 transition-colors">Bitcoin & L402</h4>
+            <p class="text-xs text-slate-400 leading-relaxed">
+              The native currency of autonomous machines. Streaming micropayments via open standard bLIP-0004 with zero KYC.
+            </p>
+          </div>
+          <span class="text-xs font-mono text-amber-400 font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+            Bitcoin Economy &rarr;
+          </span>
+        </a>
       </div>
     </section>
 
@@ -466,51 +431,6 @@ function execute(userInput) {
       <a href="/catalogue" class="px-6 py-3.5 rounded-xl bg-surface-800 hover:bg-surface-700 text-amber-300 hover:text-amber-200 font-bold text-sm border border-amber-500/30 transition-all flex items-center gap-2 whitespace-nowrap shadow-md group">
         <span>Browse Full Catalogue</span> <span class="group-hover:translate-x-1 transition-transform">&rarr;</span>
       </a>
-    </section>
-
-    <!-- Section 4 : Quick Integration (Claude Desktop, Cursor, SDK) -->
-    <section class="bg-surface-900 border border-surface-800 rounded-2xl p-8 space-y-8">
-      <div>
-        <h3 class="text-2xl font-bold text-white flex items-center gap-2">
-          <span>🔌</span> Instant Integration for Agents & Developers
-        </h3>
-        <p class="text-sm text-slate-400">Connect Claude Desktop, Cursor, or build your own monetized MCP servers.</p>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <!-- Claude Desktop / Cursor Snippet -->
-        <div class="space-y-3">
-          <span class="text-xs font-bold uppercase tracking-wider text-slate-400 font-mono">Claude Desktop Configuration (claude_desktop_config.json)</span>
-          <pre class="p-4 rounded-xl bg-surface-950 border border-surface-800 text-xs text-amber-300 font-mono overflow-x-auto">{
-  "mcpServers": {
-    "ampero-tools": {
-      "command": "npx",
-      "args": [
-        "-y",
-        "ampero",
-        "client",
-        "--endpoint",
-        "https://ampero.dev/mcp"
-      ]
-    }
-  }
-}</pre>
-        </div>
-
-        <!-- Developer Monetization Snippet -->
-        <div class="space-y-3">
-          <span class="text-xs font-bold uppercase tracking-wider text-slate-400 font-mono">Monetize any tool in 1 line of code</span>
-          <pre class="p-4 rounded-xl bg-surface-950 border border-surface-800 text-xs text-emerald-300 font-mono overflow-x-auto">import { registerMonetizedTool } from 'ampero';
-
-// Automatically monetized via Lightning Address
-registerMonetizedTool(server, 'my_tool', 'Description', schema, {
-  priceSats: 5,
-  lightningAddress: '${envInfo.lightningAddress}'
-}, async (args) => {
-  return { content: [{ type: 'text', text: 'Result' }] };
-});</pre>
-        </div>
-      </div>
     </section>
 
   </main>
