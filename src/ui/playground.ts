@@ -328,6 +328,60 @@ function execute(userInput) {
       </div>
     </section>
 
+    <!-- The Architectural Shift: Why Specialized Models & Token Economy Win -->
+    <section class="p-8 rounded-2xl bg-gradient-to-b from-surface-900 to-surface-950 border border-surface-800 space-y-8 shadow-xl">
+      <div class="text-center space-y-2 max-w-2xl mx-auto">
+        <span class="text-xs font-mono font-bold text-amber-400 uppercase tracking-wider px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 inline-block">
+          🔮 The Architectural Shift
+        </span>
+        <h3 class="text-2xl sm:text-3xl font-bold text-white tracking-tight">
+          The Future of AI is Not Monolithic. It is Modular & Specialized.
+        </h3>
+        <p class="text-xs sm:text-sm text-slate-400">
+          Why burning 50,000 tokens on a generalist model is being replaced by hyper-specialized expert models.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Pillar 1: Token Economy -->
+        <div class="p-5 rounded-2xl bg-surface-950/80 border border-surface-800 space-y-2.5">
+          <div class="flex items-center space-x-2">
+            <span class="text-xl">📉</span>
+            <h4 class="text-sm font-bold text-white font-mono">1. Critical Token Economy</h4>
+          </div>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            As AI agents scale, context window consumption is the #1 operational bottleneck. Delegating raw extraction and parsing to specialized tools slashes token waste by up to 90%.
+          </p>
+        </div>
+
+        <!-- Pillar 2: Superior Domain Reliability -->
+        <div class="p-5 rounded-2xl bg-surface-950/80 border border-surface-800 space-y-2.5">
+          <div class="flex items-center space-x-2">
+            <span class="text-xl">🎯</span>
+            <h4 class="text-sm font-bold text-white font-mono">2. Superior Reliability</h4>
+          </div>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            A 7B SLM fine-tuned on code security or financial liquidity consistently outperforms a 1-trillion parameter generalist on domain accuracy, with zero hallucinations.
+          </p>
+        </div>
+
+        <!-- Pillar 3: Real-Time Edge Efficiency -->
+        <div class="p-5 rounded-2xl bg-surface-950/80 border border-surface-800 space-y-2.5">
+          <div class="flex items-center space-x-2">
+            <span class="text-xl">⚡</span>
+            <h4 class="text-sm font-bold text-white font-mono">3. Real-Time Efficiency</h4>
+          </div>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            Micro-models execute in 25–50ms at the Edge for fractions of a cent, turning slow multi-second search lags into instant, reactive agent workflows.
+          </p>
+        </div>
+      </div>
+
+      <div class="p-4 rounded-xl bg-surface-900 border border-surface-800 text-center text-xs text-slate-300">
+        💡 <strong class="text-amber-300">The Orchestrator Thesis:</strong> General models (Claude, GPT) will act as conductors, delegating execution to thousands of specialized micro-models. <strong>Ampero is the economic nervous system that powers them.</strong>
+      </div>
+    </section>
+
     <!-- Section 3 : Submit / Register an MCP Tool -->
     <section id="submit" class="scroll-mt-24 bg-gradient-to-b from-surface-900 to-surface-950 border border-amber-500/20 rounded-2xl p-8 space-y-6 shadow-2xl relative overflow-hidden">
       <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-surface-800 pb-6">
