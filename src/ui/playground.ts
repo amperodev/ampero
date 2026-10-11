@@ -645,6 +645,9 @@ function execute(userInput) {
       <a href="https://x.com/amperodev" target="_blank" rel="noopener" class="px-3 py-1.5 rounded-xl bg-surface-900 hover:bg-surface-800 text-slate-200 hover:text-white border border-surface-800 hover:border-amber-500/40 transition-all flex items-center gap-1.5 shadow-sm">
         <span>𝕏</span> @amperodev
       </a>
+      <a href="https://primal.net/p/npub13hg7dgw2zvuam4rvcqf0dar83mvuwpfwtvqyjc7tm3r7yhlru5sssa7zmm" target="_blank" rel="noopener" class="px-3 py-1.5 rounded-xl bg-surface-900 hover:bg-surface-800 text-purple-300 hover:text-purple-200 border border-surface-800 hover:border-purple-500/40 transition-all flex items-center gap-1.5 shadow-sm" title="Nostr: npub13hg7dgw2zvuam4rvcqf0dar83mvuwpfwtvqyjc7tm3r7yhlru5sssa7zmm">
+        <span>🟣</span> Nostr
+      </a>
       <a href="https://t.me/amperodev" target="_blank" rel="noopener" class="px-3 py-1.5 rounded-xl bg-surface-900 hover:bg-surface-800 text-sky-300 hover:text-sky-200 border border-surface-800 hover:border-sky-500/40 transition-all flex items-center gap-1.5 shadow-sm">
         <span>✈️</span> Telegram
       </a>

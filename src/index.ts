@@ -215,6 +215,34 @@ export default {
       });
     }
 
+    // 1b3. Nostr NIP-05 Domain Identity Verification (GET /.well-known/nostr.json)
+    if (url.pathname === '/.well-known/nostr.json' && request.method === 'GET') {
+      const nostrHex = '8dd1e6a1ca1339ddd46cc012f6f4678ed9c7052e5b004963cbdc47e25fe3e521';
+      return Response.json(
+        {
+          names: {
+            '_': nostrHex,
+            'ampero': nostrHex,
+            'admin': nostrHex
+          },
+          relays: {
+            [nostrHex]: [
+              'wss://relay.damus.io',
+              'wss://relay.primal.net',
+              'wss://nos.lol'
+            ]
+          }
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            'Cache-Control': 'public, max-age=3600',
+            ...corsHeaders
+          }
+        }
+      );
+    }
+
     // 1c. Dedicated Full Tools & Models Catalogue Page (GET /catalogue, GET /tools)
     if ((url.pathname === '/catalogue' || url.pathname === '/tools') && (request.method === 'GET' || request.method === 'HEAD')) {
       const catalogueHtml = renderCatalogueHtml(

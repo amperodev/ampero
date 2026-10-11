@@ -117,4 +117,23 @@ describe('Mécanismes de Découverte Agentique & IA (Ampero)', () => {
     expect(parsed.count).toBeGreaterThanOrEqual(1);
     expect(parsed.tools.some((t: any) => t.name === 'extract_clean_markdown')).toBe(true);
   });
+
+  it('4. Route /.well-known/nostr.json : devrait fournir la vérification d\'identité NIP-05 avec CORS', async () => {
+    const req = new Request('https://ampero.dev/.well-known/nostr.json', {
+      method: 'GET'
+    });
+
+    const res = await worker.fetch(req, mockEnv);
+    expect(res.status).toBe(200);
+    expect(res.headers.get('Content-Type')).toContain('application/json');
+    expect(res.headers.get('Access-Control-Allow-Origin')).toBe('*');
+
+    const data = await res.json() as any;
+    expect(data.names).toBeDefined();
+    expect(data.names._).toBe('8dd1e6a1ca1339ddd46cc012f6f4678ed9c7052e5b004963cbdc47e25fe3e521');
+    expect(data.names.ampero).toBe('8dd1e6a1ca1339ddd46cc012f6f4678ed9c7052e5b004963cbdc47e25fe3e521');
+    expect(data.relays).toBeDefined();
+    expect(data.relays['8dd1e6a1ca1339ddd46cc012f6f4678ed9c7052e5b004963cbdc47e25fe3e521']).toContain('wss://relay.primal.net');
+  });
 });
+
