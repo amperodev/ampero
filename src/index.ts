@@ -140,7 +140,7 @@ export default {
     }
 
     const rootSecret = env.L402_ROOT_SECRET || 'dev-insecure-secret-key-must-be-configured';
-    const lightningAddress = env.CREATOR_LIGHTNING_ADDRESS || 'tranquilocean115193@getalby.com';
+    const lightningAddress = env.CREATOR_LIGHTNING_ADDRESS || 'yummychipmunk19@primal.net';
     const replayStore = env.REPLAY_KV ? new KVReplayStore(env.REPLAY_KV) : memoryStore;
 
     // Persisted dynamic registry combining built-in tools and KV community submissions

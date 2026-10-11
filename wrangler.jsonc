@@ -5,8 +5,8 @@
   "compatibility_date": "2025-02-01",
   "compatibility_flags": ["nodejs_compat"],
   "vars": {
-    "CREATOR_LIGHTNING_ADDRESS": "tranquilocean115193@getalby.com",
-    "PLATFORM_LIGHTNING_ADDRESS": "tranquilocean115193@getalby.com",
+    "CREATOR_LIGHTNING_ADDRESS": "yummychipmunk19@primal.net",
+    "PLATFORM_LIGHTNING_ADDRESS": "yummychipmunk19@primal.net",
     "PLATFORM_FEE_PERCENT": 5,
     "DEFAULT_TOOL_PRICE_SATS": 5
   },
