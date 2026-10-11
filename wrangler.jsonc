@@ -6,8 +6,8 @@
   "compatibility_flags": ["nodejs_compat"],
   "vars": {
     "L402_ROOT_SECRET": "ampero-production-root-secret-l402-9988776655443322",
-    "CREATOR_LIGHTNING_ADDRESS": "bumi@getalby.com",
-    "PLATFORM_LIGHTNING_ADDRESS": "bumi@getalby.com",
+    "CREATOR_LIGHTNING_ADDRESS": "tranquilocean115193@getalby.com",
+    "PLATFORM_LIGHTNING_ADDRESS": "tranquilocean115193@getalby.com",
     "PLATFORM_FEE_PERCENT": 5,
     "DEFAULT_TOOL_PRICE_SATS": 5
   },
